@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function Popular(props) {
+  const [currentPhoto, setCurrentPhoto] = useState(0);
+  let favourites = [props.photos];
+  favourites.sort((a, b) => {
+    return b.likes - a.likes;
+  });
+  favourites = favourites.slice(0, 5);
+  useEffect(() => {
+    console.log(favourites);
+    console.log(props.photos);
+  }, []);
+
   return (
     <div className="popular">
-      <img src="https://res.cloudinary.com/du13z5eh1/image/upload/v1673102254/cld-sample-2.jpg"></img>
+      <img></img>
     </div>
   );
 }

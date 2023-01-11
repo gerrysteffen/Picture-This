@@ -27,15 +27,14 @@ const imgSchema = new Schema({
 
   liked: {
     type: Boolean,
-    default: false
+    default: false,
   },
-
   admin: {
     type: String,
     required: true,
   },
 });
 
-const Img = mongoose.model('Album', imgSchema)
+const Img = mongoose.model("Album", imgSchema);
 
-module.exports = Img
+module.exports = Img;

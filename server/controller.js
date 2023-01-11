@@ -26,7 +26,9 @@ exports.uploadPhoto = async (req, res) => {
 
 exports.addLike = async (req, res) => {
   try {
-    let currentPhoto = await Img.findOne({ id: req.body.id });
+    let currentPhoto = await Img.findOne({ _id: req.body._id });
+    console.log(req.body.id);
+    console.log(currentPhoto);
     currentPhoto.liked = !currentPhoto.liked;
     if (currentPhoto.liked === true) {
       currentPhoto.likes += 1;
@@ -44,7 +46,7 @@ exports.addLike = async (req, res) => {
 exports.deletePhoto = async (req, res) => {
   try {
     const photoId = req.body.id;
-    console.log(photoId)
+    console.log(photoId);
     let result = await Img.findOneAndDelete({ _id: photoId });
     res.status(204).send();
   } catch (error) {

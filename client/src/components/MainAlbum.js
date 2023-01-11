@@ -4,7 +4,11 @@ function MainAlbum(props) {
   let individualPics = props.photos.map((photo) => {
     return (
       <div>
-        <Photo key = {photo._id} photo={photo} />
+        <Photo
+          upDatePhotos={props.upDatePhotos}
+          key={photo._id}
+          photo={photo}
+        />
       </div>
     );
   });

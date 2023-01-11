@@ -4,6 +4,8 @@ export const getAllPhotos = async () => {
   try {
     const response = await fetch(root);
     const data = response.json();
+
+    // const popularOrder = data.sort()
     return data;
   } catch (error) {
     console.log(error);
@@ -50,6 +52,6 @@ export const deletePhoto = async (id) => {
       body: JSON.stringify({ id: id }),
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };

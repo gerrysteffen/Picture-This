@@ -7,9 +7,10 @@ function Photo(props) {
 
   function deleteHandle() {
     deletePhoto(props.photo._id);
+    props.upDatePhotos(props.photo._id);
   }
   function likeHandle() {
-    likePhoto(props.photo.id);
+    likePhoto(props.photo._id);
     console.log(like);
     setLike(!like);
     console.log(like);

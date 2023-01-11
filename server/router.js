@@ -7,7 +7,7 @@ router.get("/", ctrl.getPhotos);
 
 router.post("/upload", ctrl.uploadPhoto);
 
-router.delete('/delete' , ctrl.deletePhoto)
+router.delete("/delete", ctrl.deletePhoto);
 
-router.put('/like' , ctrl.addLike)
+router.put("/like", ctrl.addLike);
 module.exports = router;
