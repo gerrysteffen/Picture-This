@@ -1,0 +1,63 @@
+:root {
+  --primary: #87b38d;
+  --secondary: #cc76a1;
+  --light: white;
+  --light-alt: #f2b7c6;
+  --dark: black;
+  --dark-alt: #22031f;
+}
+
+.title{
+  width: 100%;
+  text-align: center;
+
+}
+h1{
+  justify-self: center;
+  align-self: center;
+}
+.main-container {
+  height: 100vh;
+  width: 100%;
+  background-color: var(--light-alt);
+  justify-content: center;
+  align-items: center;
+}
+
+.photo {
+
+  border: 2px;
+  border-radius: 20px;
+  border-color: #22031f;
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  width: 100%;
+  padding: 5px;
+  margin: 5px;
+  overflow: hidden;
+}
+
+.album {
+justify-content: center;
+
+ display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  max-width: 100%;
+  height: 800px;
+  overflow: scroll;
+
+}
+.popular{
+  display:flex;
+  width:800px;
+height: 300px;
+  overflow:hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete{
+ 
+  bottom: 5px;
+}
