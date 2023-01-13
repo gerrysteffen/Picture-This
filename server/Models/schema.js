@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const imgSchema = new Schema({
   id: {
     type: String,
-    required: true,
+    required: false,
   },
   date: {
     type: String,
@@ -17,7 +17,7 @@ const imgSchema = new Schema({
   },
   uploader: {
     type: String,
-    required: true,
+    required: false,
   },
 
   likes: {
@@ -26,15 +26,18 @@ const imgSchema = new Schema({
   },
 
   liked: {
-    type: Boolean,
-    default: false,
+    type: Array,
+    default: [],
   },
   admin: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
 const Img = mongoose.model("Album", imgSchema);
 
-module.exports = Img;
+
+
+
+module.exports = Img

@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
+import {ReactComponent as Ring} from "./images/logo.svg"
+
 
 function Popular(props) {
-  const [currentPhoto, setCurrentPhoto] = useState(0);
-  let favourites = [props.photos];
-  favourites.sort((a, b) => {
-    return b.likes - a.likes;
-  });
-  favourites = favourites.slice(0, 5);
-  useEffect(() => {
-    console.log(favourites);
-    console.log(props.photos);
-  }, []);
+  let [currentPhoto, setCurrentPhoto] = useState(0);
+
+  let popularPhotos =  props.popularPhotos.slice(0,5)
+
+  useEffect(()=>{ 
+    setTimeout(()=> {if (currentPhoto < 4) {setCurrentPhoto(currentPhoto +1)}else{setCurrentPhoto(0)}},5000)
+
+  },[currentPhoto])
+
 
   return (
+
+   <div className="pop">
+    <Ring />
+    <div>
+    </div>
     <div className="popular">
-      <img></img>
+    <h2>Most Popular</h2>
+      {popularPhotos[currentPhoto] && <img alt = "popular" src = {popularPhotos[currentPhoto].imgAddress}></img>}
+    </div>
     </div>
   );
 }

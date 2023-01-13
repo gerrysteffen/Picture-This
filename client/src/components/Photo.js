@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import emptyHeart from "./images/emptyHeart.png";
 import { likePhoto, deletePhoto } from "../ApiClient";
+import { ReactComponent as Bin } from "./images/delete.svg";
+
+import { ReactComponent as Like } from "./images/like.svg";
+
+import { ReactComponent as Unlike } from "./images/unlike.svg";
+
 
 function Photo(props) {
   const [like, setLike] = useState(props.photo.liked);
@@ -13,20 +18,30 @@ function Photo(props) {
     likePhoto(props.photo._id);
     console.log(like);
     setLike(!like);
-    console.log(like);
   }
+
+    function largeHandle(){
+      console.log(props.photo.imgAddress)
+      props.setLargePhoto(props.photo.imgAddress)
+      props.setLargePhotoActive(true)
+    }
+  
+  
   return (
-    <div className="photo">
+
+    <div className="photo" onClick= {largeHandle} >
       <img alt="hurro" src={props.photo.imgAddress}></img>
-      <div onClick={deleteHandle} className="delete">
-        <button>X</button>
+      <div className='bin' onClick={deleteHandle} >
+        <Bin />
       </div>
 
       <div className="heart" onClick={likeHandle}>
         {like ? (
-          <button onClick={likeHandle}>unlike</button>
+         
+          <div className="like"> <Unlike /> </div>
         ) : (
-          <button onClick={likeHandle}>like</button>
+        <div className="like"> <Like /> </div>
+          
         )}
       </div>
     </div>
