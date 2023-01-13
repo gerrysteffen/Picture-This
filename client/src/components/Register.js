@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import auth from '../utils/auth';
-
+import {ReactComponent as Logo} from './images/logo.svg'
 import { useNavigate } from 'react-router-dom';
 import {reg} from '../ApiClient'
 const initialState = {
@@ -55,6 +55,7 @@ const Register = (props) => {
 
     <section className='register'>
       <br></br>
+      <Logo />
       <h1>The Big Day</h1>
       <br></br>
       <h2>Register</h2>

@@ -13,10 +13,10 @@ router.put("/like", authMiddleware, images.addLike);
 
 //login routes
 
-router.post('/register' , authMiddleware, secure.registerUser)
-router.post('/login', authMiddleware, secure.login)
+router.post('/register' ,  secure.registerUser)
+router.post('/login',  secure.login)
 router.post('/logout', authMiddleware,secure.logout)
-router.get('/users' ,authMiddleware, secure.getUsers)
+router.get('/users' , secure.getUsers)
 
 
 module.exports = router;

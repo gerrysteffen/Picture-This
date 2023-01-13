@@ -35,15 +35,29 @@ exports.uploadPhoto = async (req, res) => {
 exports.addLike = async (req, res) => {
   try {
     let currentPhoto = await Img.findOne({ _id: req.body._id });
-    console.log(req.body.id);
-    console.log(currentPhoto);
-    currentPhoto.liked.contains = !currentPhoto.liked;
-    if (currentPhoto.liked === true) {
-      currentPhoto.likes += 1;
-    } else if (currentPhoto.liked === false) {
-      currentPhoto.likes -= 1;
+   
+    let uid = req.session.uid
+    let likers = currentPhoto.liked
+    
+    currentPhoto.liked.contains 
+  if(likers.includes(req.session.uid)){
+    // console.log(li)
+    let index = likers.indexOf(req.session.uid)
+    console.log(index)
+    likers.splice(index,[index+1])
+    console.log(likers)
+    currentPhoto.liked = likers
+    currentPhoto.save()
+    
+    } else {
+      
+      likers.push(req.session.uid)
+      console.log(likers)
+      currentPhoto.liked = likers
+      currentPhoto.likes = currentPhoto.likes+1
+      currentPhoto.save()
     }
-    currentPhoto.save();
+    
     res.status(204);
     res.send(currentPhoto);
   } catch (error) {

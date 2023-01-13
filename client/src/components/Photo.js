@@ -16,7 +16,7 @@ function Photo(props) {
   }
   function likeHandle() {
     likePhoto(props.photo._id);
-    console.log(like);
+    console.log(props.photo._id);
     setLike(!like);
   }
 
@@ -29,7 +29,8 @@ function Photo(props) {
   
   return (
 
-    <div className="photo" onClick= {largeHandle} >
+    <div className="photo-box" onClick= {largeHandle} >
+      
       <img alt="hurro" src={props.photo.imgAddress}></img>
       <div className='bin' onClick={deleteHandle} >
         <Bin />

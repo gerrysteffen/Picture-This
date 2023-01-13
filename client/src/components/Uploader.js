@@ -30,7 +30,12 @@ const uploadImage = async (base64Encoded) =>{
       const result =  await fetch('http://localhost:4000/upload', {
             method: "POST",
             body: JSON.stringify({data: base64Encoded}),
-            headers: {"Content-Type" : " application/json"}
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+              'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
+            credentials:"include"
         })
         const newImg = await result.json()
         console.log(newImg)
@@ -51,6 +56,7 @@ const uploadImage = async (base64Encoded) =>{
           onChange={handleFileInputChange}
           value={fileInputState}
           className="form-input"
+          multiple
         />
         <button className="btn" type="submit">
           {" "}

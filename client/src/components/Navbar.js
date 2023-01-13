@@ -12,7 +12,7 @@ let navigate = useNavigate()
   
   return <div className="nav-bar">
 
- <div className="logout" onClick={navigate('/profile')}>
+ <div className="logout">
   <p>Home</p>
  </div>
 

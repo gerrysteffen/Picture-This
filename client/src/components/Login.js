@@ -3,7 +3,7 @@ import React from "react";
 import { login } from "../ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import {ReactComponent as Logo} from './images/logo.svg'
 const initialState = {
   email: "",
   password: "",
@@ -45,6 +45,9 @@ function Login(props) {
 
   return (
     <section className="register">
+      <br></br>
+      <Logo />
+      <br></br>
       <h1>The Big Day</h1>
 
       <h2>Login</h2>

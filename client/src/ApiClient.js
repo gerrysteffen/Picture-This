@@ -2,7 +2,10 @@ const root = "http://localhost:4000/";
 
 export const getAllPhotos = async () => {
   try {
-    const response = await fetch(root);
+    const response = await fetch(root, {
+      method:'GET',
+      credentials: 'include'
+    });
     const data = response.json();
 
    
@@ -17,9 +20,12 @@ export const uploadPhoto = async (content) => {
     const response = await fetch(root + "upload", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
       body: JSON.stringify(content),
+      credentials:'include'
     });
     return response.json;
   } catch (error) {
@@ -35,6 +41,7 @@ export const likePhoto = async (id) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ _id: id }),
+      credentials:'include'
     });
     return response.json;
   } catch (error) {
@@ -47,9 +54,13 @@ export const deletePhoto = async (id) => {
     const response = await fetch(root + "delete", {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
-      },
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
       body: JSON.stringify({ id: id }),
+      credentials:'include',
+    mode:'cors'
     });
     return response
   } catch (error) {
@@ -63,6 +74,7 @@ export const login = async (user) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
+      credentials: 'include'
     });
     const loggedUser = await response.json();
 
@@ -78,6 +90,7 @@ export const reg = async (user) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
+      credentials:'include'
     });
     const data = await response.json();
     
@@ -93,7 +106,8 @@ export const out = async() =>{
     const response = await fetch(root + 'logout', {
       method: "POST",
       headers:{"Content-Type": "application/json"},
-      body: JSON.stringify()
+      body: JSON.stringify(),
+      credentials: "include"
     })
     const data = await response.json
   return data
