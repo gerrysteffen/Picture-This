@@ -4,6 +4,7 @@ const mongoose = require("./database");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+    
     email: {
        type: String,
        required: true,
@@ -25,6 +26,10 @@ const userSchema = new Schema({
        type: Array,
        default:[]
      },
+
+     uploadedAlbums :
+      [{type: Schema.Types.ObjectId, ref: 'Albums'}]
+     
 
      
    });

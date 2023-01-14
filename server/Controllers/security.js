@@ -24,14 +24,14 @@ exports.login = async (req, res) => {
   console.log('logging in')
   try {
     const { email } = req.body;
-    console.log(req.body);
-    const user = await User.findOne({ email: email });
+   
+    const user = await User.findOne({ email: email }).populate('uploadedAlbums');
     if (user) {
       const valid = await bcrypt.compare(req.body.password, user.password);
       if (valid) {
         req.session.uid = user._id;
-        
-        res.status(200).send({ status: 200 });
+        console.log(user)
+        res.status(200).send(user);
       }
     }
   } catch (error) {

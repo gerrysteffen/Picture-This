@@ -303,3 +303,7 @@ font-size: 22px;
   min-height: 100vh;
   padding: 80px;
 }
+
+.album-item{
+  cursor: pointer;
+}

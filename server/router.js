@@ -4,6 +4,7 @@ const images = require("./Controllers/images");
 const secure = require("./Controllers/security")
 const authMiddleware = require('./middleware/auth')
 const router = Router();
+const ablums = require('./Controllers/albums')
 
 //Photo routes
 router.get("/",authMiddleware, images.getPhotos);
@@ -17,6 +18,10 @@ router.post('/register' ,  secure.registerUser)
 router.post('/login',  secure.login)
 router.post('/logout', authMiddleware,secure.logout)
 router.get('/users' , secure.getUsers)
+
+// Album routes 
+
+router.post('/newAlbum' , ablums.createAlbum )
 
 
 module.exports = router;

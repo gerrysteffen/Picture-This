@@ -3,6 +3,9 @@ const mongoose = require("./database");
 const { Schema } = mongoose;
 
 const imgSchema = new Schema({
+  album: {
+    
+  },
   id: {
     type: String,
     required: false,
@@ -30,14 +33,12 @@ const imgSchema = new Schema({
     default: [],
   },
   admin: {
-    type: String,
+    type: mongoose.Types.ObjectId,
+    ref: "Users ",
     required: false,
   },
 });
 
-const Img = mongoose.model("Album", imgSchema);
+const Img = mongoose.model("Images", imgSchema);
 
-
-
-
-module.exports = Img
+module.exports = Img;

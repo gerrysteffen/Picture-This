@@ -12,11 +12,11 @@ let navigate = useNavigate()
   
   return <div className="nav-bar">
 
- <div className="logout">
+ <div className="logout" onClick= {()=>navigate('/profile')}>
   <p>Home</p>
  </div>
 
- <div className="logout"><p>New Album </p></div>
+ <div className="logout" onClick={()=>{navigate('/new')}}><p>New Album </p></div>
  <div className="logout"><p>Settings</p></div>
     <div className="logout" onClick={logout}>
       <p>Logout</p>

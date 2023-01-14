@@ -1,5 +1,5 @@
 const root = "http://localhost:4000/";
-
+ export let CurrentUser 
 export const getAllPhotos = async () => {
   try {
     const response = await fetch(root, {
@@ -7,8 +7,6 @@ export const getAllPhotos = async () => {
       credentials: 'include'
     });
     const data = response.json();
-
-   
     return data;
   } catch (error) {
     console.log(error);
@@ -77,7 +75,9 @@ export const login = async (user) => {
       credentials: 'include'
     });
     const loggedUser = await response.json();
-
+    
+    CurrentUser = loggedUser
+    console.log(CurrentUser)
     return loggedUser;
   } catch (error) {
     console.log(error)
@@ -114,4 +114,26 @@ export const out = async() =>{
   } catch (error) {
     console.log(error)
   }
+}
+
+export const createAlbum = async (albumName) =>{
+try {
+  const response = await fetch(root + 'newAlbum' , {
+    method:'POST',
+   headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+      'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
+    body: JSON.stringify(albumName),
+    credentials:'include',
+  mode:'cors'
+  })
+ 
+const data = await response.json
+console.log(data)
+
+} catch (error) {
+ console.log(error) 
+}
 }

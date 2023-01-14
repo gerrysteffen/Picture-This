@@ -30,9 +30,9 @@ function Login(props) {
     const { email, password } = state;
     const user = { email: email, password: password };
     const res = await login(user);
-    console.log(res.status)
+    console.log(res)
     if (res.status === 401  || res.status === 400) {
-      alert(`aahahahaha`);
+      alert(`Error`);
       setState(initialState);
     } else {
       navigate("/main");

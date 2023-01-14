@@ -1,13 +1,15 @@
-const Img = require("../Models/schema");
-
+const Img = require("../Models/imageSchema");
+const Album = require('../Models/albumSchema')
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 
 exports.getPhotos = async (req, res) => {
+  console.log('photo request')
   try {
     const allPhotos = await Img.find();
     res.status(200);
     res.send(allPhotos);
+  
   } catch (error) {
     console.log(error);
     res.status(500);
