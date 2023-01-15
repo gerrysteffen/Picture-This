@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 function AlbumItem(props) {
   const navigate = useNavigate();
   const openAlbum = () => {
+    
     console.log(props.album);
     props.setCurrentAlbum(props.album)
     navigate("/main");

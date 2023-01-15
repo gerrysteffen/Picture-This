@@ -24,7 +24,7 @@ const userSchema = new Schema({
     type: Array,
     default: [],
   },
-
+  pendingInvite: { type: Schema.Types.ObjectId, ref: "Albums" },
   uploadedAlbums: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
 });
 

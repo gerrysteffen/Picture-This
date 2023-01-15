@@ -4,6 +4,7 @@ const User = require("../Models/userSchema");
 exports.getAlbum = async (req, res) => {
   try {
     const album = await Album.findOne({_id : req.body._id}).populate('photos');
+    console.log('album find')
     res.status(200);
     res.send(album);
   } catch (error) {

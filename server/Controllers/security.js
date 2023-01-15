@@ -27,8 +27,8 @@ exports.login = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email: email }).populate(
-      "uploadedAlbums"
+    const user = await User.findOne({ email: email }).populate({path:
+      "uploadedAlbums", populate:{ path: 'photos'}}
     );
     if (user) {
       const valid = await bcrypt.compare(req.body.password, user.password);
