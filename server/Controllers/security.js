@@ -6,7 +6,9 @@ exports.registerUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
   if (user)
-    return res.status(409).send({ message: "User already exists", status: 409 });
+    return res
+      .status(409)
+      .send({ message: "User already exists", status: 409 });
   try {
     if (password === "") throw new Error();
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -21,16 +23,18 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  console.log('logging in')
+  console.log("logging in");
   try {
     const { email } = req.body;
-   
-    const user = await User.findOne({ email: email }).populate('uploadedAlbums');
+
+    const user = await User.findOne({ email: email }).populate(
+      "uploadedAlbums"
+    );
     if (user) {
       const valid = await bcrypt.compare(req.body.password, user.password);
       if (valid) {
         req.session.uid = user._id;
-        console.log(user)
+        console.log(user);
         res.status(200).send(user);
       }
     }
@@ -43,15 +47,13 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  
   req.session.destroy((error) => {
     if (error) {
-      
       res.status(500).send(error + "Could not log out please try again");
     } else {
       res.clearCookie("sid");
-      console.log('cookie cleared')
-      res.status(200).send({message:"Logout succesful"});
+      console.log("cookie cleared");
+      res.status(200).send({ message: "Logout succesful" });
     }
   });
 };

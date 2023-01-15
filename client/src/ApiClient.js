@@ -1,10 +1,13 @@
+import { useState } from "react";
+
 const root = "http://localhost:4000/";
- export let CurrentUser 
+
+
 export const getAllPhotos = async () => {
   try {
     const response = await fetch(root, {
-      method:'GET',
-      credentials: 'include'
+      method: "GET",
+      credentials: "include",
     });
     const data = response.json();
     return data;
@@ -14,16 +17,19 @@ export const getAllPhotos = async () => {
 };
 
 export const uploadPhoto = async (content) => {
+  console.log(content)
   try {
     const response = await fetch(root + "upload", {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+        "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
+      },
       body: JSON.stringify(content),
-      credentials:'include'
+      credentials: "include",
     });
     return response.json;
   } catch (error) {
@@ -39,7 +45,7 @@ export const likePhoto = async (id) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ _id: id }),
-      credentials:'include'
+      credentials: "include",
     });
     return response.json;
   } catch (error) {
@@ -52,15 +58,17 @@ export const deletePhoto = async (id) => {
     const response = await fetch(root + "delete", {
       method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+        "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
+      },
       body: JSON.stringify({ id: id }),
-      credentials:'include',
-    mode:'cors'
+      credentials: "include",
+      mode: "cors",
     });
-    return response
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -68,19 +76,18 @@ export const deletePhoto = async (id) => {
 
 export const login = async (user) => {
   try {
-    const response = await fetch(root + 'login', {
+    const response = await fetch(root + "login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
-      credentials: 'include'
+      credentials: "include",
     });
     const loggedUser = await response.json();
+
     
-    CurrentUser = loggedUser
-    console.log(CurrentUser)
     return loggedUser;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -90,50 +97,75 @@ export const reg = async (user) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
-      credentials:'include'
+      credentials: "include",
     });
     const data = await response.json();
-    
+
     return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const out = async () => {
+  try {
+    const response = await fetch(root + "logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+      credentials: "include",
+    });
+    const data = await response.json;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createAlbum = async (albumName) => {
+  try {
+    const response = await fetch(root + "newAlbum", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+        "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
+      },
+      body: JSON.stringify(albumName),
+      credentials: "include",
+      mode: "cors",
+    });
+
+    const data = await response.json();
+    return data
     
   } catch (error) {
     console.log(error);
   }
 };
 
-export const out = async() =>{
+
+export const openAlbum = async (id) =>{
+ 
   try {
-    const response = await fetch(root + 'logout', {
+    const response = await fetch(root + "album", {
       method: "POST",
-      headers:{"Content-Type": "application/json"},
-      body: JSON.stringify(),
-      credentials: "include"
-    })
-    const data = await response.json
-  return data
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+        "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
+      },
+      body: JSON.stringify(id),
+      credentials: "include",
+      mode: "cors",
+    });
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
     console.log(error)
   }
-}
-
-export const createAlbum = async (albumName) =>{
-try {
-  const response = await fetch(root + 'newAlbum' , {
-    method:'POST',
-   headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-      'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'},
-    body: JSON.stringify(albumName),
-    credentials:'include',
-  mode:'cors'
-  })
- 
-const data = await response.json
-console.log(data)
-
-} catch (error) {
- console.log(error) 
-}
 }

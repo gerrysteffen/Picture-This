@@ -6,7 +6,6 @@ import { ReactComponent as Like } from "./images/like.svg";
 
 import { ReactComponent as Unlike } from "./images/unlike.svg";
 
-
 function Photo(props) {
   const [like, setLike] = useState(props.photo.liked);
 
@@ -20,29 +19,30 @@ function Photo(props) {
     setLike(!like);
   }
 
-    function largeHandle(){
-      console.log(props.photo.imgAddress)
-      props.setLargePhoto(props.photo.imgAddress)
-      props.setLargePhotoActive(true)
-    }
-  
-  
-  return (
+  function largeHandle() {
+    console.log(props.photo.imgAddress);
+    props.setLargePhoto(props.photo.imgAddress);
+    props.setLargePhotoActive(true);
+  }
 
-    <div className="photo-box" onClick= {largeHandle} >
-      
+  return (
+    <div className="photo-box" onClick={largeHandle}>
       <img alt="hurro" src={props.photo.imgAddress}></img>
-      <div className='bin' onClick={deleteHandle} >
+      <div className="bin" onClick={deleteHandle}>
         <Bin />
       </div>
 
       <div className="heart" onClick={likeHandle}>
         {like ? (
-         
-          <div className="like"> <Unlike /> </div>
+          <div className="like">
+            {" "}
+            <Unlike />{" "}
+          </div>
         ) : (
-        <div className="like"> <Like /> </div>
-          
+          <div className="like">
+            {" "}
+            <Like />{" "}
+          </div>
         )}
       </div>
     </div>

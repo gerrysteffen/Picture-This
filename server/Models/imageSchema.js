@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const imgSchema = new Schema({
   album: {
-    
+    type: String,
   },
   id: {
     type: String,
@@ -32,11 +32,7 @@ const imgSchema = new Schema({
     type: Array,
     default: [],
   },
-  admin: {
-    type: mongoose.Types.ObjectId,
-    ref: "Users ",
-    required: false,
-  },
+ 
 });
 
 const Img = mongoose.model("Images", imgSchema);

@@ -8,7 +8,7 @@ const albumSchema = new Schema({
     type: String,
     required: true,
   },
-  photos: [{ type: Schema.Types.ObjectId,  ref: "Images" }],
+  photos: [{ type: Schema.Types.ObjectId, ref: "Images" }],
   owner: {
     type: String,
     required: false,

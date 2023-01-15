@@ -1,9 +1,10 @@
+import styles from './Login.module.css'
 import React from "react";
 // import auth from '../utils/auth';
 import { login } from "../ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {ReactComponent as Logo} from './images/logo.svg'
+import { ReactComponent as Logo } from "./images/logo.svg";
 const initialState = {
   email: "",
   password: "",
@@ -20,9 +21,9 @@ function Login(props) {
       [name]: value,
     }));
   };
- const moveToRegister = () =>{
-  navigate('/')
- }
+  const moveToRegister = () => {
+    navigate("/");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +31,13 @@ function Login(props) {
     const { email, password } = state;
     const user = { email: email, password: password };
     const res = await login(user);
-    console.log(res)
-    if (res.status === 401  || res.status === 400) {
+    console.log(res);
+    if (res.status === 401 || res.status === 400) {
       alert(`Error`);
       setState(initialState);
     } else {
-      navigate("/main");
+      props.setCurrentUser(res)
+      navigate("/profile");
     }
   };
 
@@ -44,7 +46,7 @@ function Login(props) {
   };
 
   return (
-    <section className="register">
+    <section className={styles.register}>
       <br></br>
       <Logo />
       <br></br>
@@ -59,7 +61,7 @@ function Login(props) {
           value={state.email}
           onChange={handleChange}
         />
-<br></br>
+        <br></br>
         <input
           type="password"
           placeholder="supersecretthingy"
@@ -67,13 +69,15 @@ function Login(props) {
           value={state.password}
           onChange={handleChange}
         />
-<br></br>
+        <br></br>
         <button className="form-submit" type="submit" disabled={validateForm()}>
           &nbsp;Login&nbsp;
         </button>
       </form>
       <p>Don't have an account? Register here</p>
-      <button className="form-submit" onClick={moveToRegister}>Register</button>
+      <button className="form-submit" onClick={moveToRegister}>
+        Register
+      </button>
     </section>
   );
 }

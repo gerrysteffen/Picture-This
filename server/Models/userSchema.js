@@ -1,39 +1,33 @@
-
 const mongoose = require("./database");
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    
-    email: {
-       type: String,
-       required: true,
-     },
-     password: {
-       type: String,
-       required: true,
-     },
-     firstName: {
-       type: String,
-       required: true,
-     },
-     lastName: {
-       type: String,
-       required: true,
-     },
-   
-     sharedAlbums: {
-       type: Array,
-       default:[]
-     },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
 
-     uploadedAlbums :
-      [{type: Schema.Types.ObjectId, ref: 'Albums'}]
-     
+  sharedAlbums: {
+    type: Array,
+    default: [],
+  },
 
-     
-   });
-   
-   const User = mongoose.model('Users', userSchema)
+  uploadedAlbums: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
+});
 
-   module.exports = User
+const User = mongoose.model("Users", userSchema);
+
+module.exports = User;

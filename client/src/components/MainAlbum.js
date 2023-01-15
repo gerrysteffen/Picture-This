@@ -3,13 +3,13 @@ import Photo from "./Photo";
 function MainAlbum(props) {
   let individualPics = props.photos.map((photo) => {
     return (
-      <div >
+      <div>
         <Photo
           upDatePhotos={props.upDatePhotos}
           key={photo._id}
           photo={photo}
           setLargePhoto={props.setLargePhoto}
-          setLargePhotoActive= {props.setLargePhotoActive}
+          setLargePhotoActive={props.setLargePhotoActive}
         />
       </div>
     );
