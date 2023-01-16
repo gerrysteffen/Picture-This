@@ -67,7 +67,7 @@ h1 {
   justify-content: center;
   align-items: center;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   max-width: 100%;
   height: 60%;
   overflow: scroll;
@@ -135,14 +135,14 @@ h1 {
 }
 
 .nav-bar {
-  
+  box-shadow: 5px 10px #545353;
   display: flex;
   justify-content: space-between;
-  background-image: linear-gradient(var(--secondary), var(--primary));
+  background-color: var(--primary);
 }
 .logout {
   max-height: 100px;
-max-width: 100px;
+  max-width: 100px;
   justify-self: right;
   color: aliceblue;
   font-size: 20px;
@@ -150,7 +150,6 @@ max-width: 100px;
   text-shadow: 2px 2px 5px #22031f;
   overflow: hidden;
 }
-
 
 .add-photo {
   position: fixed;
@@ -260,7 +259,7 @@ max-width: 100px;
   border-style: dotted;
   height: 30%;
   overflow: scroll;
-  max-width:100%;
+  max-width: 100%;
   align-items: center;
 }
 .albums::-webkit-scrollbar {
@@ -332,8 +331,38 @@ max-width: 100px;
   background-color: aliceblue;
 }
 
-.form-submit{
+.form-submit {
   background-color: var(--primary);
   border-radius: 10px;
   height: 5%;
+}
+
+.logout-icon {
+  height: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  width: 30px;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.invite-alert {
+  position: fixed;
+  bottom: 80px;
+  right: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--light);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--primary),
+    var(--secondary)
+  );
+  border-radius: 999px;
+  cursor: pointer;
 }

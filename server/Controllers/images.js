@@ -4,7 +4,6 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 
 exports.getPhotos = async (req, res) => {
-  
   try {
     const allPhotos = await Img.find();
     res.status(200);
@@ -17,21 +16,20 @@ exports.getPhotos = async (req, res) => {
 
 exports.uploadPhoto = async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const fileStr = req.body.data;
-    const album = await Album.findOne({_id : req.body.album})
-    console.log(album)
+    const album = await Album.findOne({ _id: req.body.album });
+    console.log(album);
     const result = await cloudinary.uploader.upload(fileStr);
     const newImg = await Img.create({
       ...req.body,
       imgAddress: result.secure_url,
       id: result.id,
-      
     });
-    photos = album.photos
-    photos.push(newImg)
-    album.photos = photos
-    album.save()
+    photos = album.photos;
+    photos.push(newImg);
+    album.photos = photos;
+    album.save();
     res.status(201);
     res.send(newImg);
     console.log(newImg);

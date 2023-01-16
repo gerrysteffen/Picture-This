@@ -6,6 +6,7 @@ import Uploader from "./Uploader";
 import Popular from "./Popular";
 import Navbar from "./Navbar";
 import EnlargedPhoto from "./EnlargedPhoto";
+
 function Main(props) {
   const [photos, setPhotos] = useState(props.currentAlbum.photos);
   const [popularPhotos, setPopularPhotos] = useState([]);
@@ -13,9 +14,8 @@ function Main(props) {
   const [largePhoto, setLargePhoto] = useState("");
   const [largePhotoActive, setLargePhotoActive] = useState(false);
 
-  
   const sortByFavourites = async () => {
-    let allPhotos = await getAllPhotos();
+    let allPhotos = photos;
     allPhotos.sort((a, b) => {
       return b.likes - a.likes;
     });
@@ -30,10 +30,6 @@ function Main(props) {
   };
 
   useEffect(() => {
-    // getAllPhotos()
-    //   .then((data) => setPhotos(data))
-    //   .catch((err) => console.log(err));
-    console.log(photos)
     sortByFavourites();
   }, []);
 
@@ -41,7 +37,7 @@ function Main(props) {
     <div className="main-container">
       <div>
         {" "}
-        <Navbar />
+        <Navbar current setCurrentUser={props.setCurrentUser} />
       </div>
 
       <div className="top-div">
@@ -60,7 +56,7 @@ function Main(props) {
           setShowUpload={setShowUpload}
           photos={photos}
           setPhotos={setPhotos}
-          currentAlbum= {props.currentAlbum}
+          currentAlbum={props.currentAlbum}
         />
       )}
       {largePhotoActive && (

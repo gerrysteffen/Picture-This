@@ -21,10 +21,9 @@ const userSchema = new Schema({
   },
 
   sharedAlbums: {
-    type: Array,
-    default: [],
+    type: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
   },
-  pendingInvite: { type: Schema.Types.ObjectId, ref: "Albums" },
+  pendingInvite: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
   uploadedAlbums: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
 });
 

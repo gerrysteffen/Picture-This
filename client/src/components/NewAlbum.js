@@ -14,9 +14,10 @@ function NewAlbum(props) {
     const album = { albumName };
     console.log(album);
     let newAlbum = await createAlbum(album);
-    console.log(newAlbum)
-    const newAlbumList = [newAlbum , ...props.userAlbums]
-    props.setUserAlbums(newAlbumList)
+    console.log(newAlbum);
+    const newAlbumList = [newAlbum, ...props.userAlbums];
+    props.setUserAlbums(newAlbumList);
+    props.setAlbumPopup(false);
     // const res = await reg(user);
     // // console.log({res})
     // if (res.status === 409) {
@@ -42,8 +43,6 @@ function NewAlbum(props) {
       ...prevState,
       [name]: value,
     }));
-
-
   };
 
   return (

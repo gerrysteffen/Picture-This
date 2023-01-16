@@ -21,15 +21,27 @@ exports.registerUser = async (req, res) => {
     res.status(400).send({ error: error + "Could not create user" });
   }
 };
-
+exports.refreshUser = async (req, res) => {
+  try {
+    const user = User.findOne({ _id: req.session.uid }).populate({
+      path: "uploadedAlbums sharedAlbums",
+      populate: { path: "photos" },
+    });
+    res.status(200);
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
 exports.login = async (req, res) => {
   console.log("logging in");
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email: email }).populate({path:
-      "uploadedAlbums", populate:{ path: 'photos'}}
-    );
+    const user = await User.findOne({ email: email }).populate({
+      path: "uploadedAlbums sharedAlbums",
+      populate: { path: "photos" },
+    });
     if (user) {
       const valid = await bcrypt.compare(req.body.password, user.password);
       if (valid) {

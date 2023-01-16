@@ -20,8 +20,8 @@ function Uploader(props) {
     props.setShowUpload(false);
     e.preventDefault();
     if (!previewSource) return;
-    console.log(props.currentAlbum)
-    uploadImage({album: props.currentAlbum._id ,data : previewSource});
+    console.log(props.currentAlbum);
+    uploadImage({ album: props.currentAlbum._id, data: previewSource });
   };
 
   const uploadImage = async (obj) => {

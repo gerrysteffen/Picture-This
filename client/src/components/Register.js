@@ -34,7 +34,8 @@ const Register = (props) => {
       setState(initialState);
       setExists(true);
     } else {
-      navigate("/main");
+      props.setCurrentUser(res);
+      navigate("/profile");
     }
   };
 

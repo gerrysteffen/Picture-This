@@ -46,9 +46,16 @@ function Profile(props) {
       <div className="add-photo" onClick={addHandle}>
         +
       </div>
+      <div className="invite-alert" onClick={addHandle}>
+        +
+      </div>
       {albumPopup ? (
         <div className="add-album">
-          <NewAlbum setUserAlbums={setUserAlbums} userAlbums={userAlbums} />{" "}
+          <NewAlbum
+            setUserAlbums={setUserAlbums}
+            userAlbums={userAlbums}
+            setAlbumPopup={setAlbumPopup}
+          />{" "}
         </div>
       ) : (
         ""

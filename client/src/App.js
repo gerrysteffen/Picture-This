@@ -7,17 +7,36 @@ import NewAlbum from "./components/NewAlbum";
 import { useState } from "react";
 
 function App() {
-const [currentUser, setCurrentUser] = useState({})
-const [currentAlbum , setCurrentAlbum] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentAlbum, setCurrentAlbum] = useState({});
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/main" element={<Main currentAlbum={currentAlbum}/>} />
-          <Route path="/login" element={<Login setCurrentUser={setCurrentUser}/>} />
-          <Route path="/" element={<Register />} />
+          <Route
+            path="/main"
+            element={<Main currentAlbum={currentAlbum} />}
+            setCurrentUser={setCurrentUser}
+          />
+          <Route
+            path="/login"
+            element={<Login setCurrentUser={setCurrentUser} />}
+          />
+          <Route
+            path="/"
+            element={<Register setCurrentUser={setCurrentUser} />}
+          />
           <Route path="/new" element={<NewAlbum />} />
-          <Route path="/profile" element={<Profile currentUser={currentUser} currentAlbum = {currentAlbum} setCurrentAlbum={setCurrentAlbum} />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                currentUser={currentUser}
+                currentAlbum={currentAlbum}
+                setCurrentAlbum={setCurrentAlbum}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

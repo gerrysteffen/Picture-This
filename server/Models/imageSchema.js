@@ -32,7 +32,6 @@ const imgSchema = new Schema({
     type: Array,
     default: [],
   },
- 
 });
 
 const Img = mongoose.model("Images", imgSchema);

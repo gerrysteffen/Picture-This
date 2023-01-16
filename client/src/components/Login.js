@@ -1,4 +1,4 @@
-import styles from './Login.module.css'
+import styles from "./Login.module.css";
 import React from "react";
 // import auth from '../utils/auth';
 import { login } from "../ApiClient";
@@ -36,7 +36,7 @@ function Login(props) {
       alert(`Error`);
       setState(initialState);
     } else {
-      props.setCurrentUser(res)
+      props.setCurrentUser(res);
       navigate("/profile");
     }
   };

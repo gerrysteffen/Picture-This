@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const root = "http://localhost:4000/";
 
-
 export const getAllPhotos = async () => {
   try {
     const response = await fetch(root, {
@@ -17,7 +16,7 @@ export const getAllPhotos = async () => {
 };
 
 export const uploadPhoto = async (content) => {
-  console.log(content)
+  console.log(content);
   try {
     const response = await fetch(root + "upload", {
       method: "POST",
@@ -84,7 +83,6 @@ export const login = async (user) => {
     });
     const loggedUser = await response.json();
 
-    
     return loggedUser;
   } catch (error) {
     console.log(error);
@@ -139,16 +137,13 @@ export const createAlbum = async (albumName) => {
     });
 
     const data = await response.json();
-    return data
-    
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-
-export const openAlbum = async (id) =>{
- 
+export const getAlbum = async (id) => {
   try {
     const response = await fetch(root + "album", {
       method: "POST",
@@ -159,13 +154,14 @@ export const openAlbum = async (id) =>{
           "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
         "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
       },
-      body: JSON.stringify(id),
+      body: JSON.stringify({ _id: id }),
       credentials: "include",
       mode: "cors",
     });
     const data = await response.json();
     console.log(data);
+    return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

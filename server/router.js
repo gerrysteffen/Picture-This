@@ -21,7 +21,7 @@ router.get("/users", secure.getUsers);
 
 // Album routes
 
-router.post("/newAlbum", albums.createAlbum);
-router.post("/album", albums.getAlbum);
+router.post("/newAlbum", authMiddleware, albums.createAlbum);
+router.post("/album", authMiddleware, albums.getAlbum);
 
 module.exports = router;
