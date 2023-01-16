@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import NewAlbum from "./components/NewAlbum";
 import { useState } from "react";
+import Invites from "./components/Invites";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -15,8 +16,13 @@ function App() {
         <Routes>
           <Route
             path="/main"
-            element={<Main currentAlbum={currentAlbum} />}
-            setCurrentUser={setCurrentUser}
+            element={
+              <Main
+                currentAlbum={currentAlbum}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+              />
+            }
           />
           <Route
             path="/login"
@@ -37,6 +43,7 @@ function App() {
               />
             }
           />
+          <Route path = '/help' element = {<Invites  currentUser={currentUser}/> } />
         </Routes>
       </BrowserRouter>
     </div>

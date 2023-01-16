@@ -192,13 +192,13 @@ h1 {
   align-items: center;
   background-color: var(--primary);
 }
-/* .register {
+.register {
   background-image: url(./components/images/lines.png);
   height: 100vh;
   justify-content: center;
   align-items: center;
   text-align: center;
-} */
+}
 .enlarged-photo {
   display: flex;
   justify-content: center;
@@ -365,4 +365,17 @@ h1 {
   );
   border-radius: 999px;
   cursor: pointer;
+}
+
+.invite-popup{
+  position: fixed;
+  bottom: 20%;
+  right: 30%;
+  height: 60%;
+  width: 40%;
+  border-color: #22031f;
+  border-style: dashed;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: aliceblue;
 }

@@ -12,9 +12,9 @@ function NewAlbum(props) {
 
     const { albumName } = state;
     const album = { albumName };
-    console.log(album);
+ 
     let newAlbum = await createAlbum(album);
-    console.log(newAlbum);
+    
     const newAlbumList = [newAlbum, ...props.userAlbums];
     props.setUserAlbums(newAlbumList);
     props.setAlbumPopup(false);

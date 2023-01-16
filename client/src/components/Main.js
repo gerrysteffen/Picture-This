@@ -1,5 +1,5 @@
 import { getAllPhotos } from "../ApiClient";
-
+import ShareAlbum from "./ShareAlbum";
 import { useState, useEffect } from "react";
 import MainAlbum from "./MainAlbum";
 import Uploader from "./Uploader";
@@ -13,6 +13,11 @@ function Main(props) {
   const [showUpload, setShowUpload] = useState(false);
   const [largePhoto, setLargePhoto] = useState("");
   const [largePhotoActive, setLargePhotoActive] = useState(false);
+  const [sharePopup , setSharePopup] = useState(false)
+  const share = () =>{
+setSharePopup(!sharePopup)
+console.log(sharePopup)
+  }
 
   const sortByFavourites = async () => {
     let allPhotos = photos;
@@ -37,7 +42,7 @@ function Main(props) {
     <div className="main-container">
       <div>
         {" "}
-        <Navbar current setCurrentUser={props.setCurrentUser} />
+        <Navbar setCurrentUser={props.setCurrentUser} currentUser={props.currentUser} />
       </div>
 
       <div className="top-div">
@@ -59,6 +64,13 @@ function Main(props) {
           currentAlbum={props.currentAlbum}
         />
       )}
+        {sharePopup && (
+          <div className="add-album">
+        <ShareAlbum currentAlbum = {props.currentAlbum}
+        setSharePopup ={setSharePopup}
+        />
+        </div>
+      )}
       {largePhotoActive && (
         <EnlargedPhoto
           setLargePhotoActive={setLargePhotoActive}
@@ -67,6 +79,9 @@ function Main(props) {
       )}
       <div onClick={setShowUpload} className="add-photo">
         +
+      </div>
+      <div className="invite-alert" onClick={share}>
+        s
       </div>
     </div>
   );

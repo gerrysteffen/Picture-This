@@ -22,11 +22,13 @@ exports.registerUser = async (req, res) => {
   }
 };
 exports.refreshUser = async (req, res) => {
+  console.log(req.session.uid)
   try {
-    const user = User.findOne({ _id: req.session.uid }).populate({
+    const user = await User.findOne({ _id: req.session.uid }).populate({
       path: "uploadedAlbums sharedAlbums",
       populate: { path: "photos" },
     });
+    
     res.status(200);
     res.send(user);
   } catch (error) {
@@ -39,14 +41,14 @@ exports.login = async (req, res) => {
     const { email } = req.body;
 
     const user = await User.findOne({ email: email }).populate({
-      path: "uploadedAlbums sharedAlbums",
+      path: "uploadedAlbums sharedAlbums pendingInvite",
       populate: { path: "photos" },
     });
     if (user) {
       const valid = await bcrypt.compare(req.body.password, user.password);
       if (valid) {
         req.session.uid = user._id;
-        console.log(user);
+       
         res.status(200).send(user);
       }
     }
