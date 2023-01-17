@@ -18,12 +18,15 @@ function Navbar(props) {
   };
   return (
     <div className="nav-bar">
-      <div className="logout" onClick={handleHome}>
-        <Home />
+      <div className="home" onClick={handleHome}>
+        <img src="../camera.png"></img>
+      </div>
+      <div className="picture-this">
+        {/* <img src="../picturethis2.png"> </img> */}
       </div>
 
       <div className="logout-icon" onClick={logout}>
-        <Logout />
+        <img src="../logout.png"></img>
       </div>
     </div>
   );

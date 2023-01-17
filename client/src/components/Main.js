@@ -54,6 +54,7 @@ console.log(sharePopup)
           upDatePhotos={upDatePhotos}
           setLargePhoto={setLargePhoto}
           setLargePhotoActive={setLargePhotoActive}
+          currentUser ={props.currentUser}
         />
       </div>
       {showUpload && (

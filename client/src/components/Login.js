@@ -5,6 +5,7 @@ import { login } from "../ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ReactComponent as Logo } from "./images/logo.svg";
+import Navbar from "./Navbar";
 const initialState = {
   email: "",
   password: "",
@@ -47,10 +48,10 @@ function Login(props) {
 
   return (
     <section className={styles.register}>
-      <br></br>
-      <Logo />
-      <br></br>
-      <h1>The Big Day</h1>
+     <Navbar />
+      <img src='../logoting.png' />
+     
+      
 
       <h2>Login</h2>
       <form className="form" onSubmit={handleSubmit}>

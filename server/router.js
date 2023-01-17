@@ -27,5 +27,5 @@ router.post('/share-album', albums.shareAlbum)
 router.post('/accept-invite', albums.acceptAlbum)
 router.delete('/album', albums.deleteAlbum)
 router.put('/album', albums.removeSharedAlbum) 
-router.post('/reject-invite', )
+router.put('/reject-invite', albums.rejectAlbum)
 module.exports = router;

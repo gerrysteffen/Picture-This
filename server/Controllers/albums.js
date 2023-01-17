@@ -46,6 +46,7 @@ exports.deleteAlbum = async (req, res) => {
     let album = req.body.albumId;
     let userAlbums = user.uploadedAlbums;
     const index = userAlbums.indexOf(album);
+    console.log(index)
     userAlbums.splice(index, 1);
     user.uploadedAlbums = userAlbums;
     user.save();
@@ -77,13 +78,19 @@ exports.shareAlbum = async (req, res) => {
 exports.rejectAlbum = async (req,res) => {
   console.log('rejecting invite') 
   try {
-    let user = await User.findOne({_id: req.session.uid})
-    const album = req.body.albumId
+    const user = await User.findOne({_id: req.session.uid})
+    const album = req.body._id
     pendingInvites = user.pendingInvite
-    
-
+    const index = pendingInvites.indexOf(album)
+    const newInvites = pendingInvites.filter((element) => {return element != album})
+    user.pendingInvite = newInvites
+    user.save()
+    res.status(204)
+    res.send()
   } catch (error) {
+  
     console.log(error)
+    res.status(400).send()
   }
 }
 

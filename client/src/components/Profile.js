@@ -51,8 +51,11 @@ setInvitePopup(!invitePopup)
   return (
     <div>
       <Navbar  setCurrentUser={setCurrentUser}/>
+      <br></br>
       <div className="profile">
+
         <div className="right-container">
+
           <div>
             <h1>My albums</h1>
           </div>
@@ -69,9 +72,9 @@ setInvitePopup(!invitePopup)
       </div>
       {pendingInvite.length&&
       <div className="invite-alert" onClick={inviteHandle}>
-        inv
+        <img src = '../invite.png'></img>
       </div>}
-      {albumPopup ? (
+      {albumPopup && (
         <div className="add-album">
           <NewAlbum
             setUserAlbums={setUserAlbums}
@@ -79,8 +82,6 @@ setInvitePopup(!invitePopup)
             setAlbumPopup={setAlbumPopup}
           />
         </div>
-      ) : (
-        ""
       )}
       {invitePopup && <Invites sharedAlbums={sharedAlbums} setSharedAlbums ={setSharedAlbums} currentUser = {currentUser}/>}
     </div>

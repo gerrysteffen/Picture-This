@@ -24,13 +24,15 @@ function AlbumItem(props) {
   return (
     <div className="album-item">
       {props.album.photos[0] ? 
+  
         <img
           onClick={openAlbum}
           alt="album"
           src={props.album.photos[0].imgAddress}
         ></img>:<h1 onClick={openAlbum}>+</h1>
       }
-      <button onClick={removeAlbum}>X</button>
+      <div className="bin">
+      <img src='../bin.png' onClick={removeAlbum}></img></div>
       {props.album.albumName && <p>{props.album.albumName}</p>}
     </div>
   );

@@ -268,3 +268,25 @@ export const removeSharedAlbum = async (albumId) =>{
     console.log(error);
   }
 }
+
+export const rejectAlbum= async(albumId) =>{
+  try {
+    const response = await fetch(root + "reject-invite", {
+      method: "Put",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+        "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
+      },
+      body: JSON.stringify( albumId ),
+      credentials: "include",
+      mode: "cors",
+    });
+    const data = await response.json()
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}

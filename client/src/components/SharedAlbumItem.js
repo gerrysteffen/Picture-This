@@ -29,8 +29,8 @@ function SharedAlbumItem(props) {
             alt="album"
             src={props.album.photos[0].imgAddress}
           ></img>:<h1 onClick={openAlbum}>+</h1>
-        }
-        <button onClick={removeAlbum}>X</button>
+        }<div className='bin' onClick={removeAlbum}><img src ='../bin.png'></img></div>
+       
         {props.album.albumName && <p>{props.album.albumName}</p>}
       </div>
     );

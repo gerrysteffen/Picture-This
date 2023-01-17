@@ -18,7 +18,7 @@ function Popular(props) {
 
   return (
     <div className="pop">
-      <Ring />
+     
       <div></div>
       <div className="popular">
         <h2>Most Popular</h2>

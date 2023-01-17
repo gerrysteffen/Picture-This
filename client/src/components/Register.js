@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ReactComponent as Logo } from "./images/logo.svg";
 import { useNavigate } from "react-router-dom";
 import { reg } from "../ApiClient";
+import Navbar from "./Navbar";
 const initialState = {
   email: "",
   password: "",
@@ -51,10 +52,9 @@ const Register = (props) => {
 
   return (
     <section className="register">
+      <Navbar />
       <br></br>
-      <Logo />
-      <h1>The Big Day</h1>
-      <br></br>
+      <img src="../logoting.png"></img> 
       <h2>Register</h2>
       <form className="form" onSubmit={handleSubmit}>
         <input

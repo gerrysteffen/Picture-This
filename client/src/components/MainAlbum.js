@@ -10,6 +10,7 @@ function MainAlbum(props) {
           photo={photo}
           setLargePhoto={props.setLargePhoto}
           setLargePhotoActive={props.setLargePhotoActive}
+          currentUser ={props.currentUser}
         />
       </div>
     );
