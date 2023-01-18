@@ -37,6 +37,7 @@ function App() {
             path="/profile"
             element={
               <Profile
+                setCurrentUser={setCurrentUser}
                 currentUser={currentUser}
                 currentAlbum={currentAlbum}
                 setCurrentAlbum={setCurrentAlbum}

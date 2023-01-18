@@ -451,6 +451,7 @@ h1 {
   background-color: var(--primary);
   border-radius: 999px;
   cursor: pointer;
+  z-index: 15;
 }
 
 .share img {

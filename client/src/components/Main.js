@@ -58,6 +58,7 @@ function Main(props) {
           setLargePhoto={setLargePhoto}
           setLargePhotoActive={setLargePhotoActive}
           currentUser={props.currentUser}
+          currentAlbum={props.currentAlbum}
         />
       </div>
       {showUpload && (
@@ -86,7 +87,7 @@ function Main(props) {
         +
       </div>
       <div className="share" onClick={share}>
-        <img src="../share.png" alt = 'hhh'></img>
+        <img src="../share.png" alt="hhh"></img>
       </div>
     </div>
   );

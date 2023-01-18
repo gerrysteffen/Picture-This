@@ -23,7 +23,7 @@ function Profile(props) {
   const inviteHandle = () => {
     setInvitePopup(!invitePopup);
   };
-  useEffect(() => {console.log('inside profile' ,pendingInvite)}, [userAlbums, pendingInvite]);
+  // useEffect(() => {console.log('inside profile' ,pendingInvite)}, [userAlbums, pendingInvite]);
 
   let individualAlbums = userAlbums.map((album) => {
     return (
@@ -76,7 +76,9 @@ function Profile(props) {
         <div className="invite-alert" onClick={inviteHandle}>
           <img src="../invite.png"></img>
         </div>
-      ):''}
+      ) : (
+        ""
+      )}
       {albumPopup ? (
         <div className="add-album">
           <NewAlbum
@@ -85,16 +87,20 @@ function Profile(props) {
             setAlbumPopup={setAlbumPopup}
           />
         </div>
-      ): ''}
+      ) : (
+        ""
+      )}
       {invitePopup ? (
         <Invites
-        setInvitePopup ={setInvitePopup}
+          setInvitePopup={setInvitePopup}
           sharedAlbums={sharedAlbums}
           setSharedAlbums={setSharedAlbums}
           currentUser={currentUser}
-          setPendingInvite = {setPendingInvite}
+          setPendingInvite={setPendingInvite}
         />
-      ):''}
+      ) : (
+        ""
+      )}
     </div>
   );
 }

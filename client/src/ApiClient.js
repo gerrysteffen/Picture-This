@@ -1,5 +1,3 @@
-
-
 const root = "http://localhost:4000/";
 
 export const getAllPhotos = async () => {
@@ -174,7 +172,7 @@ export const getAlbum = async (id) => {
       mode: "cors",
     });
     const data = await response.json();
-    
+
     return data;
   } catch (error) {
     console.log(error);
@@ -289,3 +287,4 @@ export const rejectAlbum = async (albumId) => {
     console.log(error);
   }
 };
+

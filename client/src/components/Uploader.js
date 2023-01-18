@@ -6,25 +6,27 @@ function Uploader(props) {
   const [previewSource, setPreviewSource] = useState();
   const handleFileInputChange = (e) => {
     const files = e.target.files;
-    console.log(e)
+    console.log(e);
     previewFile(files[0]);
   };
   const previewFile = (file) => {
     const reader = new FileReader();
+
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setPreviewSource(reader.result);
     };
   };
-const close =()=>{
-  props.setShowUpload(false)
-}
+  const close = () => {
+    props.setShowUpload(false);
+  };
   const handleSubmitFile = (e) => {
     props.setShowUpload(false);
-    console.log(e)
+    console.log(e);
+    console.log(previewSource);
     e.preventDefault();
     if (!previewSource) return;
-   
+
     uploadImage({
       album: props.currentAlbum._id,
       data: previewSource,
@@ -58,9 +60,11 @@ const close =()=>{
 
   return (
     <div className="uploader">
-      <div onClick={close} className="top-right">X</div>
+      <div onClick={close} className="top-right">
+        X
+      </div>
       <br></br>
-      <form className = 'center' onSubmit={handleSubmitFile}>
+      <form className="center" onSubmit={handleSubmitFile}>
         <input
           type="file"
           name="image"
@@ -75,7 +79,7 @@ const close =()=>{
         </button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" style={{ height: "200px" } } />
+        <img src={previewSource} alt="chosen" style={{ height: "200px" }} />
       )}
     </div>
   );

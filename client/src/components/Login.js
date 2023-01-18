@@ -1,4 +1,3 @@
-
 import React from "react";
 // import auth from '../utils/auth';
 import { login } from "../ApiClient";
@@ -47,10 +46,10 @@ function Login(props) {
   };
 
   return (
-    <section className= 'register'>
+    <section className="register">
       <Navbar />
       <br></br>
-      <img className="logoting" src="../logoting.png" alt = 'logo'/>
+      <img className="logoting" src="../logoting.png" alt="logo" />
 
       <h2>Login</h2>
       <form className="form" onSubmit={handleSubmit}>

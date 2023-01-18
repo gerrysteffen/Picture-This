@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { likePhoto, deletePhoto } from "../ApiClient";
-import { ReactComponent as Bin } from "./images/delete.svg";
-
-import { ReactComponent as Like } from "./images/like.svg";
-
-import { ReactComponent as Unlike } from "./images/unlike.svg";
 
 function Photo(props) {
   const [like, setLike] = useState(true);
   const user = props.currentUser._id;
   const likedBy = props.photo.liked;
-  
+  const owner = props.currentAlbum.owner;
   const uploader = props.photo.uploader;
   function deleteHandle() {
     deletePhoto(props.photo._id);
@@ -28,8 +23,8 @@ function Photo(props) {
     props.setLargePhotoActive(true);
   }
   useEffect(() => {
-    console.log(props.currentAlbum);
-
+    console.log("owner", owner);
+    console.log("user", user);
     if (likedBy.indexOf(user) === -1) {
       setLike(false);
     }
@@ -38,12 +33,11 @@ function Photo(props) {
   return (
     <div className="photo-box">
       <img alt="hurro" src={props.photo.imgAddress} onClick={largeHandle}></img>
-      {/* {user === owner || */}
-        {(user === uploader && (
-          <div className="bin" onClick={deleteHandle}>
-            <img src="../bin.png"></img>
-          </div>
-        ))}
+      {(user === owner || user === uploader) && (
+        <div className="bin" onClick={deleteHandle}>
+          <img src="../bin.png"></img>
+        </div>
+      )}
 
       <div className="heart" onClick={likeHandle}>
         {like ? (

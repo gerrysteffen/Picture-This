@@ -25,7 +25,7 @@ exports.refreshUser = async (req, res) => {
   console.log(req.session.uid);
   try {
     const user = await User.findOne({ _id: req.session.uid }).populate({
-      path: "uploadedAlbums sharedAlbums",
+      path: "uploadedAlbums sharedAlbums pendingInvite",
       populate: { path: "photos" },
     });
 

@@ -33,7 +33,7 @@ function AlbumItem(props) {
         <h1 onClick={openAlbum}>+</h1>
       )}
       <div className="bin">
-        <img src="../bin.png" alt = 'bin' onClick={removeAlbum}></img>
+        <img src="../bin.png" alt="bin" onClick={removeAlbum}></img>
       </div>
       {props.album.albumName && <p>{props.album.albumName}</p>}
     </div>
