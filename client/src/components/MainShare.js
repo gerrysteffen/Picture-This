@@ -1,4 +1,5 @@
 import React from "react";
+
 import ShareAlbum from "./ShareAlbum";
 import { useState, useEffect } from "react";
 import MainAlbum from "./MainAlbum";
@@ -6,8 +7,7 @@ import Uploader from "./Uploader";
 import Popular from "./Popular";
 import Navbar from "./Navbar";
 import EnlargedPhoto from "./EnlargedPhoto";
-
-function Main(props) {
+function MainShare(props) {
   const [photos, setPhotos] = useState(props.currentAlbum.photos);
   const [popularPhotos, setPopularPhotos] = useState([]);
   const [showUpload, setShowUpload] = useState(false);
@@ -36,7 +36,7 @@ function Main(props) {
 
   useEffect(() => {
     sortByFavourites();
-  });
+  }, []);
 
   return (
     <div className="main-container">
@@ -53,6 +53,7 @@ function Main(props) {
       </div>
       <div className="main-album">
         <MainAlbum
+          currentAlbum={props.currentAlbum}
           photos={photos}
           upDatePhotos={upDatePhotos}
           setLargePhoto={setLargePhoto}
@@ -85,11 +86,7 @@ function Main(props) {
       <div onClick={setShowUpload} className="add-photo">
         +
       </div>
-      <div className="share" onClick={share}>
-        <img src="../share.png" alt = 'hhh'></img>
-      </div>
     </div>
   );
 }
-
-export default Main;
+export default MainShare;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 const root = "http://localhost:4000/";
 
@@ -174,7 +174,7 @@ export const getAlbum = async (id) => {
       mode: "cors",
     });
     const data = await response.json();
-    console.log(data);
+    
     return data;
   } catch (error) {
     console.log(error);
@@ -196,7 +196,7 @@ export const deleteAlbum = async (albumId) => {
       credentials: "include",
       mode: "cors",
     });
-    const data = await response.json
+    const data = await response.json;
     return data;
   } catch (error) {
     console.log(error);
@@ -224,7 +224,7 @@ export const shareAlbumRequest = async (requestObject) => {
   }
 };
 
-export const acceptInvite = async (albumId)=>{
+export const acceptInvite = async (albumId) => {
   try {
     const response = await fetch(root + "accept-invite", {
       method: "POST",
@@ -239,15 +239,14 @@ export const acceptInvite = async (albumId)=>{
       credentials: "include",
       mode: "cors",
     });
-    const data = await response.json()
-    return data
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+};
 
-}
-
-export const removeSharedAlbum = async (albumId) =>{
+export const removeSharedAlbum = async (albumId) => {
   try {
     const response = await fetch(root + "album", {
       method: "Put",
@@ -262,14 +261,14 @@ export const removeSharedAlbum = async (albumId) =>{
       credentials: "include",
       mode: "cors",
     });
-    const data = await response.json
+    const data = await response.json;
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export const rejectAlbum= async(albumId) =>{
+export const rejectAlbum = async (albumId) => {
   try {
     const response = await fetch(root + "reject-invite", {
       method: "Put",
@@ -280,13 +279,13 @@ export const rejectAlbum= async(albumId) =>{
           "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
         "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
       },
-      body: JSON.stringify( albumId ),
+      body: JSON.stringify(albumId),
       credentials: "include",
       mode: "cors",
     });
-    const data = await response.json()
+    const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

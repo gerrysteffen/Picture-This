@@ -5,12 +5,13 @@ function MainAlbum(props) {
     return (
       <div>
         <Photo
+          currentAlbum={props.currentAlbum}
           upDatePhotos={props.upDatePhotos}
           key={photo._id}
           photo={photo}
           setLargePhoto={props.setLargePhoto}
           setLargePhotoActive={props.setLargePhotoActive}
-          currentUser ={props.currentUser}
+          currentUser={props.currentUser}
         />
       </div>
     );

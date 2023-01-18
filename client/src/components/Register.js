@@ -54,7 +54,7 @@ const Register = (props) => {
     <section className="register">
       <Navbar />
       <br></br>
-      <img src="../logoting.png"></img> 
+      <img className = 'logoting'src="../logoting.png"></img>
       <h2>Register</h2>
       <form className="form" onSubmit={handleSubmit}>
         <input

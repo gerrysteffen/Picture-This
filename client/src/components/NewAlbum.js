@@ -12,25 +12,16 @@ function NewAlbum(props) {
 
     const { albumName } = state;
     const album = { albumName };
- 
+
     let newAlbum = await createAlbum(album);
-    
+
     const newAlbumList = [newAlbum, ...props.userAlbums];
     props.setUserAlbums(newAlbumList);
     props.setAlbumPopup(false);
-    // const res = await reg(user);
-    // // console.log({res})
-    // if (res.status === 409) {
-    //   alert(`${res.message}`);
-    //   setState(initialState);
-    //   setExists(true)
-    // } else {
-
-    //  navigate('/main');
-
-    // }
   };
-
+  const close = () => {
+    props.setAlbumPopup(false);
+  };
   //   const loginHandle = () =>{
   //     navigate("/login")}
 
@@ -48,9 +39,15 @@ function NewAlbum(props) {
   return (
     <section className="register">
       <br></br>
+      <div onClick={close} className="top-right">
+        X
+      </div>
+      <div>
+        <img src="../picture-this1.png"></img>
+      </div>
 
-      <h1>The Big Day</h1>
       <br></br>
+
       <h2>New Album</h2>
       <form className="form" onSubmit={handleSubmit}>
         <input

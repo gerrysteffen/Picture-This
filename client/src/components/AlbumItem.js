@@ -1,5 +1,5 @@
 import React from "react";
-import { uploadPhoto, getAlbum, deleteAlbum } from "../ApiClient";
+import { getAlbum, deleteAlbum } from "../ApiClient";
 import { useNavigate } from "react-router-dom";
 function AlbumItem(props) {
   const navigate = useNavigate();
@@ -23,16 +23,18 @@ function AlbumItem(props) {
 
   return (
     <div className="album-item">
-      {props.album.photos[0] ? 
-  
+      {props.album.photos[0] ? (
         <img
           onClick={openAlbum}
           alt="album"
           src={props.album.photos[0].imgAddress}
-        ></img>:<h1 onClick={openAlbum}>+</h1>
-      }
+        ></img>
+      ) : (
+        <h1 onClick={openAlbum}>+</h1>
+      )}
       <div className="bin">
-      <img src='../bin.png' onClick={removeAlbum}></img></div>
+        <img src="../bin.png" alt = 'bin' onClick={removeAlbum}></img>
+      </div>
       {props.album.albumName && <p>{props.album.albumName}</p>}
     </div>
   );

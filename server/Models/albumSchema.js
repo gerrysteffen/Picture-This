@@ -10,7 +10,8 @@ const albumSchema = new Schema({
   },
   photos: [{ type: Schema.Types.ObjectId, ref: "Images" }],
   owner: {
-    type: Schema.Types.ObjectId, ref: 'Users'
+    type: Schema.Types.ObjectId,
+    ref: "Users",
   },
   accessable: {
     type: Array,

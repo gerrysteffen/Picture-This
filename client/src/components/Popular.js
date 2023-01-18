@@ -8,7 +8,7 @@ function Popular(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (currentPhoto < 4) {
+      if (currentPhoto < 4 ) {
         setCurrentPhoto(currentPhoto + 1);
       } else {
         setCurrentPhoto(0);
@@ -18,7 +18,6 @@ function Popular(props) {
 
   return (
     <div className="pop">
-     
       <div></div>
       <div className="popular">
         <h2>Most Popular</h2>

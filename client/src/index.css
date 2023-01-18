@@ -9,6 +9,7 @@
 
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+ 
 }
 .title {
   position: absolute;
@@ -71,31 +72,36 @@ h1 {
 }
 
 .popular {
+  flex-direction: column;
   background-color: #fafafa;
   display: flex;
   width: 100%;
-  height: 300px;
+  height: 250px;
   overflow: hidden;
   justify-content: center;
   align-items: center;
 }
-
+.logoting{
+  height: 270px;
+}
 .popular img {
+  max-width: 100%;
+  max-height: 100%;
   -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 .main-album {
-  height: 40%;
   overflow: scroll;
   justify-content: center;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
-  height: 60%;
+  height: 50%;
   padding: 5px;
   margin: 5px;
+  z-index: 5;
 }
 .main-album::-webkit-scrollbar {
   display: none;
@@ -167,6 +173,8 @@ h1 {
 }
 
 .nav-bar {
+  align-items: center;
+  height: 8%;
   -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -186,8 +194,8 @@ h1 {
   text-shadow: 2px 2px 5px #22031f;
   overflow: hidden;
 }
-.home{
-  max-height: 80px;
+.home {
+  max-height: 80%;
   max-width: 100px;
   justify-self: right;
   color: aliceblue;
@@ -197,9 +205,9 @@ h1 {
   overflow: hidden;
   margin: 6px;
 }
-.home img{
-  max-height: 100%;
-  max-width: 100%;
+.home img {
+  max-height: 10%;
+  max-width: 80%;
 }
 .add-photo {
   position: fixed;
@@ -208,16 +216,12 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45px;
-  height: 45px;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--light);
-  background-image: linear-gradient(
-    to bottom right,
-    var(--primary),
-    var(--secondary)
-  );
+  width: 55px;
+  height: 55px;
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--secondary);
+  background-color: var(--primary);
   border-radius: 999px;
   cursor: pointer;
 }
@@ -226,14 +230,14 @@ h1 {
   justify-content: center;
   align-items: center;
   position: fixed;
-  width: 70%;
-  height: 100px;
+  width: 50%;
+  height:40% ;
   top: 25%;
   left: 50%;
   padding: 20px;
   transform: translate(-50%, 0);
-  background-color: var(--secondary);
-  height: 200px;
+  background-color: var(--primary);
+  
   border-radius: 16px;
 }
 .pop {
@@ -264,7 +268,6 @@ h1 {
   margin: auto;
   overflow: hidden;
   flex-wrap: wrap;
-
 }
 
 .enlarged-photo img {
@@ -290,7 +293,7 @@ h1 {
 
 .profile {
   display: flex;
-  height: 100vh;
+  height: 85vh;
   width: auto;
   background-color: #fafafa;
 }
@@ -298,7 +301,7 @@ h1 {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: fill;
+  height: 80vh;
 }
 
 .albums {
@@ -308,7 +311,7 @@ h1 {
   border-color: #22031f;
   border-radius: 10px;
 
-  height: 30%;
+  height: 35%;
   overflow: scroll;
   max-width: 100%;
   align-items: center;
@@ -343,12 +346,21 @@ h1 {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 160px;
+  width: 200px;
   height: 70%;
 }
 .album-item img {
   display: block;
   height: 120px;
+}
+.album-item:hover {
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  transform: scale(1.1);
+  z-index: 10;
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
 }
 
 .album-item p {
@@ -369,9 +381,9 @@ h1 {
 
 .add-album {
   position: fixed;
-  bottom: 20%;
+  bottom: 30%;
   right: 30%;
-  max-height: 60%;
+  max-height: 40%;
   width: 40%;
   border-color: #22031f;
   border-style: dashed;
@@ -387,25 +399,33 @@ h1 {
 }
 
 .logout-icon {
+  margin: 5px;
   position: relative;
   align-self: center;
   height: 60px;
   cursor: pointer;
   overflow: hidden;
 }
-.logout-icon img{
+.logout-icon img {
   max-height: 100%;
 }
-
+.form-submit button {
+  color: #fafafa;
+}
+.top-right {
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
+}
 .invite-alert {
   position: fixed;
-  bottom: 80px;
+  bottom: 100px;
   right: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45px;
-  height: 45px;
+  width: 55px;
+  height: 55px;
   font-size: 28px;
   font-weight: 900;
   color: var(--light);
@@ -416,7 +436,26 @@ h1 {
 .invite-alert img {
   max-height: 100%;
 }
+.share {
+  position: fixed;
+  bottom: 100px;
+  right: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--light);
+  background-color: var(--primary);
+  border-radius: 999px;
+  cursor: pointer;
+}
 
+.share img {
+  max-width: 70%;
+}
 .invite-popup {
   position: fixed;
   bottom: 20%;
@@ -455,4 +494,19 @@ h1 {
   max-height: 100%;
   max-width: 100%;
   cursor: pointer;
+}
+
+.picture-this {
+  align-items: center;
+  height: 100%;
+  padding: 2px;
+}
+
+.picture-this img {
+  height: 80%;
+}
+
+.username {
+  justify-self: center;
+  align-self: center;
 }

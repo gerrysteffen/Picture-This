@@ -6,7 +6,7 @@ import Register from "./components/Register";
 import NewAlbum from "./components/NewAlbum";
 import { useState } from "react";
 import Invites from "./components/Invites";
-
+import MainShare from "./components/MainShare";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [currentAlbum, setCurrentAlbum] = useState({});
@@ -43,7 +43,17 @@ function App() {
               />
             }
           />
-          <Route path = '/help' element = {<Invites  currentUser={currentUser}/> } />
+          <Route path="/help" element={<Invites currentUser={currentUser} />} />
+          <Route
+            path="/main-share"
+            element={
+              <MainShare
+                currentAlbum={currentAlbum}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

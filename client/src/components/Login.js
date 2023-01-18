@@ -1,10 +1,10 @@
-import styles from "./Login.module.css";
+
 import React from "react";
 // import auth from '../utils/auth';
 import { login } from "../ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ReactComponent as Logo } from "./images/logo.svg";
+
 import Navbar from "./Navbar";
 const initialState = {
   email: "",
@@ -47,11 +47,10 @@ function Login(props) {
   };
 
   return (
-    <section className={styles.register}>
-     <Navbar />
-      <img src='../logoting.png' />
-     
-      
+    <section className= 'register'>
+      <Navbar />
+      <br></br>
+      <img className="logoting" src="../logoting.png" alt = 'logo'/>
 
       <h2>Login</h2>
       <form className="form" onSubmit={handleSubmit}>
