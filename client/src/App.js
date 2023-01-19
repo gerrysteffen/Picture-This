@@ -8,6 +8,7 @@ import { useState } from "react";
 import Invites from "./components/Archive/Invites";
 import MainShare from "./components/Archive/MainShare";
 import NavBar from "./components/UI-Components/NavBar";
+import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -40,6 +41,17 @@ function App() {
             path="/profile"
             element={
               <Profile
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+                currentAlbum={currentAlbum}
+                setCurrentAlbum={setCurrentAlbum}
+              />
+            }
+          />
+          <Route
+            path="/1"
+            element={
+              <AlbumDashboard
                 setCurrentUser={setCurrentUser}
                 currentUser={currentUser}
                 currentAlbum={currentAlbum}

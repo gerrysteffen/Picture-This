@@ -26,20 +26,22 @@ export default function NavBar() {
       <AppBar sx={{color: 'black',  backgroundColor: 'rgba(255, 255, 255, 0.8)' }} className={classes.root}>
         <Toolbar>
           <IconButton
+            onClick={goHome}
             size="large"
             edge="start"
             color="inherit"
             sx={{ mr: 2 }}
           >
-            <HomeIcon onClick={goHome}/>
+            <HomeIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1 , p:1.5}}>
             <img height="35" src='../picture-this1.png' alt='Logo'/>
           </Box>
           <IconButton
+            onClick={logout}
             size="large"
             color="inherit">
-            <LogoutIcon onClick={logout}/>
+            <LogoutIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
