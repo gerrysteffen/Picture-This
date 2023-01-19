@@ -7,12 +7,15 @@ import NewAlbum from "./components/Archive/NewAlbum";
 import { useState } from "react";
 import Invites from "./components/Archive/Invites";
 import MainShare from "./components/Archive/MainShare";
+import NavBar from "./components/UI-Components/NavBar";
+
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [currentAlbum, setCurrentAlbum] = useState({});
   return (
     <div>
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route
             path="/main"
