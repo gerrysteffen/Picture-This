@@ -52,7 +52,7 @@ const Register = (props) => {
 
   return (
     <section className="register">
-      <Navbar />
+      {/* <Navbar /> */}
       <br></br>
       <img className="logoting" src="../logoting.png"></img>
       <h2>Register</h2>
