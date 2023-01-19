@@ -5,25 +5,16 @@ import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    color: 'black'
-  },
-}));
-
 export default function NavBar() {
-  const classes = useStyles();
   let navigate = useNavigate();
   const logout = () => navigate('/');
   const goHome = () => navigate('/profile');
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{color: 'black',  backgroundColor: 'rgba(255, 255, 255, 0.8)' }} className={classes.root}>
+      <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.8)' }}>
         <Toolbar>
           <IconButton
             onClick={goHome}

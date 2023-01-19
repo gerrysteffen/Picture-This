@@ -1,9 +1,8 @@
-import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
+import {Divider, Typography } from '@mui/material';
 import { refreshUser } from '../../ApiService';
-import { useNavigate } from "react-router-dom";
 import { AlbumType, UserType } from '../../types';
+import AlbumViewer from './AlbumViewer';
 
 interface AlbumDashboardProps {
   setCurrentUser(user: UserType): void,
@@ -13,20 +12,28 @@ interface AlbumDashboardProps {
 }
 
 export default function AlbumDashboard({setCurrentUser, currentUser, currentAlbum, setCurrentAlbum}:AlbumDashboardProps ) {
-  console.log(currentUser)
+  const [userAlbums, setUserAlbums] = useState(currentUser.uploadedAlbums);
   useEffect(() => {
     refreshUser().then( (data) => {
       const user: UserType = data;
       setCurrentUser(user);
-      console.log(user);
     });
   }, [])
   return (
     <React.Fragment>
-      <Box sx={{m:10}}/>
-      <Typography variant='h5'>
+      <Typography variant='h6' sx={{marginTop:10
+      }}>
         Welcome Back {currentUser.firstName}
       </Typography>
+      <Typography variant='h5' sx={{marginTop:3}}>
+        My Albums
+      </Typography>
+      <AlbumViewer />
+      <Divider/>
+      <Typography variant='h5' sx={{marginTop:3}}>
+        Shared Albums
+      </Typography>
+      <Divider/>
     </React.Fragment>
   )
 }
