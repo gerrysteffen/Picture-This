@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { createAlbum } from "../ApiClient";
+import { createAlbum } from "../../ApiClient";
 function NewAlbum(props) {
   const initialState = {
     albumName: "",

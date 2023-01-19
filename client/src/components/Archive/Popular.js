@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ReactComponent as Ring } from "./images/logo.svg";
+import { ReactComponent as Ring } from "../images/logo.svg";
 
 function Popular(props) {
   let [currentPhoto, setCurrentPhoto] = useState(0);

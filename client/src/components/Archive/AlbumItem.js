@@ -1,24 +1,24 @@
 import React from "react";
-import { uploadPhoto, getAlbum, removeSharedAlbum } from "../ApiClient";
+import { getAlbum, deleteAlbum } from "../../ApiClient";
 import { useNavigate } from "react-router-dom";
-function SharedAlbumItem(props) {
+function AlbumItem(props) {
   const navigate = useNavigate();
   const removeAlbum = async () => {
-    console.log("remove shared and ting");
-    removeSharedAlbum(props.album._id);
-    let newAlbumCollection = props.sharedAlbums;
+    console.log("delete and ting");
+    deleteAlbum(props.album._id);
+    let newAlbumCollection = props.userAlbums;
     console.log(newAlbumCollection);
     const index = newAlbumCollection.findIndex((element) => {
       return element._id === props.album._id;
     });
     newAlbumCollection.splice(index, 1);
-    props.setSharedAlbums([...newAlbumCollection]);
+    props.setUserAlbums([...newAlbumCollection]);
     console.log(props.userAlbums);
   };
   const openAlbum = async () => {
     const currentAlbum = await getAlbum(props.album._id);
     props.setCurrentAlbum(currentAlbum);
-    navigate("/main-share");
+    navigate("/main");
   };
 
   return (
@@ -32,13 +32,12 @@ function SharedAlbumItem(props) {
       ) : (
         <h1 onClick={openAlbum}>+</h1>
       )}
-      <div className="bin" onClick={removeAlbum}>
-        <img src="../bin.png"></img>
+      <div className="bin">
+        <img src="../bin.png" alt="bin" onClick={removeAlbum}></img>
       </div>
-
       {props.album.albumName && <p>{props.album.albumName}</p>}
     </div>
   );
 }
 
-export default SharedAlbumItem;
+export default AlbumItem;

@@ -1,12 +1,12 @@
-import Main from "./components/Main";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
+import Main from "./components/Archive/Main";
+import Login from "./components/Archive/Login";
+import Profile from "./components/Archive/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./components/Register";
-import NewAlbum from "./components/NewAlbum";
+import Register from "./components/Archive/Register";
+import NewAlbum from "./components/Archive/NewAlbum";
 import { useState } from "react";
-import Invites from "./components/Invites";
-import MainShare from "./components/MainShare";
+import Invites from "./components/Archive/Invites";
+import MainShare from "./components/Archive/MainShare";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [currentAlbum, setCurrentAlbum] = useState({});

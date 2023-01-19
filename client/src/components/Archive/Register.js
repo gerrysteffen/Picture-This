@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 // import auth from '../utils/auth';
-import { ReactComponent as Logo } from "./images/logo.svg";
+import { ReactComponent as Logo } from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import { reg } from "../ApiClient";
+import { reg } from "../../ApiClient";
 import Navbar from "./Navbar";
 const initialState = {
   email: "",

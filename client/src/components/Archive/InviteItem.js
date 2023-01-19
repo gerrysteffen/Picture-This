@@ -1,5 +1,5 @@
 import React from "react";
-import { acceptInvite, rejectAlbum } from "../ApiClient";
+import { acceptInvite, rejectAlbum } from "../../ApiClient";
 function InviteItem(props) {
   const accept = async () => {
     let newShare = await acceptInvite({ albumId: props.invite._id });
