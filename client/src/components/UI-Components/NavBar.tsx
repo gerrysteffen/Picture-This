@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function NavBar() {
   let navigate = useNavigate();
   const logout = () => navigate('/');
-  const goHome = () => navigate('/profile');
+  const goHome = () => navigate('/1');
 
   return (
     <Box sx={{ flexGrow: 1 }}>

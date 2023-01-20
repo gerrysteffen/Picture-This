@@ -11,6 +11,7 @@ import NavBar from "./components/UI-Components/NavBar";
 import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
 import { refreshUser } from "./ApiService";
 import { UserType } from "./types";
+import ImgaesDashboard from "./components/ImagesDashboard/ImgaesDashboard";
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
@@ -29,6 +30,17 @@ function AppType() {
       <BrowserRouter>
         <NavBar />
         <Routes>
+          <Route
+            path="/1"
+            element={
+              <AlbumDashboard
+                currentUser={currentUser}
+                // currentAlbum={currentAlbum}
+                // setCurrentAlbum={setCurrentAlbum}
+              />
+            }
+          />
+          <Route path="/albums/:albumId" element={<ImgaesDashboard />} />
           <Route
             path="/login"
             element={<Login setCurrentUser={setCurrentUser} />}
@@ -56,16 +68,6 @@ function AppType() {
                 currentUser={currentUser}
                 currentAlbum={currentAlbum}
                 setCurrentAlbum={setCurrentAlbum}
-              />
-            }
-          />
-          <Route
-            path="/1"
-            element={
-              <AlbumDashboard
-                currentUser={currentUser}
-                // currentAlbum={currentAlbum}
-                // setCurrentAlbum={setCurrentAlbum}
               />
             }
           />

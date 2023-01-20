@@ -9,7 +9,10 @@
 
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
- 
+}
+
+html {
+  background-color: pink;
 }
 .title {
   position: absolute;

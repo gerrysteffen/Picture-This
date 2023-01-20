@@ -9,6 +9,7 @@ export interface UserType {
 }
 
 export interface AlbumType {
+  _id: string,
   albumName: string,
   date: string
   photos: PhotoType[],
@@ -16,7 +17,9 @@ export interface AlbumType {
 }
 
 export interface PhotoType {
+  album: string,
   date: string,
   imgAddress: string,
   liked: string[],
+  uploader: string
 }
