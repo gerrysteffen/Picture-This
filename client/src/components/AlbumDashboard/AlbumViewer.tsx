@@ -14,7 +14,7 @@ export default function AlbumViewer({albums}: {albums: AlbumType[]}) {
         {albums.map((album) => (
           <ImageListItem key={album.albumName}>
             {album.photos[0] ? 
-            <React.Fragment>
+            <div>
               <img
                 src={album.photos[0].imgAddress}
                 alt={album.albumName}
@@ -32,7 +32,7 @@ export default function AlbumViewer({albums}: {albums: AlbumType[]}) {
                     </IconButton>
                   }
                 />
-            </React.Fragment>
+            </ div>
             :
             <div> No img </div>
             }
