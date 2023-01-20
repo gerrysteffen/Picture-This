@@ -73,10 +73,12 @@ export const deletePhoto = async (id) => {
 
 export const login = async (user) => {
   try {
-    const response = await fetch(root + "login", {
+    const response = await fetch(root + "user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      body: JSON.stringify({
+        user: { email: user.email, password: user.password },
+      }),
       credentials: "include",
     });
     const loggedUser = await response.json();
