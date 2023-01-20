@@ -21,7 +21,7 @@ app.use((0, express_session_1.default)({
     },
 }));
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3001",
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
     credentials: true,
 }));

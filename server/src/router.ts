@@ -12,7 +12,7 @@ const router = express.Router();
 //Image routes
 router.post("/image", authMiddleware, ImageControllers.uploadPhoto);
 router.delete("/image/:id", authMiddleware, ImageControllers.deletePhoto);
-router.put("/image", authMiddleware, ImageControllers.toggleLike);
+router.put("/image/like", authMiddleware, ImageControllers.toggleLike);
 
 //User routes
 router.post("/user/register", UserControllers.registerUser);

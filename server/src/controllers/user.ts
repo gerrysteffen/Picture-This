@@ -58,6 +58,7 @@ const UserControllers = {
   },
 
   login: async (req: Request, res: Response) => {
+    console.log('trying login')
     try {
       if (
         !req.body ||
@@ -86,7 +87,7 @@ const UserControllers = {
           );
           if (valid) {
             req.session.uid = String(user._id);
-            res.status(200).send(user);
+            res.status(200).send(JSON.stringify(user));
           } else {
             res.status(401).send({
               error: '401',

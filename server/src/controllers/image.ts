@@ -14,15 +14,15 @@ const ImageControllers = {
         !req.body ||
         !req.body.album ||
         !req.body.album._id ||
-        !req.body.image // TODO need more information about what is behind this info
+        !req.body.image ||
+        !req.body.image.data // TODO need more information about what is behind this info
       ) {
         res
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
-        const result = await cloudinaryV2.uploader.upload(req.body.image);
+        const result = await cloudinaryV2.uploader.upload(req.body.image.data);
         const newImage = await Image.create({
-          ...req.body.image,
           album: req.body.album._id,
           imgAddress: result.secure_url,
           cloudinaryId: result.id,

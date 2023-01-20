@@ -118,34 +118,37 @@ var UserControllers = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 6, , 7]);
+                    console.log('trying login');
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 7, , 8]);
                     if (!(!req.body ||
                         !req.body.user ||
                         !req.body.user.email ||
-                        !req.body.user.password)) return [3 /*break*/, 1];
+                        !req.body.user.password)) return [3 /*break*/, 2];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 5];
-                case 1: return [4 /*yield*/, user_1.default.findOne({
+                    return [3 /*break*/, 6];
+                case 2: return [4 /*yield*/, user_1.default.findOne({
                         email: req.body.user.email,
                     }).populate({
                         path: 'uploadedAlbums sharedAlbums pendingInvite',
                         populate: { path: 'photos' },
                     })];
-                case 2:
+                case 3:
                     user = _a.sent();
-                    if (!!user) return [3 /*break*/, 3];
+                    if (!!user) return [3 /*break*/, 4];
                     res
                         .status(401)
                         .send({ error: '401', message: 'Email and/or password incorrect' });
-                    return [3 /*break*/, 5];
-                case 3: return [4 /*yield*/, bcrypt_1.default.compare(req.body.user.password, user.password)];
-                case 4:
+                    return [3 /*break*/, 6];
+                case 4: return [4 /*yield*/, bcrypt_1.default.compare(req.body.user.password, user.password)];
+                case 5:
                     valid = _a.sent();
                     if (valid) {
                         req.session.uid = String(user._id);
-                        res.status(200).send(user);
+                        res.status(200).send(JSON.stringify(user));
                     }
                     else {
                         res.status(401).send({
@@ -153,14 +156,14 @@ var UserControllers = {
                             message: 'Email and/or password incorrect',
                         });
                     }
-                    _a.label = 5;
-                case 5: return [3 /*break*/, 7];
-                case 6:
+                    _a.label = 6;
+                case 6: return [3 /*break*/, 8];
+                case 7:
                     error_3 = _a.sent();
                     console.log(error_3);
                     res.sendStatus(500);
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/];
             }
         });
     }); },
