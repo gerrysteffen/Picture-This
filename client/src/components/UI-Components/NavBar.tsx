@@ -14,7 +14,7 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.8)' }}>
+      <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.9)' }}>
         <Toolbar>
           <IconButton
             onClick={goHome}

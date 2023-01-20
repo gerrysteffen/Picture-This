@@ -3,13 +3,20 @@ export interface UserType {
   password?: string,
   firstName?: string,
   lastName?: string,
-  sharedAlbums?: [string],
+  sharedAlbums?: AlbumType[],
   pendingInvite?: [string],
-  uploadedAlbums?: [string],
+  uploadedAlbums?: AlbumType[],
 }
 
 export interface AlbumType {
   albumName: string,
-  photos: [string],
+  date: string
+  photos: PhotoType[],
   owner: string
+}
+
+export interface PhotoType {
+  date: string,
+  imgAddress: string,
+  liked: string[],
 }
