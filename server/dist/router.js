@@ -12,7 +12,7 @@ var router = express_1.default.Router();
 //Image routes
 router.post("/image", auth_1.default, image_1.default.uploadPhoto);
 router.delete("/image/:id", auth_1.default, image_1.default.deletePhoto);
-router.put("/image", auth_1.default, image_1.default.toggleLike);
+router.put("/image/like", auth_1.default, image_1.default.toggleLike);
 //User routes
 router.post("/user/register", user_1.default.registerUser);
 router.post("/user/login", user_1.default.login);

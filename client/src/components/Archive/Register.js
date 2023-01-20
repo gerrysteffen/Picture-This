@@ -2,8 +2,10 @@ import React, { useState } from "react";
 // import auth from '../utils/auth';
 import { ReactComponent as Logo } from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import { reg } from "../../ApiClient";
 import Navbar from "./Navbar";
+
+import APIs from '../../APIServices/index'
+
 const initialState = {
   email: "",
   password: "",
@@ -28,7 +30,7 @@ const Register = (props) => {
 
     const { email, password, firstName, lastName } = state;
     const user = { email, password, firstName, lastName };
-    const res = await reg(user);
+    const res = await APIs.register(user);
     console.log({ res });
     if (res.status === 409) {
       alert(`${res.message}`);

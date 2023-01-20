@@ -9,7 +9,7 @@ import Invites from "./components/Archive/Invites";
 import MainShare from "./components/Archive/MainShare";
 import NavBar from "./components/UI-Components/NavBar";
 import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
-import { refreshUser } from "./ApiService";
+import APIs from "./APIServices/index";
 import { UserType } from "./types";
 import ImgaesDashboard from "./components/ImagesDashboard/ImgaesDashboard";
 
@@ -18,7 +18,7 @@ function AppType() {
   const [currentAlbum, setCurrentAlbum] = useState();
 
   useEffect(() => {
-    refreshUser().then( (data) => {
+    APIs.refreshUser().then( (data) => {
       const user: UserType = data;
       setCurrentUser(user);
     });

@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -66,16 +55,22 @@ var ImageControllers = {
                     if (!(!req.body ||
                         !req.body.album ||
                         !req.body.album._id ||
-                        !req.body.image) // TODO need more information about what is behind this info
+                        !req.body.image ||
+                        !req.body.image.data) // TODO need more information about what is behind this info
                     ) return [3 /*break*/, 1]; // TODO need more information about what is behind this info
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 5];
-                case 1: return [4 /*yield*/, cloudinaryV2.uploader.upload(req.body.image)];
+                case 1: return [4 /*yield*/, cloudinaryV2.uploader.upload(req.body.image.data)];
                 case 2:
                     result = _a.sent();
-                    return [4 /*yield*/, image_1.default.create(__assign(__assign({}, req.body.image), { album: req.body.album._id, imgAddress: result.secure_url, cloudinaryId: result.id, uploader: req.session.uid }))];
+                    return [4 /*yield*/, image_1.default.create({
+                            album: req.body.album._id,
+                            imgAddress: result.secure_url,
+                            cloudinaryId: result.id,
+                            uploader: req.session.uid,
+                        })];
                 case 3:
                     newImage = _a.sent();
                     return [4 /*yield*/, album_1.default.findOneAndUpdate({ _id: req.body.album._id }, {

@@ -6,10 +6,14 @@ import Toolbar from '@mui/material/Toolbar';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import APIs from '../../APIServices/index'
 
 export default function NavBar() {
   let navigate = useNavigate();
-  const logout = () => navigate('/');
+  const logout = async () => {
+    await APIs.logout()
+    navigate('/');
+  }
   const goHome = () => navigate('/1');
 
   return (
