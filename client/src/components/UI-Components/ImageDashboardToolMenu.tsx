@@ -57,12 +57,13 @@ export default function ImageDashboardToolMenu() {
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: -9,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
+            ml: -1.25,
+            // '& .MuiAvatar-root': {
+            //   width: 32,
+            //   height: 32,
+            //   ml: -0.5,
+            //   mr: 1,
+            // },
             '&:before': {
               content: '""',
               display: 'block',
