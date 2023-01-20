@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const cors = require("cors");
+import cors from "cors";
 const PORT = 4000;
-const router = require("./router");
-const session = require("express-session");
+import router from "./router";
+import session from "express-session";
 
 app.use(
   session({

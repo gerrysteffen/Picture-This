@@ -1,4 +1,4 @@
-const mongoose = require("./database");
+import mongoose from './index';
 
 const { Schema } = mongoose;
 
@@ -19,14 +19,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-
   sharedAlbums: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
+    type: [{ type: Schema.Types.ObjectId, ref: 'album' }],
   },
-  pendingInvite: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
-  uploadedAlbums: [{ type: Schema.Types.ObjectId, ref: "Albums" }],
+  pendingInvite: [{ type: Schema.Types.ObjectId, ref: 'album' }],
+  uploadedAlbums: [{ type: Schema.Types.ObjectId, ref: 'album' }],
 });
 
-const User = mongoose.model("Users", userSchema);
+const User = mongoose.model('user', userSchema);
 
-module.exports = User;
+export default User;
