@@ -112,25 +112,20 @@ var ImageControllers = {
                     }));
                     return [3 /*break*/, 8];
                 case 3:
-                    console.log(currentPhoto.liked.includes(new mongoose_1.default.Types.ObjectId(req.session.uid)));
                     if (!!currentPhoto.liked.includes(new mongoose_1.default.Types.ObjectId(req.session.uid))) return [3 /*break*/, 5];
-                    console.log('pushing');
                     return [4 /*yield*/, image_1.default.findOneAndUpdate({ _id: req.body.image._id }, {
                             $push: { liked: req.session.uid },
                         })];
                 case 4:
                     _a.sent();
                     return [3 /*break*/, 7];
-                case 5:
-                    console.log('pulling');
-                    return [4 /*yield*/, image_1.default.findOneAndUpdate({ _id: req.body.image._id }, {
-                            $pull: { liked: req.session.uid },
-                        })];
+                case 5: return [4 /*yield*/, image_1.default.findOneAndUpdate({ _id: req.body.image._id }, {
+                        $pull: { liked: req.session.uid },
+                    })];
                 case 6:
                     _a.sent();
                     _a.label = 7;
                 case 7:
-                    console.log('toggling image likes');
                     res.sendStatus(204);
                     _a.label = 8;
                 case 8: return [3 /*break*/, 10];
