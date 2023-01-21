@@ -9,7 +9,6 @@ export default function ImagesViewer({album, setAlbum}:{album: AlbumType, setAlb
     console.log('deleting: ', index);
     const newAlbum = {...album};
     newAlbum.photos.splice(index,1)
-    // console.log(newAlbum);
     setAlbum(newAlbum);
   }
   return (

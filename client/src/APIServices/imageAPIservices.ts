@@ -42,7 +42,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ _id: imageId }),
+        body: JSON.stringify({image : { _id: imageId }}),
         credentials: 'include',
       });
       return response.json;

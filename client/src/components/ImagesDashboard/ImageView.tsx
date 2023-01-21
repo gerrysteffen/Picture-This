@@ -21,7 +21,7 @@ export default function ImageView({item, index, deleteImage}:{item:PhotoType, in
   }
   //check like status of image
   useEffect(() => {
-    if (item.liked.length > 0)
+    // if (item.liked.length > 0)
       console.log(item.liked);
   }, [])
   return (

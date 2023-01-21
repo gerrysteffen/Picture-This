@@ -6,8 +6,6 @@ import mongoose from 'mongoose';
 require('dotenv').config();
 import cloudinaryV2 from '../cloudinary';
 
-
-
 const ImageControllers = {
   uploadPhoto: async (req: Request, res: Response) => {
     try {
@@ -50,6 +48,7 @@ const ImageControllers = {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
+        console.log(req.body.image._id)
         let currentPhoto = await Image.findOne({ _id: req.body.image._id });
         if (!currentPhoto) {
           res.status(400).send(
@@ -59,11 +58,7 @@ const ImageControllers = {
             })
           );
         } else {
-          if (
-            currentPhoto.liked.includes(
-              new mongoose.Types.ObjectId(req.session.uid)
-            )
-          ) {
+          if (!currentPhoto.liked.includes(new mongoose.Types.ObjectId(req.session.uid))) {
             await Image.findOneAndUpdate(
               { _id: req.body.image._id },
               {
