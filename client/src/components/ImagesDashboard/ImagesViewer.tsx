@@ -1,18 +1,21 @@
 import React from 'react'
-import { IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
-import { AlbumType, PhotoType } from '../../types'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Box } from '@mui/system';
+import { ImageList } from '@mui/material'
+import { AlbumType } from '../../types'
 import ImageView from './ImageView';
 
 
-export default function ImagesViewer({album}:{album: AlbumType}) {
+export default function ImagesViewer({album, setAlbum}:{album: AlbumType, setAlbum(album:AlbumType):void}) {
+  const deleteImage = (index:number) => {
+    console.log('deleting: ', index);
+    const newAlbum = {...album};
+    newAlbum.photos.splice(index,1)
+    // console.log(newAlbum);
+    setAlbum(newAlbum);
+  }
   return (
     <ImageList variant="masonry" cols={3} gap={8}>
-    {album.photos.map((item) => (
-      <ImageView item={item} />
+    {album.photos.map((item, index) => (
+      <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage}/>
     ))}
     </ImageList>
   )

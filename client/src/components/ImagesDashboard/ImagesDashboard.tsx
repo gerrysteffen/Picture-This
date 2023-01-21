@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AlbumType } from '../../types';
-import { getAlbum } from '../../ApiClient';
 import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import ImageDashboardToolMenu from '../UI-Components/ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
 import ImagesViewer from './ImagesViewer';
-import { IconButton } from '@mui/material';
 
 export default function ImgaesDashboard() {
   const [album, setAlbum] = useState<AlbumType | null>()
@@ -56,9 +52,9 @@ export default function ImgaesDashboard() {
             style={{ display: "none" }}
           />
           {/* <p>Selected files: {selectedFiles.length}</p> */}
-          <ImagesViewer album={album} />
+          <ImagesViewer setAlbum={setAlbum} album={album} />
         </Box>
-        <ImageDashboardToolMenu setSelectedFiles={setSelectedFiles}/>
+        <ImageDashboardToolMenu  setSelectedFiles={setSelectedFiles}/>
       </React.Fragment>
     )
   } else {

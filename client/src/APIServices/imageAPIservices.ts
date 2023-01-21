@@ -37,7 +37,7 @@ export default {
 
   likePhoto: async (imageId:string) => {
     try {
-      const response = await fetch(root + 'image/like', {
+      const response = await fetch(root + '/image/like', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default {
 
   deletePhoto: async (imageId: string) => {
     try {
-      const response = await fetch(root + '/delete/'+ imageId, {
+      const response = await fetch(root + '/image/'+ imageId, {
         method: 'DELETE',
         // headers: {
         //   'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ export interface AlbumType {
 }
 
 export interface PhotoType {
+  _id: string,
   album: string,
   date: string,
   imgAddress: string,
