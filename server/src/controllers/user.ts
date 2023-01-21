@@ -22,7 +22,7 @@ const UserControllers = {
         if (previousUser) {
           return res
             .status(409)
-            .send({ message: 'User already exists', status: 409 });
+            .send({ message: 'User already exists', error: 409 });
         } else {
           const hashedPassword = await bcrypt.hash(
             req.body.user.password,
@@ -58,7 +58,6 @@ const UserControllers = {
   },
 
   login: async (req: Request, res: Response) => {
-    console.log('trying login')
     try {
       if (
         !req.body ||

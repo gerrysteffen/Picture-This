@@ -9,10 +9,9 @@ import Invites from "./components/Archive/Invites";
 import MainShare from "./components/Archive/MainShare";
 import NavBar from "./components/UI-Components/NavBar";
 import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
+import APIs from "./APIServices/index";
 import { UserType } from "./types";
 import ImgaesDashboard from "./components/ImagesDashboard/ImagesDashboard";
-
-import APIs from "./APIServices/index"
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);

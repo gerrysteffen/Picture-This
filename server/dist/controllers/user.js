@@ -48,26 +48,29 @@ var UserControllers = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    console.log('registration in progress');
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 8, , 9]);
                     if (!(!req.body ||
                         !req.body.user ||
                         !req.body.user.email ||
                         !req.body.user.password ||
                         !req.body.user.firstName ||
-                        !req.body.user.lastName)) return [3 /*break*/, 1];
+                        !req.body.user.lastName)) return [3 /*break*/, 2];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 6];
-                case 1: return [4 /*yield*/, user_1.default.findOne({ email: req.body.user.email })];
-                case 2:
+                    return [3 /*break*/, 7];
+                case 2: return [4 /*yield*/, user_1.default.findOne({ email: req.body.user.email })];
+                case 3:
                     previousUser = _a.sent();
-                    if (!previousUser) return [3 /*break*/, 3];
+                    if (!previousUser) return [3 /*break*/, 4];
                     return [2 /*return*/, res
                             .status(409)
                             .send({ message: 'User already exists', status: 409 })];
-                case 3: return [4 /*yield*/, bcrypt_1.default.hash(req.body.user.password, saltRounds)];
-                case 4:
+                case 4: return [4 /*yield*/, bcrypt_1.default.hash(req.body.user.password, saltRounds)];
+                case 5:
                     hashedPassword = _a.sent();
                     return [4 /*yield*/, user_1.default.create({
                             email: req.body.user.email,
@@ -75,18 +78,18 @@ var UserControllers = {
                             firstName: req.body.user.firstName,
                             lastName: req.body.user.lastName,
                         })];
-                case 5:
+                case 6:
                     newUser = _a.sent();
                     req.session.uid = String(newUser._id); // TODO This could be a problem, lets see
                     res.status(201).send(JSON.stringify(newUser));
-                    _a.label = 6;
-                case 6: return [3 /*break*/, 8];
-                case 7:
+                    _a.label = 7;
+                case 7: return [3 /*break*/, 9];
+                case 8:
                     error_1 = _a.sent();
                     console.log(error_1);
                     res.sendStatus(500);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
             }
         });
     }); },
@@ -118,33 +121,30 @@ var UserControllers = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('trying login');
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 7, , 8]);
+                    _a.trys.push([0, 6, , 7]);
                     if (!(!req.body ||
                         !req.body.user ||
                         !req.body.user.email ||
-                        !req.body.user.password)) return [3 /*break*/, 2];
+                        !req.body.user.password)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 6];
-                case 2: return [4 /*yield*/, user_1.default.findOne({
+                    return [3 /*break*/, 5];
+                case 1: return [4 /*yield*/, user_1.default.findOne({
                         email: req.body.user.email,
                     }).populate({
                         path: 'uploadedAlbums sharedAlbums pendingInvite',
                         populate: { path: 'photos' },
                     })];
-                case 3:
+                case 2:
                     user = _a.sent();
-                    if (!!user) return [3 /*break*/, 4];
+                    if (!!user) return [3 /*break*/, 3];
                     res
                         .status(401)
                         .send({ error: '401', message: 'Email and/or password incorrect' });
-                    return [3 /*break*/, 6];
-                case 4: return [4 /*yield*/, bcrypt_1.default.compare(req.body.user.password, user.password)];
-                case 5:
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, bcrypt_1.default.compare(req.body.user.password, user.password)];
+                case 4:
                     valid = _a.sent();
                     if (valid) {
                         req.session.uid = String(user._id);
@@ -156,14 +156,14 @@ var UserControllers = {
                             message: 'Email and/or password incorrect',
                         });
                     }
-                    _a.label = 6;
-                case 6: return [3 /*break*/, 8];
-                case 7:
+                    _a.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     error_3 = _a.sent();
                     console.log(error_3);
                     res.sendStatus(500);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     }); },

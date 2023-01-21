@@ -3,6 +3,7 @@ import React from "react";
 import { login } from "../../ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import APIs from '../../APIServices/index'
 
 import Navbar from "./Navbar";
 const initialState = {
@@ -30,7 +31,7 @@ function Login(props) {
 
     const { email, password } = state;
     const user = { email: email, password: password };
-    const res = await login(user);
+    const res = await APIs.login(user);
     console.log(res);
     if (res.status === 401 || res.status === 400) {
       alert(`Error`);
