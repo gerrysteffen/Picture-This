@@ -25,6 +25,11 @@ export default function AlbumIcon({album}: {album: AlbumType}) {
           onClick={handleSelect}
           />
           <ImageListItemBar
+            sx={{
+              background:
+                'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
+                'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+            }}
             title={album.albumName}
             subtitle={`${album.date}`}
             actionIcon={

@@ -1,11 +1,12 @@
 import Image from '../models/image';
 import Album from '../models/album';
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 require('dotenv').config();
+import cloudinaryV2 from '../cloudinary';
 
-const cloudinaryV2 = cloudinary.v2;
+
 
 const ImageControllers = {
   uploadPhoto: async (req: Request, res: Response) => {
@@ -25,8 +26,8 @@ const ImageControllers = {
         const newImage = await Image.create({
           album: req.body.album._id,
           imgAddress: result.secure_url,
-          cloudinaryId: result.id,
-          uploader: req.session.uid,
+          cloudinaryId: result.asset_id,
+          owner: req.session.uid,
         });
         await Album.findOneAndUpdate(
           { _id: req.body.album._id },

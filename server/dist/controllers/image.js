@@ -41,10 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var image_1 = __importDefault(require("../models/image"));
 var album_1 = __importDefault(require("../models/album"));
-var cloudinary_1 = __importDefault(require("cloudinary"));
 var mongoose_1 = __importDefault(require("mongoose"));
 require('dotenv').config();
-var cloudinaryV2 = cloudinary_1.default.v2;
+var cloudinary_1 = __importDefault(require("../cloudinary"));
 var ImageControllers = {
     uploadPhoto: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var result, newImage, error_1;
@@ -62,14 +61,14 @@ var ImageControllers = {
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 5];
-                case 1: return [4 /*yield*/, cloudinaryV2.uploader.upload(req.body.image.data)];
+                case 1: return [4 /*yield*/, cloudinary_1.default.uploader.upload(req.body.image.data)];
                 case 2:
                     result = _a.sent();
                     return [4 /*yield*/, image_1.default.create({
                             album: req.body.album._id,
                             imgAddress: result.secure_url,
-                            cloudinaryId: result.id,
-                            uploader: req.session.uid,
+                            cloudinaryId: result.asset_id,
+                            owner: req.session.uid,
                         })];
                 case 3:
                     newImage = _a.sent();
