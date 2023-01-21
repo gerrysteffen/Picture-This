@@ -8,7 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
-import { IconButton } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from '@mui/material';
+import ShareAlbumDialog from './ShareAlbumDialog';
 
 export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFiles:any}) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -19,7 +20,11 @@ export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFi
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
+  const [shareAlbumOpen, setShareAlbumOpen] = React.useState(false);
+  const openShareAlbumDialogue = () => {
+    setShareAlbumOpen(true);
+  }
   return (
     <React.Fragment>
       <Box sx={{ position: 'fixed', bottom: 20, right: 20}}>
@@ -57,7 +62,7 @@ export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFi
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <label htmlFor="file-input">
+        <label htmlFor="file-input" style={{margin: 0, padding:0}}>
         <MenuItem>
           <IconButton >
             <AddPhotoAlternateIcon fontSize='small'/>
@@ -71,13 +76,16 @@ export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFi
           </ListItemIcon>
           Rename Album
         </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
+        <MenuItem onClick={openShareAlbumDialogue}>
+          <ListItemIcon >
             <ShareIcon fontSize="small" />
           </ListItemIcon>
           Share Album
         </MenuItem>
       </Menu>
+
+      <ShareAlbumDialog shareAlbumOpen={shareAlbumOpen} setShareAlbumOpen={setShareAlbumOpen} />
+
     </React.Fragment>
   );
 }

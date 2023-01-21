@@ -43,7 +43,7 @@ export default function ImgaesDashboard() {
   if (album && album.photos.length>0) {
     return (
       <React.Fragment>
-        <Box sx={{mt:10, overflowY: 'visible' }}>
+        <Box sx={{mt:9.4, overflowY: 'visible' }}>
           <input
             id="file-input"
             type="file"
