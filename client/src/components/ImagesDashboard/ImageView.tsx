@@ -7,8 +7,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Box } from '@mui/system';
 import APIs from "../../APIServices/index"
 
-export default function ImageView({item, index, deleteImage}:{item:PhotoType, index:number, deleteImage(index:number):void}) {
-  const [likedByUser, setLikedByUser] = useState(false)
+export default function ImageView({item, liked, index, deleteImage}:
+    {item:PhotoType, liked: boolean, index:number, deleteImage(index:number):void}) 
+{
+  const [likedByUser, setLikedByUser] = useState(liked)
   const toggleLike = () =>{
     console.log('user trying to like')
     APIs.likePhoto(item._id);
@@ -19,11 +21,6 @@ export default function ImageView({item, index, deleteImage}:{item:PhotoType, in
     deleteImage(index);
     // APIs.deletePhoto(item._id);
   }
-  //check like status of image
-  useEffect(() => {
-    // if (item.liked.length > 0)
-      console.log(item.liked);
-  }, [])
   return (
     <ImageListItem>
       <img 
