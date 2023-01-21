@@ -8,11 +8,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import APIs from '../../APIServices/index'
 
-export default function NavBar() {
+export default function NavBar(props: any) {
   let navigate = useNavigate();
   const logout = async () => {
+    props.setIsAuthenticated(false)
     await APIs.logout()
-    navigate('/');
   }
   const goHome = () => navigate('/1');
 
@@ -33,7 +33,7 @@ export default function NavBar() {
             <img height="35" src='../picture-this1.png' alt='Logo'/>
           </Box>
           <IconButton
-            onClick={logout}
+            onClick={()=>logout()}
             size="large"
             color="inherit">
             <LogoutIcon />

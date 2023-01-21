@@ -8,7 +8,7 @@ export default {
       const response = await fetch(root + '/user/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
+        body: JSON.stringify({user}),
         credentials: 'include',
       });
       return response.json();

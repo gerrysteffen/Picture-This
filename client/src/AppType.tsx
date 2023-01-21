@@ -12,11 +12,15 @@ import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
 import APIs from "./APIServices/index";
 import { UserType } from "./types";
 import ImgaesDashboard from "./components/ImagesDashboard/ImgaesDashboard";
+import SignIn from "./components/UI-Components/SignIn";
+import SignUp from "./components/UI-Components/SignUp";
 
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
   const [currentAlbum, setCurrentAlbum] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isExistingUser, setIsExistingUser] = useState(true)
 
   useEffect(() => {
     APIs.refreshUser().then( (data) => {
@@ -25,11 +29,28 @@ function AppType() {
     });
   }, [])
 
+  const authUtils: {} = {
+    setCurrentUser: setCurrentUser,
+    setIsExistingUser: setIsExistingUser,
+    setIsAuthenticated: setIsAuthenticated
+  }
+
+  if (!isAuthenticated && isExistingUser) return(
+    <div>
+      <SignIn authUtils={authUtils} />
+    </div>
+  )
+
+  if (!isAuthenticated && !isExistingUser) return(
+    <div>
+      <SignUp authUtils={authUtils} />
+    </div>
+  )
 
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
+        <NavBar setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           <Route
             path="/1"
