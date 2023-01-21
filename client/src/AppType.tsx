@@ -11,10 +11,9 @@ import NavBar from "./components/UI-Components/NavBar";
 import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
 import APIs from "./APIServices/index";
 import { UserType } from "./types";
-import ImgaesDashboard from "./components/ImagesDashboard/ImgaesDashboard";
 import SignIn from "./components/UI-Components/SignIn";
 import SignUp from "./components/UI-Components/SignUp";
-
+import ImgaesDashboard from "./components/ImagesDashboard/ImagesDashboard";
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);

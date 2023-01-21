@@ -48,29 +48,26 @@ var UserControllers = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('registration in progress');
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 8, , 9]);
+                    _a.trys.push([0, 7, , 8]);
                     if (!(!req.body ||
                         !req.body.user ||
                         !req.body.user.email ||
                         !req.body.user.password ||
                         !req.body.user.firstName ||
-                        !req.body.user.lastName)) return [3 /*break*/, 2];
+                        !req.body.user.lastName)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 7];
-                case 2: return [4 /*yield*/, user_1.default.findOne({ email: req.body.user.email })];
-                case 3:
+                    return [3 /*break*/, 6];
+                case 1: return [4 /*yield*/, user_1.default.findOne({ email: req.body.user.email })];
+                case 2:
                     previousUser = _a.sent();
-                    if (!previousUser) return [3 /*break*/, 4];
+                    if (!previousUser) return [3 /*break*/, 3];
                     return [2 /*return*/, res
                             .status(409)
-                            .send({ message: 'User already exists', status: 409 })];
-                case 4: return [4 /*yield*/, bcrypt_1.default.hash(req.body.user.password, saltRounds)];
-                case 5:
+                            .send({ message: 'User already exists', error: 409 })];
+                case 3: return [4 /*yield*/, bcrypt_1.default.hash(req.body.user.password, saltRounds)];
+                case 4:
                     hashedPassword = _a.sent();
                     return [4 /*yield*/, user_1.default.create({
                             email: req.body.user.email,
@@ -78,18 +75,18 @@ var UserControllers = {
                             firstName: req.body.user.firstName,
                             lastName: req.body.user.lastName,
                         })];
-                case 6:
+                case 5:
                     newUser = _a.sent();
                     req.session.uid = String(newUser._id); // TODO This could be a problem, lets see
                     res.status(201).send(JSON.stringify(newUser));
-                    _a.label = 7;
-                case 7: return [3 /*break*/, 9];
-                case 8:
+                    _a.label = 6;
+                case 6: return [3 /*break*/, 8];
+                case 7:
                     error_1 = _a.sent();
                     console.log(error_1);
                     res.sendStatus(500);
-                    return [3 /*break*/, 9];
-                case 9: return [2 /*return*/];
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/];
             }
         });
     }); },

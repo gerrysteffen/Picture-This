@@ -1,11 +1,10 @@
 import Image from '../models/image';
 import Album from '../models/album';
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 require('dotenv').config();
-
-const cloudinaryV2 = cloudinary.v2;
+import cloudinaryV2 from '../cloudinary';
 
 const ImageControllers = {
   uploadPhoto: async (req: Request, res: Response) => {
@@ -25,8 +24,8 @@ const ImageControllers = {
         const newImage = await Image.create({
           album: req.body.album._id,
           imgAddress: result.secure_url,
-          cloudinaryId: result.id,
-          uploader: req.session.uid,
+          cloudinaryId: result.asset_id,
+          owner: req.session.uid,
         });
         await Album.findOneAndUpdate(
           { _id: req.body.album._id },
@@ -49,6 +48,7 @@ const ImageControllers = {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
+        console.log(req.body.image._id)
         let currentPhoto = await Image.findOne({ _id: req.body.image._id });
         if (!currentPhoto) {
           res.status(400).send(
@@ -58,11 +58,7 @@ const ImageControllers = {
             })
           );
         } else {
-          if (
-            currentPhoto.liked.includes(
-              new mongoose.Types.ObjectId(req.session.uid)
-            )
-          ) {
+          if (!currentPhoto.liked.includes(new mongoose.Types.ObjectId(req.session.uid))) {
             await Image.findOneAndUpdate(
               { _id: req.body.image._id },
               {
