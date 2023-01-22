@@ -45,7 +45,7 @@ export default {
   
   deleteAlbum: async (albumId: string) => {
     try {
-      const response = await fetch(root + '/album/' +albumId, {
+      const response = await fetch(root + '/album/' + albumId, {
         method: 'DELETE',
         // headers: {
         //   'Content-Type': 'application/json',

@@ -7,11 +7,18 @@ import { AlbumType } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/system';
 import placeholder from './placeholder.png'
+import APIs from "../../APIServices/index"
 
-export default function AlbumIcon({album}: {album: AlbumType}) {
+type AlbumIconType ={ 
+  index: number,
+  album: AlbumType,
+  deleteAlbum(index:number, id:string): void,
+} 
+
+export default function AlbumIcon({index, album, deleteAlbum}: AlbumIconType) {
   const navigate = useNavigate();
   function handleDelete () {
-    console.log('User wants to delete', album._id);
+    deleteAlbum(index, album._id);
   }
   function handleSelect () {
     console.log('User wants to view', album._id);
@@ -23,7 +30,6 @@ export default function AlbumIcon({album}: {album: AlbumType}) {
       <Box >
         <img
           src={album.photos[0] ? album.photos[0].imgAddress : placeholder}
-          // src={placeholder}
           alt={album.albumName}
           loading="lazy"
           height={250}
