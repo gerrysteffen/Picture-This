@@ -6,6 +6,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { AlbumType } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/system';
+import placeholder from './placeholder.png'
 
 export default function AlbumIcon({album}: {album: AlbumType}) {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ export default function AlbumIcon({album}: {album: AlbumType}) {
   }
   return (
     <ImageListItem >
-      {album.photos[0] ? 
       <Box >
         <img
-          src={album.photos[0].imgAddress}
+          src={album.photos[0] ? album.photos[0].imgAddress : placeholder}
+          // src={placeholder}
           alt={album.albumName}
           loading="lazy"
           height={250}
@@ -43,9 +44,6 @@ export default function AlbumIcon({album}: {album: AlbumType}) {
             }
           />
       </Box>
-      :
-      <div> No img </div>
-      }
     </ImageListItem>
   )
 }

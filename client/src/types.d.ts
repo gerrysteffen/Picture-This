@@ -24,3 +24,4 @@ export interface PhotoType {
   liked: string[],
   uploader: string
 }
+

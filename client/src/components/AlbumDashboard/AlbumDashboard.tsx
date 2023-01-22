@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Divider, Typography } from '@mui/material';
 import { AlbumType, UserType } from '../../types';
 import AlbumViewer from './AlbumViewer';
-import AddAlbumButton from '../UI-Components/AddAlbumButton';
+import AddAlbumButton from './AddAlbumButton';
 
 export default function AlbumDashboard({currentUser}:{currentUser: UserType | null}) {
   const [userAlbums, setUserAlbums] = useState<AlbumType[] | null>();
