@@ -5,7 +5,13 @@ import { AlbumType } from '../../types';
 import AlbumIcon from './AlbumIcon';
 import APIs from "../../APIServices/index"
 
-export default function AlbumViewer({albums, setAlbums}: {albums: AlbumType[], setAlbums(albums:AlbumType[]):void}) {
+type AlbumViewerType = {
+  albums: AlbumType[],
+  setAlbums(albums:AlbumType[]):void,
+  userId: string
+}
+
+export default function AlbumViewer({albums, setAlbums, userId}: AlbumViewerType) {
   const deleteAlbum = (index:number, id:string) => {
     console.log('deleting album: ', id);
     const newAlbums = [...albums];
@@ -17,7 +23,7 @@ export default function AlbumViewer({albums, setAlbums}: {albums: AlbumType[], s
     <ImageList sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
         {albums.map((album, index) => (
-          <AlbumIcon key={album.albumName} index={index} album={album} deleteAlbum={deleteAlbum}/>
+          <AlbumIcon key={album.albumName} index={index} album={album} deleteAlbum={deleteAlbum} userId={userId}/>
         ))}
       </Box>
     </ImageList>

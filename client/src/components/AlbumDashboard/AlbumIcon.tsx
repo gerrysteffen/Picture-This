@@ -8,14 +8,16 @@ import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/system';
 import placeholder from './placeholder.png'
 import APIs from "../../APIServices/index"
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 type AlbumIconType ={ 
   index: number,
   album: AlbumType,
   deleteAlbum(index:number, id:string): void,
+  userId: string
 } 
 
-export default function AlbumIcon({index, album, deleteAlbum}: AlbumIconType) {
+export default function AlbumIcon({index, album, deleteAlbum, userId}: AlbumIconType) {
   const navigate = useNavigate();
   function handleDelete () {
     deleteAlbum(index, album._id);
@@ -45,7 +47,12 @@ export default function AlbumIcon({index, album, deleteAlbum}: AlbumIconType) {
             subtitle={`${album.date}`}
             actionIcon={
               <IconButton onClick={handleDelete} sx={{ color: 'rgba(255, 255, 255, 0.54)' }}>
-                <DeleteOutlineIcon />
+                {userId === album.owner ? (
+                  <DeleteOutlineIcon />
+                ):(
+                  <ExitToAppIcon />
+                )
+              }
               </IconButton>
             }
           />

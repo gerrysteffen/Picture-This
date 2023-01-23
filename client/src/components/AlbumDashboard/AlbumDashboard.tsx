@@ -34,12 +34,12 @@ export default function AlbumDashboard({currentUser}:{currentUser: UserType | nu
           My Albums
         </Typography>
         <Divider/>
-        <AlbumViewer albums={userAlbums} setAlbums={setUserAlbums}/>
+        {currentUser?._id && (<AlbumViewer albums={userAlbums} setAlbums={setUserAlbums} userId={currentUser._id} />)}
         <Typography variant='h5' sx={{marginTop:3}}>
           Shared Albums
         </Typography>
         <Divider/>
-        <AlbumViewer albums={sharedAlbums} setAlbums={setSharedAlbums}/>
+        {currentUser?._id && (<AlbumViewer albums={sharedAlbums} setAlbums={setSharedAlbums} userId={currentUser._id} />)}
         <AddAlbumButton />
       </React.Fragment>
     )
