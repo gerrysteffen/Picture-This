@@ -4,21 +4,32 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { AlbumType } from '../../types';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/system';
+import placeholder from './placeholder.png'
+import APIs from "../../APIServices/index"
 
-export default function AlbumIcon({album}: {album: AlbumType}) {
+type AlbumIconType ={ 
+  index: number,
+  album: AlbumType,
+  deleteAlbum(index:number, id:string): void,
+} 
+
+export default function AlbumIcon({index, album, deleteAlbum}: AlbumIconType) {
+  const navigate = useNavigate();
   function handleDelete () {
-    console.log('User wants to delete', album._id);
+    deleteAlbum(index, album._id);
   }
   function handleSelect () {
     console.log('User wants to view', album._id);
+    const path = `/albums/${album._id}`
+    navigate(path);
   }
   return (
     <ImageListItem >
-      {album.photos[0] ? 
-      <Link to={`/albums/${album._id}`}>
+      <Box >
         <img
-          src={album.photos[0].imgAddress}
+          src={album.photos[0] ? album.photos[0].imgAddress : placeholder}
           alt={album.albumName}
           loading="lazy"
           height={250}
@@ -38,10 +49,7 @@ export default function AlbumIcon({album}: {album: AlbumType}) {
               </IconButton>
             }
           />
-      </Link>
-      :
-      <div> No img </div>
-      }
+      </Box>
     </ImageListItem>
   )
 }

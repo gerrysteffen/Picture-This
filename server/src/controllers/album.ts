@@ -155,7 +155,7 @@ export default {
             .status(400)
             .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
         } else {
-          if (String(album.owner) !== req.session.id) {
+          if (String(album.owner) !== req.session.uid) {
             await User.updateOne(
               { _id: req.session.uid },
               {

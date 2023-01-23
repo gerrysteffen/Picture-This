@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Divider, Typography } from '@mui/material';
 import { AlbumType, UserType } from '../../types';
 import AlbumViewer from './AlbumViewer';
+import AddAlbumButton from './AddAlbumButton';
 
 export default function AlbumDashboard({currentUser}:{currentUser: UserType | null}) {
   const [userAlbums, setUserAlbums] = useState<AlbumType[] | null>();
@@ -30,12 +31,13 @@ export default function AlbumDashboard({currentUser}:{currentUser: UserType | nu
           My Albums
         </Typography>
         <Divider/>
-        <AlbumViewer albums={userAlbums} />
+        <AlbumViewer albums={userAlbums} setAlbums={setUserAlbums}/>
         <Typography variant='h5' sx={{marginTop:3}}>
           Shared Albums
         </Typography>
         <Divider/>
-        <AlbumViewer albums={sharedAlbums}/>
+        <AlbumViewer albums={sharedAlbums} setAlbums={setSharedAlbums}/>
+        <AddAlbumButton />
       </React.Fragment>
     )
   } else {

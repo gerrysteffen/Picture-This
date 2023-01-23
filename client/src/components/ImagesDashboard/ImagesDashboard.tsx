@@ -40,26 +40,20 @@ export default function ImgaesDashboard() {
     }
   }, [selectedFiles]);
 
-  if (album && album.photos.length>0) {
-    return (
-      <React.Fragment>
-        <Box sx={{mt:9.4, overflowY: 'visible' }}>
-          <input
-            id="file-input"
-            type="file"
-            multiple
-            onChange={handleFileSelect}
-            style={{ display: "none" }}
-          />
-          {/* <p>Selected files: {selectedFiles.length}</p> */}
-          <ImagesViewer setAlbum={setAlbum} album={album} />
-        </Box>
-        <ImageDashboardToolMenu  setSelectedFiles={setSelectedFiles}/>
-      </React.Fragment>
-    )
-  } else {
-    return (
-      <div>No Photos found</div>
-    )
-  }
+  return (
+    <React.Fragment>
+      <Box sx={{mt:9.4, overflowY: 'visible' }}>
+        <input
+          id="file-input"
+          type="file"
+          multiple
+          onChange={handleFileSelect}
+          style={{ display: "none" }}
+        />
+        {album && album.photos.length>0 && (<ImagesViewer setAlbum={setAlbum} album={album} />)}
+        
+      </Box>
+      <ImageDashboardToolMenu  setSelectedFiles={setSelectedFiles}/>
+    </React.Fragment>
+  )
 }
