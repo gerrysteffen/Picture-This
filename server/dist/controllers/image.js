@@ -67,7 +67,7 @@ var ImageControllers = {
                     return [4 /*yield*/, image_1.default.create({
                             album: req.body.album._id,
                             imgAddress: result.secure_url,
-                            cloudinaryId: result.asset_id,
+                            cloudinaryId: result.public_id,
                             owner: req.session.uid,
                         })];
                 case 3:
@@ -139,28 +139,35 @@ var ImageControllers = {
         });
     }); },
     deletePhoto: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var error_3;
+        var image, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    _a.trys.push([0, 6, , 7]);
                     if (!(!req.params || !req.params.id)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 3];
-                case 1: return [4 /*yield*/, image_1.default.deleteOne({ _id: req.params.id })];
+                    return [3 /*break*/, 5];
+                case 1: return [4 /*yield*/, image_1.default.findOneAndDelete({ _id: req.params.id })];
                 case 2:
+                    image = _a.sent();
+                    if (!(image && image.cloudinaryId)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, cloudinary_1.default.uploader.destroy(image.cloudinaryId)];
+                case 3:
                     _a.sent();
-                    res.sendStatus(204); // TODO delete on cloudinary
-                    _a.label = 3;
-                case 3: return [3 /*break*/, 5];
+                    _a.label = 4;
                 case 4:
+                    console.log('success');
+                    res.sendStatus(204); // TODO delete on cloudinary
+                    _a.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     error_3 = _a.sent();
                     console.log(error_3);
                     res.status(500);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     }); },
