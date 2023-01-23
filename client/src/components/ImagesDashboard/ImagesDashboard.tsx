@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { AlbumType } from '../../types';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { AlbumType, PhotoType } from '../../types';
 import Box from '@mui/material/Box';
 import ImageDashboardToolMenu from './ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
@@ -12,48 +12,66 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   useEffect(() => {
     if (albumId) {
-      APIs.getAlbum(albumId).then(album => {
+      APIs.getAlbum(albumId).then((album: AlbumType) => {
         if (album) {
           setAlbum(album);
         }
-      })
+      });
     }
-  }, [])
+  }, []);
 
-
-  function handleFileSelect(event:any) {
+  function handleFileSelect(event: any) {
     setSelectedFiles(event.target.files);
   }
 
   //Change in selected file upload new photos
   useEffect(() => {
-    if (selectedFiles.length === 1) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFiles[0]);
-      reader.onloadend = () => {
-        const data = reader.result;
-        if (typeof albumId === 'string' && typeof data === 'string'){
-          APIs.uploadPhoto({album: albumId, data: data})
-          console.log('sending photo')
-        }
+    if (album && album.photos) {
+      const uploadPhotos = async () => {
+        const results: (PhotoType | undefined)[] = await Promise.all(
+          Array.from(selectedFiles).map(async (file) => {
+            const reader = new FileReader();
+            console.log('starting');
+            reader.readAsDataURL(file);
+            const data = await new Promise((res) => {
+              reader.onloadend = () => {
+                res(reader.result);
+              };
+            });
+            if (typeof albumId === 'string' && typeof data === 'string') {
+              const res = (await APIs.uploadPhoto({
+                album: albumId,
+                data: data,
+              })) as PhotoType;
+              return res;
+            } else {
+              return undefined;
+            }
+          })
+        );
+        const sanitisedPhotos = results.filter(Boolean) as PhotoType[];
+        let newAlbum = { ...album };
+        newAlbum.photos.push(...sanitisedPhotos);
+        setAlbum(newAlbum);
       };
+      uploadPhotos();
     }
   }, [selectedFiles]);
 
   return (
     <React.Fragment>
-      <Box sx={{mt:9.4, overflowY: 'visible' }}>
+      <Box sx={{ mt: 9.4, overflowY: 'visible' }}>
         <input
-          id="file-input"
-          type="file"
+          id='file-input'
+          type='file'
           multiple
           onChange={handleFileSelect}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
         />
         {album && album.photos.length>0 && userId && (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />)}
         
       </Box>
       <ImageDashboardToolMenu albumId={albumId} setSelectedFiles={setSelectedFiles}/>
     </React.Fragment>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import { refreshUser } from "../../ApiClient";
+import { refreshUser } from "./ApiClient";
 import NewAlbum from "./NewAlbum";
 import AlbumItem from "./AlbumItem";
 import Invites from "./Invites";

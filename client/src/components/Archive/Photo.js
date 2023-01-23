@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { likePhoto, deletePhoto } from "../../ApiClient";
+import { likePhoto, deletePhoto } from "./ApiClient";
 
 function Photo(props) {
   const [like, setLike] = useState(true);

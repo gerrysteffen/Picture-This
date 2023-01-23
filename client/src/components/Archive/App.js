@@ -1,14 +1,14 @@
-import Main from "./components/Archive/Main";
-import Login from "./components/Archive/Login";
-import Profile from "./components/Archive/Profile";
+import Main from "./Main";
+import Login from "./Login";
+import Profile from "./Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./components/Archive/Register";
-import NewAlbum from "./components/Archive/NewAlbum";
+import Register from "./Register";
+import NewAlbum from "./NewAlbum";
 import { useState } from "react";
-import Invites from "./components/Archive/Invites";
-import MainShare from "./components/Archive/MainShare";
-import NavBar from "./components/UI-Components/NavBar";
-import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
+import Invites from "./Invites";
+import MainShare from "./MainShare";
+import NavBar from "../UI-Components/NavBar";
+import AlbumDashboard from "../AlbumDashboard/AlbumDashboard";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});

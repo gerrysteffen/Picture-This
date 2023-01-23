@@ -1,6 +1,6 @@
 import React from "react";
 // import auth from '../utils/auth';
-import { login } from "../../ApiClient";
+import { login } from "./ApiClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import APIs from '../../APIServices/index'

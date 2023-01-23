@@ -46,10 +46,16 @@ const UserControllers = {
 
   getUser: async (req: Request, res: Response) => {
     try {
-      const user = await User.findOne({ _id: req.session.uid }).populate({
-        path: 'uploadedAlbums sharedAlbums pendingInvite', //TODO Never seen it like this, will refactor later
-        populate: { path: 'photos' },
-      });
+      const user = await User.findOne({ _id: req.session.uid }).select('-password').populate([{
+        path: 'uploadedAlbums',
+        populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
+      }, {
+        path: 'sharedAlbums',
+        populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
+      }, {
+        path: 'pendingInvite',
+        populate: { path: 'owner', model: 'user' },
+      }]);
       res.status(200).send(JSON.stringify(user));
     } catch (error) {
       console.log(error);
@@ -71,10 +77,16 @@ const UserControllers = {
       } else {
         const user = await User.findOne({
           email: req.body.user.email,
-        }).populate({
-          path: 'uploadedAlbums sharedAlbums pendingInvite',
-          populate: { path: 'photos' },
-        });
+        }).populate([{
+          path: 'uploadedAlbums',
+          populate: [{ path: 'photos' }, { path: 'owner' }],
+        }, {
+          path: 'sharedAlbums',
+          populate: [{ path: 'photos'}, { path: 'owner'}],
+        }, {
+          path: 'pendingInvite',
+          populate: { path: 'owner' },
+        }]);
         if (!user) {
           res
             .status(401)
@@ -86,6 +98,7 @@ const UserControllers = {
           );
           if (valid) {
             req.session.uid = String(user._id);
+            user.password = 'N/A'
             res.status(200).send(JSON.stringify(user));
           } else {
             res.status(401).send({

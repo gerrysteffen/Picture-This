@@ -1,5 +1,5 @@
 import React from "react";
-import { getAlbum, deleteAlbum } from "../../ApiClient";
+import { getAlbum, deleteAlbum } from "./ApiClient";
 import { useNavigate } from "react-router-dom";
 function AlbumItem(props) {
   const navigate = useNavigate();
