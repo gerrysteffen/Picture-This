@@ -6,37 +6,37 @@ import Toolbar from '@mui/material/Toolbar';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
-import APIs from '../../APIServices/index'
+import APIs from '../../APIServices/index';
 
 export default function NavBar(props: any) {
   let navigate = useNavigate();
   const logout = async () => {
-    props.setIsAuthenticated(false)
+    props.setIsAuthenticated(false);
     // localStorage.removeItem('isAuthenticated');
-    await APIs.logout()
-  }
+    await APIs.logout();
+    navigate('/');
+  };
   const goHome = () => navigate('/');
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.9)' }}>
+      <AppBar
+        sx={{ color: 'black', backgroundColor: 'rgba(223, 225, 226, 0.9)' }}
+      >
         <Toolbar>
           <IconButton
             onClick={goHome}
-            size="large"
-            edge="start"
-            color="inherit"
+            size='large'
+            edge='start'
+            color='inherit'
             sx={{ mr: 2 }}
           >
             <HomeIcon />
           </IconButton>
-          <Box sx={{ flexGrow: 1 , p:1.5}}>
-            <img height="35" src='../picture-this1.png' alt='Logo'/>
+          <Box sx={{ flexGrow: 1, p: 1.5 }}>
+            <img height='35' src='../picture-this1.png' alt='Logo' />
           </Box>
-          <IconButton
-            onClick={()=>logout()}
-            size="large"
-            color="inherit">
+          <IconButton onClick={() => logout()} size='large' color='inherit'>
             <LogoutIcon />
           </IconButton>
         </Toolbar>
