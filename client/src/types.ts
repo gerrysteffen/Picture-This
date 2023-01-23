@@ -20,7 +20,7 @@ export interface AlbumType {
   albumName: string,
   date: string
   photos: PhotoType[],
-  owner: string
+  owner: UserType
 }
 
 export interface PhotoType {

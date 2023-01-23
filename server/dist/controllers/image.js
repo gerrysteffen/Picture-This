@@ -55,8 +55,7 @@ var ImageControllers = {
                         !req.body.album ||
                         !req.body.album._id ||
                         !req.body.image ||
-                        !req.body.image.data) // TODO need more information about what is behind this info
-                    ) return [3 /*break*/, 1]; // TODO need more information about what is behind this info
+                        !req.body.image.data)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
@@ -158,8 +157,7 @@ var ImageControllers = {
                     _a.sent();
                     _a.label = 4;
                 case 4:
-                    console.log('success');
-                    res.sendStatus(204); // TODO delete on cloudinary
+                    res.sendStatus(204);
                     _a.label = 5;
                 case 5: return [3 /*break*/, 7];
                 case 6:

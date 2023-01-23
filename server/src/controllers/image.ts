@@ -14,7 +14,7 @@ const ImageControllers = {
         !req.body.album ||
         !req.body.album._id ||
         !req.body.image ||
-        !req.body.image.data // TODO need more information about what is behind this info
+        !req.body.image.data
       ) {
         res
           .status(400)
@@ -91,8 +91,7 @@ const ImageControllers = {
       } else {
         const image = await Image.findOneAndDelete({ _id: req.params.id });
         if (image && image.cloudinaryId) await cloudinaryV2.uploader.destroy(image.cloudinaryId);
-        console.log('success')
-        res.sendStatus(204); // TODO delete on cloudinary
+        res.sendStatus(204);
       }
     } catch (error) {
       console.log(error);
