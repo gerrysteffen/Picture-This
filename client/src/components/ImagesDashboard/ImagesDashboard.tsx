@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AlbumType } from '../../types';
 import Box from '@mui/material/Box';
-import ImageDashboardToolMenu from '../UI-Components/ImageDashboardToolMenu';
+import ImageDashboardToolMenu from './ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
 import ImagesViewer from './ImagesViewer';
 
@@ -53,7 +53,7 @@ export default function ImgaesDashboard() {
         {album && album.photos.length>0 && (<ImagesViewer setAlbum={setAlbum} album={album} />)}
         
       </Box>
-      <ImageDashboardToolMenu  setSelectedFiles={setSelectedFiles}/>
+      <ImageDashboardToolMenu albumId={albumId} setSelectedFiles={setSelectedFiles}/>
     </React.Fragment>
   )
 }

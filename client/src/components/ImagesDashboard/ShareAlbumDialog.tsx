@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,10 +6,27 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import APIs from "../../APIServices/index"
 
-export default function ShareAlbumDialog({shareAlbumOpen, setShareAlbumOpen}:{shareAlbumOpen: boolean, setShareAlbumOpen(shareAlbumOpen:boolean):void}) {
+type ShareAlbumDialogType = {
+  shareAlbumOpen: boolean, 
+  setShareAlbumOpen(shareAlbumOpen:boolean):void,
+  albumId: string | undefined
+}
+
+export default function ShareAlbumDialog({shareAlbumOpen, setShareAlbumOpen, albumId}:ShareAlbumDialogType ) {
+  const [email, setEmail] = useState('');
+
   const closeShareAlbumDialogue = () => {
+    setEmail('');
     setShareAlbumOpen(false);
+  }
+  const sendInvite = () => {
+    if (albumId) {
+      // console.log(email, albumId);
+      APIs.shareAlbumRequest(email, albumId);
+    }
+    closeShareAlbumDialogue();
   }
   return (
     <Dialog open={shareAlbumOpen} onClose={closeShareAlbumDialogue}>
@@ -27,11 +44,13 @@ export default function ShareAlbumDialog({shareAlbumOpen, setShareAlbumOpen}:{sh
         type="email"
         fullWidth
         variant="standard"
+        value={email}
+        onChange={(newEmail) => setEmail(newEmail.target.value)}
       />
     </DialogContent>
     <DialogActions>
       <Button onClick={closeShareAlbumDialogue}>Cancel</Button>
-      <Button onClick={closeShareAlbumDialogue}>Send Invite</Button>
+      <Button onClick={sendInvite}>Send Invite</Button>
     </DialogActions>
   </Dialog>
   );

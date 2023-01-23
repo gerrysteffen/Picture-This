@@ -17,7 +17,6 @@ import ImgaesDashboard from "./components/ImagesDashboard/ImagesDashboard";
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
-  const [currentAlbum, setCurrentAlbum] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isExistingUser, setIsExistingUser] = useState(true)
 
@@ -57,56 +56,16 @@ function AppType() {
   return (
     <div>
       <BrowserRouter>
-        <NavBar setIsAuthenticated={setIsAuthenticated} />
+        {currentUser && (<NavBar setIsAuthenticated={setIsAuthenticated} currentUser={currentUser}/>)}
         <Routes>
           <Route
             path="/"
             element={
               <AlbumDashboard
-                currentUser={currentUser}
-                // currentAlbum={currentAlbum}
-                // setCurrentAlbum={setCurrentAlbum}
-              />
+                currentUser={currentUser}/>
             }
           />
           <Route path="/albums/:albumId" element={<ImgaesDashboard />} />
-          {/* <Route
-            path="/login"
-            element={<Login setCurrentUser={setCurrentUser} />}
-          /> */}
-          {/* <Route
-            path="/main"
-            element={
-              <Main
-                currentAlbum={currentAlbum}
-                setCurrentUser={setCurrentUser}
-                currentUser={currentUser}
-              />
-            }
-          /> */}
-          {/* <Route path="/new" element={<NewAlbum />} /> */}
-          {/* <Route
-            path="/profile"
-            element={
-              <Profile
-                setCurrentUser={setCurrentUser}
-                currentUser={currentUser}
-                currentAlbum={currentAlbum}
-                setCurrentAlbum={setCurrentAlbum}
-              />
-            }
-          /> */}
-          {/* <Route path="/help" element={<Invites currentUser={currentUser} />} />
-          <Route
-            path="/main-share"
-            element={
-              <MainShare
-                currentAlbum={currentAlbum}
-                setCurrentUser={setCurrentUser}
-                currentUser={currentUser}
-              />
-            }
-          /> */}
         </Routes>
       </BrowserRouter>
     </div>

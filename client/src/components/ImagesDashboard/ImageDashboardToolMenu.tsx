@@ -5,7 +5,12 @@ import AddIcon from '@mui/icons-material/Add';
 import ShareAlbumDialog from './ShareAlbumDialog';
 import ImageDashboardPopUp from './ImageDashboardPopUp';
 
-export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFiles:any}) {
+type ImageDashboardToolMenuType = {
+  setSelectedFiles:any,
+  albumId: string | undefined
+}
+
+export default function ImageDashboardToolMenu( {setSelectedFiles, albumId}:ImageDashboardToolMenuType ) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,7 +34,7 @@ export default function ImageDashboardToolMenu({setSelectedFiles}:{setSelectedFi
       </Box>
       <ImageDashboardPopUp anchorEl={anchorEl} openShareAlbumDialogue={openShareAlbumDialogue} 
         open={open} handleClose={handleClose}/>
-      <ShareAlbumDialog shareAlbumOpen={shareAlbumOpen} setShareAlbumOpen={setShareAlbumOpen} />
+      <ShareAlbumDialog albumId={albumId} shareAlbumOpen={shareAlbumOpen} setShareAlbumOpen={setShareAlbumOpen} />
     </React.Fragment>
   );
 }

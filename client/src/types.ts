@@ -4,8 +4,14 @@ export interface UserType {
   firstName?: string,
   lastName?: string,
   sharedAlbums?: AlbumType[],
-  pendingInvite?: [string],
+  pendingInvite?: PendingInviteType[],
   uploadedAlbums?: AlbumType[],
+}
+
+export interface PendingInviteType {
+  albumName: string,
+  owner: string,
+  _id: string
 }
 
 export interface AlbumType {

@@ -7,11 +7,18 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import APIs from '../../APIServices/index'
+import NotificationDropDown from './NotificationDropDown';
+import { UserType } from '../../types';
 
-export default function NavBar(props: any) {
+type NavBarType = {
+  setIsAuthenticated(user: boolean):void, 
+  currentUser: UserType
+}
+
+export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
   let navigate = useNavigate();
   const logout = async () => {
-    props.setIsAuthenticated(false)
+    setIsAuthenticated(false)
     // localStorage.removeItem('isAuthenticated');
     await APIs.logout()
   }
@@ -21,6 +28,7 @@ export default function NavBar(props: any) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.9)' }}>
         <Toolbar>
+
           <IconButton
             onClick={goHome}
             size="large"
@@ -30,15 +38,20 @@ export default function NavBar(props: any) {
           >
             <HomeIcon />
           </IconButton>
+
           <Box sx={{ flexGrow: 1 , p:1.5}}>
             <img height="35" src='../picture-this1.png' alt='Logo'/>
           </Box>
+
+          {currentUser && (<NotificationDropDown currentUser={currentUser} />) } 
+
           <IconButton
             onClick={()=>logout()}
             size="large"
             color="inherit">
             <LogoutIcon />
           </IconButton>
+
         </Toolbar>
       </AppBar>
     </Box>

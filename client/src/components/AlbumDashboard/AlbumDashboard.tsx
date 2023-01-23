@@ -12,6 +12,9 @@ export default function AlbumDashboard({currentUser}:{currentUser: UserType | nu
     if (!currentUser) {
       return;
     }
+    if(currentUser) {
+      console.log(currentUser);
+    }
     if (currentUser.uploadedAlbums) {
       setUserAlbums(currentUser.uploadedAlbums);
     }
