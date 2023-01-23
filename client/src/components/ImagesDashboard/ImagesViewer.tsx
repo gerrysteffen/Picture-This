@@ -21,8 +21,7 @@ export default function ImagesViewer({album, setAlbum, userId}:ImagesViewerType)
     <ImageList variant="masonry" cols={3} gap={8}>
     {album.photos.map((item, index) => (
       <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId}
-      // liked={item.liked.indexOf(album.owner) !== -1 ? true:false}/>
-      liked={item.liked.indexOf(userId) !== -1 ? true:false}/>
+      /*liked={item.liked.indexOf(userId) !== -1 ? true:false}*/ />
     ))}
     </ImageList>
   )

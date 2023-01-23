@@ -9,18 +9,27 @@ import APIs from "../../APIServices/index"
 
 type ImageViewType = {
   item:PhotoType, 
-  liked: boolean, 
   index:number, 
   deleteImage(index:number):void,
   userId: string
 }
 
-export default function ImageView({item, liked, index, deleteImage, userId}: ImageViewType ){
-  const [likedByUser, setLikedByUser] = useState(liked)
+export default function ImageView({item, index, deleteImage, userId}: ImageViewType ){
+  const [likedByUser, setLikedByUser] = useState(item.liked.indexOf(userId) !== -1 ? true:false)
+  const [likes, setLikes] = useState(item.liked.length);
+
   const toggleLike = () =>{
-    console.log('user trying to like')
     APIs.likePhoto(item._id);
+    if (!likedByUser) {
+      let likesCopy = likes + 1;
+      setLikes(likesCopy);
+    }
+    else {
+      let likesCopy = likes - 1;
+      setLikes(likesCopy);
+    }
     setLikedByUser(!likedByUser);
+
   }
   const handleDelete = async () =>{
     console.log('user trying to delete', item._id)
@@ -39,19 +48,16 @@ export default function ImageView({item, liked, index, deleteImage, userId}: Ima
         }}
       actionIcon={
         <Box sx={{display: 'flex'}}>
-          {likedByUser ? (
+          
             <IconButton onClick={toggleLike}>
-              <Badge badgeContent={item.liked.length} color='primary' >
+              <Badge badgeContent={likes} color='primary' >
+              {likedByUser ? (
                 <FavoriteIcon style={{color: 'red'}} />
-              </Badge>
-            </IconButton>
-          ) : (
-            <IconButton onClick={toggleLike}>
-              <Badge badgeContent={item.liked.length} color='primary' >
+              ):(
                 <FavoriteBorderIcon  style={{color: 'white'}}/>
+              )}
               </Badge>
             </IconButton>
-          )}
           {item.owner === userId && (
             <IconButton onClick={handleDelete}>
               <DeleteOutlineIcon  style={{color: 'white'}}/>
