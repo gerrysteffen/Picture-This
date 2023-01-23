@@ -19,7 +19,7 @@ export default function ImageView({item, liked, index, deleteImage}:
   const handleDelete = async () =>{
     console.log('user trying to delete', item._id)
     deleteImage(index);
-    // APIs.deletePhoto(item._id);
+    APIs.deletePhoto(item._id);
   }
   return (
     <ImageListItem>

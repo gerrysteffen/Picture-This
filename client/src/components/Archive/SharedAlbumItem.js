@@ -1,5 +1,5 @@
 import React from "react";
-import { uploadPhoto, getAlbum, removeSharedAlbum } from "../../ApiClient";
+import { uploadPhoto, getAlbum, removeSharedAlbum } from "./ApiClient";
 import { useNavigate } from "react-router-dom";
 function SharedAlbumItem(props) {
   const navigate = useNavigate();

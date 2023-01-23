@@ -98,7 +98,7 @@ export default function SignIn(props: any) {
               label='Remember me'
             />
             <LoadingButton
-              type='button'
+              type='submit'
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}

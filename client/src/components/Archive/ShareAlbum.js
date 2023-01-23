@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { shareAlbumRequest } from "../../ApiClient";
+import { shareAlbumRequest } from "./ApiClient";
 function ShareAlbum(props) {
   const initialState = {
     email: "",
