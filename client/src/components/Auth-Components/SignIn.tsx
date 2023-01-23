@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -13,10 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SendIcon from '@mui/icons-material/Send';
-import Copyright from './Copyright';
+import Copyright from '../UI-Components/Copyright';
 import APIs from '../../APIServices/index';
-import { Alert } from '@mui/material';
 
 const theme = createTheme();
 
@@ -41,12 +38,10 @@ export default function SignIn(props: any) {
     setLoading(true);
     const res = await APIs.login(state);
     if (res.error) {
-      console.log(res.message)
       setLoading(false);
-      // TODO what to do if login unsuccessful, maybe message on top of page?
+      props.authUtils.handleAlert('error',res.message)
     } else {
       props.authUtils.setCurrentUser(res);
-      // localStorage.setItem('isAuthenticated', 'true');
       props.authUtils.setIsAuthenticated(true);
     }
   };

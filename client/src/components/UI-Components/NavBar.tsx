@@ -20,20 +20,23 @@ export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
   const logout = async () => {
     setIsAuthenticated(false)
     // localStorage.removeItem('isAuthenticated');
-    await APIs.logout()
-  }
+    await APIs.logout();
+    navigate('/');
+  };
   const goHome = () => navigate('/');
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar  sx={{color: 'black',  backgroundColor: 'rgba(223, 225, 226, 0.9)' }}>
+      <AppBar
+        sx={{ color: 'black', backgroundColor: 'rgba(223, 225, 226, 0.9)' }}
+      >
         <Toolbar>
 
           <IconButton
             onClick={goHome}
-            size="large"
-            edge="start"
-            color="inherit"
+            size='large'
+            edge='start'
+            color='inherit'
             sx={{ mr: 2 }}
           >
             <HomeIcon />

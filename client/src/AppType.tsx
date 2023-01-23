@@ -1,29 +1,24 @@
-import Main from "./components/Archive/Main";
-import Login from "./components/Archive/Login";
-import Profile from "./components/Archive/Profile";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./components/Archive/Register";
-import NewAlbum from "./components/Archive/NewAlbum";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Invites from "./components/Archive/Invites";
-import MainShare from "./components/Archive/MainShare";
 import NavBar from "./components/UI-Components/NavBar";
 import AlbumDashboard from "./components/AlbumDashboard/AlbumDashboard";
 import APIs from "./APIServices/index";
 import { UserType } from "./types";
-import SignIn from "./components/UI-Components/SignIn";
-import SignUp from "./components/UI-Components/SignUp";
+import SignIn from "./components/Auth-Components/SignIn";
+import SignUp from "./components/Auth-Components/SignUp";
 import ImgaesDashboard from "./components/ImagesDashboard/ImagesDashboard";
+import NavAlert from "./components/UI-Components/Alert";
 
 function AppType() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
+  const [currentAlbum, setCurrentAlbum] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isExistingUser, setIsExistingUser] = useState(true)
+  const [activeAlert, setActiveAlert] = useState(false)
+  const [alertContent, setAlertContent] = useState({severity: 'error', message: 'Something went wrong'})
 
   useEffect(() => {
     const initialSetup = async () => {
-      // const bool = Boolean(localStorage.getItem('isAuthenticated'));
-      // setIsAuthenticated(bool)
       const res = await APIs.refreshUser()
       if (res.error) {
         console.log(res.message)
@@ -35,20 +30,32 @@ function AppType() {
     initialSetup()
   }, [])
 
+  const handleAlert = (severity: string, message: string) => {
+    if (severity === ('error' || 'warning' || 'info' || 'success') && message) setAlertContent({severity: severity, message: message})
+    setActiveAlert(true)
+    setTimeout(()=>{
+      setActiveAlert(false)
+      setAlertContent({severity: 'error', message: 'Something went wrong'})
+    }, 5000)
+  }
+
   const authUtils: {} = {
     setCurrentUser: setCurrentUser,
     setIsExistingUser: setIsExistingUser,
-    setIsAuthenticated: setIsAuthenticated
+    setIsAuthenticated: setIsAuthenticated,
+    handleAlert: handleAlert
   }
 
   if (!isAuthenticated && isExistingUser) return(
     <div>
-      <SignIn authUtils={authUtils} />
+      {activeAlert && <NavAlert verticalPosition='10px' alertContent={alertContent} />}
+      <SignIn  authUtils={authUtils} />
     </div>
   )
 
   if (!isAuthenticated && !isExistingUser) return(
     <div>
+      {activeAlert && <NavAlert verticalPosition='10px' alertContent={alertContent} />}
       <SignUp authUtils={authUtils} />
     </div>
   )
@@ -56,7 +63,7 @@ function AppType() {
   return (
     <div>
       <BrowserRouter>
-        {currentUser && (<NavBar setIsAuthenticated={setIsAuthenticated} currentUser={currentUser}/>)}
+        {currentUser && (<NavBar currentUser={currentUser} setIsAuthenticated={setIsAuthenticated} />)}
         <Routes>
           <Route
             path="/"
