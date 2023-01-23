@@ -47,7 +47,7 @@ var connectDB = function () { return __awaiter(void 0, void 0, void 0, function 
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 mongoose_1.default.set('strictQuery', true);
-                return [4 /*yield*/, mongoose_1.default.connect('mongodb+srv://Matthew:Whakedw1@cluster0.men6wel.mongodb.net/?retryWrites=true&w=majority')];
+                return [4 /*yield*/, mongoose_1.default.connect('mongodb+srv://pictureThis:5fdMU11hEnKXjcH9@cluster0.ylgcry8.mongodb.net/?retryWrites=true&w=majority')];
             case 1:
                 _a.sent();
                 console.log('Connected successfully to database');

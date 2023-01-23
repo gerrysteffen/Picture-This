@@ -20,8 +20,9 @@ export default {
               error: '400',
               message: 'No album with this id.',
             })
-          );
-        } else {
+            );
+          } else {
+          album.photos.sort((a,b) => b.liked.length - a.liked.length)
           res.status(200).send(JSON.stringify(album));
         }
       }

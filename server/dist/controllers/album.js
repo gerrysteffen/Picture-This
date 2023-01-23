@@ -64,6 +64,7 @@ exports.default = {
                         }));
                     }
                     else {
+                        album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; });
                         res.status(200).send(JSON.stringify(album));
                     }
                     _a.label = 3;
@@ -99,7 +100,7 @@ exports.default = {
                         })];
                 case 3:
                     _a.sent();
-                    res.status(201).send(newAlbum);
+                    res.status(201).send(JSON.stringify(newAlbum));
                     _a.label = 4;
                 case 4: return [3 /*break*/, 6];
                 case 5:
