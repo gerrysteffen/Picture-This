@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 const saltRounds = 15;
 
+import { AlbumType } from '../types/index';
+
 const UserControllers = {
   registerUser: async (req: Request, res: Response) => {
     try {
@@ -46,16 +48,40 @@ const UserControllers = {
 
   getUser: async (req: Request, res: Response) => {
     try {
-      const user = await User.findOne({ _id: req.session.uid }).select('-password').populate([{
-        path: 'uploadedAlbums',
-        populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
-      }, {
-        path: 'sharedAlbums',
-        populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
-      }, {
-        path: 'pendingInvite',
-        populate: { path: 'owner', model: 'user' },
-      }]);
+      const user = await User.findOne({ _id: req.session.uid })
+        .select('-password')
+        .populate([
+          {
+            path: 'uploadedAlbums',
+            populate: [
+              { path: 'photos', model: 'image' },
+              { path: 'owner', model: 'user' },
+            ],
+          },
+          {
+            path: 'sharedAlbums',
+            populate: [
+              { path: 'photos', model: 'image' },
+              { path: 'owner', model: 'user' },
+            ],
+          },
+          {
+            path: 'pendingInvite',
+            populate: { path: 'owner', model: 'user' },
+          },
+        ]);
+      user.uploadedAlbums = user.uploadedAlbums.map(
+        (album) =>
+          (album.photos = album.photos.sort(
+            (a, b) => b.liked.length - a.liked.length
+          ))
+      );
+      user.sharedAlbums = user.sharedAlbums.map(
+        (album) =>
+          (album.photos = album.photos.sort(
+            (a, b) => b.liked.length - a.liked.length
+          ))
+      );
       res.status(200).send(JSON.stringify(user));
     } catch (error) {
       console.log(error);
@@ -77,16 +103,20 @@ const UserControllers = {
       } else {
         const user = await User.findOne({
           email: req.body.user.email,
-        }).populate([{
-          path: 'uploadedAlbums',
-          populate: [{ path: 'photos' }, { path: 'owner' }],
-        }, {
-          path: 'sharedAlbums',
-          populate: [{ path: 'photos'}, { path: 'owner'}],
-        }, {
-          path: 'pendingInvite',
-          populate: { path: 'owner' },
-        }]);
+        }).populate([
+          {
+            path: 'uploadedAlbums',
+            populate: [{ path: 'photos' }, { path: 'owner' }],
+          },
+          {
+            path: 'sharedAlbums',
+            populate: [{ path: 'photos' }, { path: 'owner' }],
+          },
+          {
+            path: 'pendingInvite',
+            populate: { path: 'owner' },
+          },
+        ]);
         if (!user) {
           res
             .status(401)
@@ -98,7 +128,19 @@ const UserControllers = {
           );
           if (valid) {
             req.session.uid = String(user._id);
-            user.password = 'N/A'
+            user.password = 'N/A';
+            user.uploadedAlbums = user.uploadedAlbums.map(
+              (album) =>
+                (album.photos = album.photos.sort(
+                  (a, b) => b.liked.length - a.liked.length
+                ))
+            );
+            user.sharedAlbums = user.sharedAlbums.map(
+              (album) =>
+                (album.photos = album.photos.sort(
+                  (a, b) => b.liked.length - a.liked.length
+                ))
+            );
             res.status(200).send(JSON.stringify(user));
           } else {
             res.status(401).send({
@@ -116,7 +158,7 @@ const UserControllers = {
 
   logout: async (req: Request, res: Response) => {
     try {
-      req.session.uid = ''
+      req.session.uid = '';
       res.sendStatus(204);
     } catch (error) {
       console.log(error);

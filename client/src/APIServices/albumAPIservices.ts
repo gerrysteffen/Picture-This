@@ -1,20 +1,15 @@
 const root = 'http://localhost:4000';
 
 export default {
-  createAlbum: async (albumName: string) => {
+  createAlbum: async (albumName: string, albumDescription: string) => {
     try {
       const response = await fetch(root + '/album', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
         },
-        body: JSON.stringify({album:{albumName: albumName}}),
+        body: JSON.stringify({album:{albumName: albumName, description: albumDescription}}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json();
     } catch (error) {
@@ -26,16 +21,7 @@ export default {
     try {
       const response = await fetch(root + '/album/' +albumid, {
         method: 'GET',
-        // headers: {
-        //   'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
-        // },
-        // body: JSON.stringify({album: { _id: albumid }}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json();
     } catch (error) {
@@ -47,16 +33,7 @@ export default {
     try {
       const response = await fetch(root + '/album/' + albumId, {
         method: 'DELETE',
-        // headers: {
-        //   'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
-        // },
-        // body: JSON.stringify({album:{ _id: albumId }}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json;
     } catch (error) {
@@ -70,14 +47,9 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
         },
         body: JSON.stringify({user: {email: email}, album: {_id: albumid}}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response;
     } catch (error) {
@@ -91,14 +63,9 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
         },
         body: JSON.stringify({album:{_id:albumId}}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json();
     } catch (error) {
@@ -110,16 +77,7 @@ export default {
     try {
       const response = await fetch(root + '/album/'+albumId, {
         method: 'DELETE',
-        // headers: {
-        //   'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
-        // },
-        // body: JSON.stringify({album:{ _Id: albumId }}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json;
     } catch (error) {
@@ -133,14 +91,9 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Headers':
-          //   'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-          // 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS',
         },
         body: JSON.stringify({album: {_id:albumId}}),
         credentials: 'include',
-        // mode: 'cors',
       });
       return response.json();
     } catch (error) {

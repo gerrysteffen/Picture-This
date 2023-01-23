@@ -23,6 +23,7 @@ router.get("/user", authMiddleware, UserControllers.getUser);
 //Album routes
 router.post("/album", authMiddleware, AlbumControllers.createAlbum);
 router.get("/album/:id", authMiddleware, AlbumControllers.getAlbum);
+router.put("/album/:id", authMiddleware, AlbumControllers.modifyAlbum);
 router.delete("/album/:id", authMiddleware, AlbumControllers.removeAlbum);
 router.post("/album/share", authMiddleware, AlbumControllers.shareAlbum);
 router.post("/album/accept", authMiddleware,AlbumControllers.acceptAlbum);

@@ -18,6 +18,7 @@ export interface PendingInviteType {
 export interface AlbumType {
   _id: string,
   albumName: string,
+  description?: string,
   date: string
   photos: PhotoType[],
   owner: UserType

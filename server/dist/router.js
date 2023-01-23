@@ -21,6 +21,7 @@ router.get("/user", auth_1.default, user_1.default.getUser);
 //Album routes
 router.post("/album", auth_1.default, album_1.default.createAlbum);
 router.get("/album/:id", auth_1.default, album_1.default.getAlbum);
+router.put("/album/:id", auth_1.default, album_1.default.modifyAlbum);
 router.delete("/album/:id", auth_1.default, album_1.default.removeAlbum);
 router.post("/album/share", auth_1.default, album_1.default.shareAlbum);
 router.post("/album/accept", auth_1.default, album_1.default.acceptAlbum);

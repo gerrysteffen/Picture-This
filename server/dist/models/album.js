@@ -10,12 +10,22 @@ var albumSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: false
+    },
     photos: [{ type: Schema.Types.ObjectId, ref: "image" }],
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true,
     },
+    sharedWith: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'user',
+        }
+    ]
 });
 var Album = index_1.default.model("album", albumSchema);
 exports.default = Album;
