@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import cloudinaryV2 from '../cloudinary';
 import Album from '../models/album';
 import User from '../models/user';
 
@@ -19,8 +20,9 @@ export default {
               error: '400',
               message: 'No album with this id.',
             })
-          );
-        } else {
+            );
+          } else {
+          album.photos.sort((a,b) => b.liked.length - a.liked.length)
           res.status(200).send(JSON.stringify(album));
         }
       }
@@ -46,7 +48,7 @@ export default {
             $push: { uploadedAlbums: newAlbum._id },
           }
         );
-        res.status(201).send(newAlbum);
+        res.status(201).send(JSON.stringify(newAlbum));
       }
     } catch (error) {
       console.log(error);
@@ -149,7 +151,7 @@ export default {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
-        const album = await Album.findOne({ _id: req.params.id });
+        const album = await Album.findOne({ _id: req.params.id }).populate('photos');
         if (!album) {
           res
             .status(400)
@@ -164,7 +166,10 @@ export default {
             );
             res.sendStatus(204);
           } else {
-            await Album.deleteOne({
+            album.photos.forEach((photo)=>{
+              cloudinaryV2.uploader.destroy(photo.cloudinaryId)
+            })
+            await Album.findOneAndDelete({
               _id: req.params.id,
             });
             await User.updateOne(

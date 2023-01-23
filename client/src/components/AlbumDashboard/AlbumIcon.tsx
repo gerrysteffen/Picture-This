@@ -47,7 +47,7 @@ export default function AlbumIcon({index, album, deleteAlbum, userId}: AlbumIcon
             subtitle={`${album.date}`}
             actionIcon={
               <IconButton onClick={handleDelete} sx={{ color: 'rgba(255, 255, 255, 0.54)' }}>
-                {userId === album.owner ? (
+                {userId === album.owner._id ? (
                   <DeleteOutlineIcon />
                 ):(
                   <ExitToAppIcon />

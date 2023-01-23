@@ -14,7 +14,7 @@ const ImageControllers = {
         !req.body.album ||
         !req.body.album._id ||
         !req.body.image ||
-        !req.body.image.data // TODO need more information about what is behind this info
+        !req.body.image.data
       ) {
         res
           .status(400)
@@ -24,7 +24,7 @@ const ImageControllers = {
         const newImage = await Image.create({
           album: req.body.album._id,
           imgAddress: result.secure_url,
-          cloudinaryId: result.asset_id,
+          cloudinaryId: result.public_id,
           owner: req.session.uid,
         });
         await Album.findOneAndUpdate(
@@ -89,8 +89,9 @@ const ImageControllers = {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
-        await Image.deleteOne({ _id: req.params.id });
-        res.sendStatus(204); // TODO delete on cloudinary
+        const image = await Image.findOneAndDelete({ _id: req.params.id });
+        if (image && image.cloudinaryId) await cloudinaryV2.uploader.destroy(image.cloudinaryId);
+        res.sendStatus(204);
       }
     } catch (error) {
       console.log(error);

@@ -22,9 +22,9 @@ export default function CreateAlbumDialog({createAlbumOpen, setCreateAlbumOpen}:
     setAlbumDescription('');
     setCreateAlbumOpen(false);
   }
-  const createAlbum = () => {
+  const createAlbum = async () => {
     console.log('new album: ' + albumTitle + ', ' + albumDescription);
-    APIs.createAlbum(albumTitle);
+    const newAlbum = await APIs.createAlbum(albumTitle);
     closeCreateAlbumDialogue();
   }
   return (

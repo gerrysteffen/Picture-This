@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var cloudinary_1 = __importDefault(require("../cloudinary"));
 var album_1 = __importDefault(require("../models/album"));
 var user_1 = __importDefault(require("../models/user"));
 exports.default = {
@@ -63,6 +64,7 @@ exports.default = {
                         }));
                     }
                     else {
+                        album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; });
                         res.status(200).send(JSON.stringify(album));
                     }
                     _a.label = 3;
@@ -98,7 +100,7 @@ exports.default = {
                         })];
                 case 3:
                     _a.sent();
-                    res.status(201).send(newAlbum);
+                    res.status(201).send(JSON.stringify(newAlbum));
                     _a.label = 4;
                 case 4: return [3 /*break*/, 6];
                 case 5:
@@ -234,7 +236,7 @@ exports.default = {
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 8];
-                case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id })];
+                case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id }).populate('photos')];
                 case 2:
                     album = _a.sent();
                     if (!!album) return [3 /*break*/, 3];
@@ -251,9 +253,13 @@ exports.default = {
                     _a.sent();
                     res.sendStatus(204);
                     return [3 /*break*/, 8];
-                case 5: return [4 /*yield*/, album_1.default.deleteOne({
-                        _id: req.params.id,
-                    })];
+                case 5:
+                    album.photos.forEach(function (photo) {
+                        cloudinary_1.default.uploader.destroy(photo.cloudinaryId);
+                    });
+                    return [4 /*yield*/, album_1.default.findOneAndDelete({
+                            _id: req.params.id,
+                        })];
                 case 6:
                     _a.sent();
                     return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {
