@@ -20,8 +20,8 @@ export default function AlbumViewer({albums, setAlbums, userId}: AlbumViewerType
     APIs.deleteAlbum(id);
   }
   return (
-    <ImageList sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+    <ImageList sx={{ display: 'flex'}}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}} > 
         {albums.map((album, index) => (
           <AlbumIcon key={album.albumName} index={index} album={album} deleteAlbum={deleteAlbum} userId={userId}/>
         ))}

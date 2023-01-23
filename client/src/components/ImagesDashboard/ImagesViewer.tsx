@@ -35,20 +35,6 @@ export default function ImagesViewer({album, setAlbum, userId}:ImagesViewerType)
         <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId} />
         ))}
       </Masonry>
-      {/* <Modal open={true}
-      sx={{display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-      >
-      <img 
-        // width="70%"
-        // style={{'max-height': '80%', 'max-width':'70%'}}
-        className='modal-container'
-        src={item.imgAddress}
-        alt={item.owner}  
-      />
-      </Modal> */}
     </Box>
   )
 }
