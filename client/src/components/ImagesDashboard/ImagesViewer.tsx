@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageList } from '@mui/material'
+import { Box, ImageList } from '@mui/material'
 import { AlbumType } from '../../types'
 import ImageView from './ImageView';
 import { ThemeProvider } from '@emotion/react';
@@ -23,22 +23,33 @@ export default function ImagesViewer({album, setAlbum, userId}:ImagesViewerType)
 
   
   return (
-    <Masonry
-      columns={{ xs: 1, sm: 2, md: 4 }}
-      spacing={2}
-      defaultHeight={450}
-      defaultColumns={4}
-      defaultSpacing={1}
-    >
-      {album.photos.map((item, index) => (
-      <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId} />
-      ))}
-    </Masonry>
-    // <ImageList variant="masonry" cols={3} gap={8}>
-    //   {album.photos.map((item, index) => (
-    //     <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId} />
-    //   ))}
-    // </ImageList>
+    <Box>
+      <Masonry
+        columns={{ xs: 1, sm: 2, md: 4 }}
+        spacing={2}
+        defaultHeight={450}
+        defaultColumns={4}
+        defaultSpacing={1}
+      >
+        {album.photos.map((item, index) => (
+        <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId} />
+        ))}
+      </Masonry>
+      {/* <Modal open={true}
+      sx={{display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+      >
+      <img 
+        // width="70%"
+        // style={{'max-height': '80%', 'max-width':'70%'}}
+        className='modal-container'
+        src={item.imgAddress}
+        alt={item.owner}  
+      />
+      </Modal> */}
+    </Box>
   )
 }
 

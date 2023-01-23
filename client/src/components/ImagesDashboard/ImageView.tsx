@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Badge, IconButton, ImageListItem, ImageListItemBar } from '@mui/material'
 import { PhotoType } from '../../types'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -6,6 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Box } from '@mui/system';
 import APIs from "../../APIServices/index"
+import ImageModal from './ImageModal';
 
 type ImageViewType = {
   item:PhotoType, 
@@ -17,6 +18,7 @@ type ImageViewType = {
 export default function ImageView({item, index, deleteImage, userId}: ImageViewType ){
   const [likedByUser, setLikedByUser] = useState(item.liked.indexOf(userId) !== -1 ? true:false)
   const [likes, setLikes] = useState(item.liked.length);
+  const [openModal, setOpenModal] = useState(false);
 
   const toggleLike = () =>{
     APIs.likePhoto(item._id);
@@ -39,6 +41,7 @@ export default function ImageView({item, index, deleteImage, userId}: ImageViewT
   return (
     <ImageListItem>
       <img 
+        onClick={()=> setOpenModal(true)}
         src={item.imgAddress}
         alt={item.owner}  
       />
@@ -66,6 +69,9 @@ export default function ImageView({item, index, deleteImage, userId}: ImageViewT
         </Box>
       }
       />
+
+      <ImageModal openModal={openModal} setOpenModal={setOpenModal} item={item} />
+      
     </ImageListItem>
   )
 }
