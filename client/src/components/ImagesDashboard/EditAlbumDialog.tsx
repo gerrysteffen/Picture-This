@@ -14,7 +14,7 @@ type CreateAlbumDialogType = {
   setCreateAlbumOpen(shareAlbumOpen: boolean): void;
 };
 
-export default function CreateAlbumDialog({
+export default function EditAlbumDialog({
   createAlbumOpen,
   setCreateAlbumOpen,
 }: CreateAlbumDialogType) {

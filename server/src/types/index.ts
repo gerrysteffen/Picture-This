@@ -18,13 +18,14 @@ export interface UserType {
 
 export interface AlbumType {
   albumName: string,
+  description: string,
   photos: [string],
   owner: string,
 }
 
 export interface ImageType {
   album: string,
-  id: string,
+  cloudinaryId: string,
   date: string,
   imgAddress: string,
   uploader: string,

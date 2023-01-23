@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +46,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -42,6 +64,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var cloudinary_1 = __importDefault(require("../cloudinary"));
 var album_1 = __importDefault(require("../models/album"));
 var user_1 = __importDefault(require("../models/user"));
+var mongoose_1 = __importDefault(require("mongoose"));
 exports.default = {
     getAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var album, error_1;
@@ -54,13 +77,22 @@ exports.default = {
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 3];
-                case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id }).populate('photos')];
+                case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id }).populate({
+                        path: 'photos',
+                        model: 'image',
+                    })];
                 case 2:
                     album = _a.sent();
                     if (!album) {
                         res.status(400).send(JSON.stringify({
                             error: '400',
                             message: 'No album with this id.',
+                        }));
+                    }
+                    else if (!album.sharedWith.includes(new mongoose_1.default.Types.ObjectId(req.session.uid))) {
+                        res.status(401).send(JSON.stringify({
+                            error: '401',
+                            message: 'Not authorised for this action.',
                         }));
                     }
                     else {
@@ -91,7 +123,9 @@ exports.default = {
                     return [3 /*break*/, 4];
                 case 1: return [4 /*yield*/, album_1.default.create({
                         albumName: req.body.album.albumName,
+                        description: req.body.album.description,
                         owner: req.session.uid,
+                        sharedWith: [req.session.uid]
                     })];
                 case 2:
                     newAlbum = _a.sent();
@@ -112,8 +146,56 @@ exports.default = {
             }
         });
     }); },
+    modifyAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, _id, albumInfo, album, newAlbum, error_3;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 7, , 8]);
+                    if (!(!req.body ||
+                        !req.body.album ||
+                        (!req.body.album.albumName && !req.body.album.description))) return [3 /*break*/, 1];
+                    res
+                        .status(400)
+                        .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
+                    return [3 /*break*/, 6];
+                case 1:
+                    _a = req.body.album, _id = _a._id, albumInfo = __rest(_a, ["_id"]);
+                    return [4 /*yield*/, album_1.default.findOne({ _id: _id })];
+                case 2:
+                    album = _b.sent();
+                    if (!!album) return [3 /*break*/, 3];
+                    res.status(400).send(JSON.stringify({
+                        error: '400',
+                        message: 'No album with this id.',
+                    }));
+                    return [3 /*break*/, 6];
+                case 3:
+                    if (!(new mongoose_1.default.Types.ObjectId(req.session.uid) !== album.owner)) return [3 /*break*/, 4];
+                    res.status(401).send(JSON.stringify({
+                        error: '401',
+                        message: 'Not authorised for this action.',
+                    }));
+                    return [3 /*break*/, 6];
+                case 4: return [4 /*yield*/, album_1.default.findOneAndUpdate({ _id: _id }, __assign({}, albumInfo), {
+                        new: true,
+                    })];
+                case 5:
+                    newAlbum = _b.sent();
+                    res.status(201).send(JSON.stringify(newAlbum));
+                    _b.label = 6;
+                case 6: return [3 /*break*/, 8];
+                case 7:
+                    error_3 = _b.sent();
+                    console.log(error_3);
+                    res.sendStatus(500);
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/];
+            }
+        });
+    }); },
     shareAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var album, user, error_3;
+        var album, user, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -147,8 +229,8 @@ exports.default = {
                     _a.label = 6;
                 case 6: return [3 /*break*/, 8];
                 case 7:
-                    error_3 = _a.sent();
-                    console.log(error_3);
+                    error_4 = _a.sent();
+                    console.log(error_4);
                     res.sendStatus(500);
                     return [3 /*break*/, 8];
                 case 8: return [2 /*return*/];
@@ -156,7 +238,7 @@ exports.default = {
         });
     }); },
     rejectAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var album, error_4;
+        var album, error_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -183,8 +265,8 @@ exports.default = {
                     _a.label = 5;
                 case 5: return [3 /*break*/, 7];
                 case 6:
-                    error_4 = _a.sent();
-                    console.log(error_4);
+                    error_5 = _a.sent();
+                    console.log(error_5);
                     res.sendStatus(500);
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];
@@ -192,7 +274,7 @@ exports.default = {
         });
     }); },
     acceptAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var newAlbum, error_5;
+        var newAlbum, error_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -208,8 +290,10 @@ exports.default = {
                     })];
                 case 2:
                     _a.sent();
-                    return [4 /*yield*/, album_1.default.findOne({
+                    return [4 /*yield*/, album_1.default.findOneAndUpdate({
                             _id: req.body.album._id,
+                        }, {
+                            $push: { sharedWith: req.session.uid },
                         }).populate('photos')];
                 case 3:
                     newAlbum = _a.sent();
@@ -217,8 +301,8 @@ exports.default = {
                     _a.label = 4;
                 case 4: return [3 /*break*/, 6];
                 case 5:
-                    error_5 = _a.sent();
-                    console.log(error_5);
+                    error_6 = _a.sent();
+                    console.log(error_6);
                     res.sendStatus(500);
                     return [3 /*break*/, 6];
                 case 6: return [2 /*return*/];
@@ -226,16 +310,16 @@ exports.default = {
         });
     }); },
     removeAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var album, error_6;
+        var album, error_7;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 9, , 10]);
+                    _a.trys.push([0, 10, , 11]);
                     if (!(!req.params || !req.params.id)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 8];
+                    return [3 /*break*/, 9];
                 case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id }).populate('photos')];
                 case 2:
                     album = _a.sent();
@@ -243,39 +327,46 @@ exports.default = {
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
-                    return [3 /*break*/, 8];
+                    return [3 /*break*/, 9];
                 case 3:
-                    if (!(String(album.owner) !== req.session.uid)) return [3 /*break*/, 5];
+                    if (!(String(album.owner) !== req.session.uid)) return [3 /*break*/, 6];
                     return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {
                             $pull: { sharedAlbums: req.params.id },
                         })];
                 case 4:
                     _a.sent();
-                    res.sendStatus(204);
-                    return [3 /*break*/, 8];
+                    return [4 /*yield*/, album_1.default.updateOne({
+                            _id: req.params.id,
+                        }, {
+                            $pull: { sharedWith: req.session.uid },
+                        })];
                 case 5:
+                    _a.sent();
+                    res.sendStatus(204);
+                    return [3 /*break*/, 9];
+                case 6:
                     album.photos.forEach(function (photo) {
                         cloudinary_1.default.uploader.destroy(photo.cloudinaryId);
                     });
                     return [4 /*yield*/, album_1.default.findOneAndDelete({
                             _id: req.params.id,
                         })];
-                case 6:
+                case 7:
                     _a.sent();
                     return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {
                             $pull: { uploadedAlbums: req.params.id },
                         })];
-                case 7:
+                case 8:
                     _a.sent();
                     res.sendStatus(204);
-                    _a.label = 8;
-                case 8: return [3 /*break*/, 10];
-                case 9:
-                    error_6 = _a.sent();
-                    console.log(error_6);
+                    _a.label = 9;
+                case 9: return [3 /*break*/, 11];
+                case 10:
+                    error_7 = _a.sent();
+                    console.log(error_7);
                     res.sendStatus(500);
-                    return [3 /*break*/, 10];
-                case 10: return [2 /*return*/];
+                    return [3 /*break*/, 11];
+                case 11: return [2 /*return*/];
             }
         });
     }); },

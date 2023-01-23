@@ -96,18 +96,36 @@ var UserControllers = {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, user_1.default.findOne({ _id: req.session.uid }).select('-password').populate([{
+                    return [4 /*yield*/, user_1.default.findOne({ _id: req.session.uid })
+                            .select('-password')
+                            .populate([
+                            {
                                 path: 'uploadedAlbums',
-                                populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
-                            }, {
+                                populate: [
+                                    { path: 'photos', model: 'image' },
+                                    { path: 'owner', model: 'user' },
+                                ],
+                            },
+                            {
                                 path: 'sharedAlbums',
-                                populate: [{ path: 'photos', model: 'image' }, { path: 'owner', model: 'user' }],
-                            }, {
+                                populate: [
+                                    { path: 'photos', model: 'image' },
+                                    { path: 'owner', model: 'user' },
+                                ],
+                            },
+                            {
                                 path: 'pendingInvite',
                                 populate: { path: 'owner', model: 'user' },
-                            }])];
+                            },
+                        ])];
                 case 1:
                     user = _a.sent();
+                    user.uploadedAlbums = user.uploadedAlbums.map(function (album) {
+                        return (album.photos = album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; }));
+                    });
+                    user.sharedAlbums = user.sharedAlbums.map(function (album) {
+                        return (album.photos = album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; }));
+                    });
                     res.status(200).send(JSON.stringify(user));
                     return [3 /*break*/, 3];
                 case 2:
@@ -135,16 +153,20 @@ var UserControllers = {
                     return [3 /*break*/, 5];
                 case 1: return [4 /*yield*/, user_1.default.findOne({
                         email: req.body.user.email,
-                    }).populate([{
+                    }).populate([
+                        {
                             path: 'uploadedAlbums',
                             populate: [{ path: 'photos' }, { path: 'owner' }],
-                        }, {
+                        },
+                        {
                             path: 'sharedAlbums',
                             populate: [{ path: 'photos' }, { path: 'owner' }],
-                        }, {
+                        },
+                        {
                             path: 'pendingInvite',
                             populate: { path: 'owner' },
-                        }])];
+                        },
+                    ])];
                 case 2:
                     user = _a.sent();
                     if (!!user) return [3 /*break*/, 3];
@@ -158,6 +180,12 @@ var UserControllers = {
                     if (valid) {
                         req.session.uid = String(user._id);
                         user.password = 'N/A';
+                        user.uploadedAlbums = user.uploadedAlbums.map(function (album) {
+                            return (album.photos = album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; }));
+                        });
+                        user.sharedAlbums = user.sharedAlbums.map(function (album) {
+                            return (album.photos = album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; }));
+                        });
                         res.status(200).send(JSON.stringify(user));
                     }
                     else {
