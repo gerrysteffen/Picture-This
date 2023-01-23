@@ -5,9 +5,11 @@ import Box from '@mui/material/Box';
 import ImageDashboardToolMenu from './ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
 import ImagesViewer from './ImagesViewer';
+import { FormatColorReset } from '@mui/icons-material';
 
 export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
   const [album, setAlbum] = useState<AlbumType | null>()
+  const [uploadFiles, setUploadFiles] = useState(false)
   const { albumId } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   useEffect(() => {
@@ -22,16 +24,16 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
 
   function handleFileSelect(event: any) {
     setSelectedFiles(event.target.files);
+    setUploadFiles(true)
   }
 
   //Change in selected file upload new photos
   useEffect(() => {
-    if (album && album.photos) {
+    if (uploadFiles && album && album.photos) {
       const uploadPhotos = async () => {
         const results: (PhotoType | undefined)[] = await Promise.all(
           Array.from(selectedFiles).map(async (file) => {
             const reader = new FileReader();
-            console.log('starting');
             reader.readAsDataURL(file);
             const data = await new Promise((res) => {
               reader.onloadend = () => {
@@ -53,6 +55,7 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
         let newAlbum = { ...album };
         newAlbum.photos.push(...sanitisedPhotos);
         setAlbum(newAlbum);
+        setUploadFiles(false)
       };
       uploadPhotos();
     }
