@@ -234,9 +234,7 @@ exports.default = {
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 8];
-                case 1:
-                    console.log(req.params.id);
-                    return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id })];
+                case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id })];
                 case 2:
                     album = _a.sent();
                     if (!!album) return [3 /*break*/, 3];
@@ -253,11 +251,9 @@ exports.default = {
                     _a.sent();
                     res.sendStatus(204);
                     return [3 /*break*/, 8];
-                case 5:
-                    console.log('trying to delete');
-                    return [4 /*yield*/, album_1.default.deleteOne({
-                            _id: req.params.id,
-                        })];
+                case 5: return [4 /*yield*/, album_1.default.deleteOne({
+                        _id: req.params.id,
+                    })];
                 case 6:
                     _a.sent();
                     return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {

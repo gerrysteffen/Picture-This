@@ -42,13 +42,13 @@ function AppType() {
     setIsAuthenticated: setIsAuthenticated
   }
 
-  if (!currentUser && isExistingUser) return(
+  if (!isAuthenticated && isExistingUser) return(
     <div>
       <SignIn authUtils={authUtils} />
     </div>
   )
 
-  if (!currentUser && !isExistingUser) return(
+  if (!isAuthenticated && !isExistingUser) return(
     <div>
       <SignUp authUtils={authUtils} />
     </div>
