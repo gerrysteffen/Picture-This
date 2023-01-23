@@ -72,7 +72,7 @@ function AppType() {
                 currentUser={currentUser}/>
             }
           />
-          <Route path="/albums/:albumId" element={<ImgaesDashboard />} />
+          <Route path="/albums/:albumId" element={<ImgaesDashboard userId={currentUser?._id}/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -6,7 +6,7 @@ import ImageDashboardToolMenu from './ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
 import ImagesViewer from './ImagesViewer';
 
-export default function ImgaesDashboard() {
+export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
   const [album, setAlbum] = useState<AlbumType | null>()
   const { albumId } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -50,7 +50,7 @@ export default function ImgaesDashboard() {
           onChange={handleFileSelect}
           style={{ display: "none" }}
         />
-        {album && album.photos.length>0 && (<ImagesViewer setAlbum={setAlbum} album={album} />)}
+        {album && album.photos.length>0 && userId && (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />)}
         
       </Box>
       <ImageDashboardToolMenu albumId={albumId} setSelectedFiles={setSelectedFiles}/>

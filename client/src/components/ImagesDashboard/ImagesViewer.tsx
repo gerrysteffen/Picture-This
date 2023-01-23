@@ -3,8 +3,14 @@ import { ImageList } from '@mui/material'
 import { AlbumType } from '../../types'
 import ImageView from './ImageView';
 
+type ImagesViewerType = {
+  album: AlbumType, 
+  setAlbum(album:AlbumType):void, 
+  userId:string
+}
 
-export default function ImagesViewer({album, setAlbum}:{album: AlbumType, setAlbum(album:AlbumType):void}) {
+
+export default function ImagesViewer({album, setAlbum, userId}:ImagesViewerType) {
   const deleteImage = (index:number) => {
     console.log('deleting: ', index);
     const newAlbum = {...album};
@@ -14,8 +20,9 @@ export default function ImagesViewer({album, setAlbum}:{album: AlbumType, setAlb
   return (
     <ImageList variant="masonry" cols={3} gap={8}>
     {album.photos.map((item, index) => (
-      <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage}
-      liked={item.liked.indexOf(album.owner) !== -1 ? true:false}/>
+      <ImageView key={item._id} item={item} index={index} deleteImage={deleteImage} userId={userId}
+      // liked={item.liked.indexOf(album.owner) !== -1 ? true:false}/>
+      liked={item.liked.indexOf(userId) !== -1 ? true:false}/>
     ))}
     </ImageList>
   )

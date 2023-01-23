@@ -1,4 +1,5 @@
 export interface UserType {
+  _id?: string,
   email?: string,
   password?: string,
   firstName?: string,
@@ -28,6 +29,6 @@ export interface PhotoType {
   date: string,
   imgAddress: string,
   liked: string[],
-  uploader: string
+  owner: string
 }
 

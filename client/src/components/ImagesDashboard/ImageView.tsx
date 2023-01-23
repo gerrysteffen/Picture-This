@@ -7,9 +7,15 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Box } from '@mui/system';
 import APIs from "../../APIServices/index"
 
-export default function ImageView({item, liked, index, deleteImage}:
-    {item:PhotoType, liked: boolean, index:number, deleteImage(index:number):void}) 
-{
+type ImageViewType = {
+  item:PhotoType, 
+  liked: boolean, 
+  index:number, 
+  deleteImage(index:number):void,
+  userId: string
+}
+
+export default function ImageView({item, liked, index, deleteImage, userId}: ImageViewType ){
   const [likedByUser, setLikedByUser] = useState(liked)
   const toggleLike = () =>{
     console.log('user trying to like')
@@ -25,7 +31,7 @@ export default function ImageView({item, liked, index, deleteImage}:
     <ImageListItem>
       <img 
         src={item.imgAddress}
-        alt={item.uploader}  
+        alt={item.owner}  
       />
       <ImageListItemBar
       sx={{
@@ -46,9 +52,11 @@ export default function ImageView({item, liked, index, deleteImage}:
               </Badge>
             </IconButton>
           )}
-          <IconButton onClick={handleDelete}>
-            <DeleteOutlineIcon  style={{color: 'white'}}/>
-          </IconButton>
+          {item.owner === userId && (
+            <IconButton onClick={handleDelete}>
+              <DeleteOutlineIcon  style={{color: 'white'}}/>
+            </IconButton>
+          )}
         </Box>
       }
       />
