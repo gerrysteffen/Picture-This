@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton, ImageListItem, ImageListItemBar } from '@mui/material'
+import { Badge, IconButton, ImageListItem, ImageListItemBar } from '@mui/material'
 import { PhotoType } from '../../types'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -35,11 +35,15 @@ export default function ImageView({item, liked, index, deleteImage}:
         <Box sx={{display: 'flex'}}>
           {likedByUser ? (
             <IconButton onClick={toggleLike}>
-              <FavoriteIcon style={{color: 'red'}} />
+              <Badge badgeContent={item.liked.length} color='primary' >
+                <FavoriteIcon style={{color: 'red'}} />
+              </Badge>
             </IconButton>
           ) : (
             <IconButton onClick={toggleLike}>
-              <FavoriteBorderIcon  style={{color: 'white'}}/>
+              <Badge badgeContent={item.liked.length} color='primary' >
+                <FavoriteBorderIcon  style={{color: 'white'}}/>
+              </Badge>
             </IconButton>
           )}
           <IconButton onClick={handleDelete}>
