@@ -48,6 +48,11 @@ export default function ImageView({item, index, deleteImage, userId}: ImageViewT
         }}
       actionIcon={
         <Box sx={{display: 'flex'}}>
+            {item.owner === userId && (
+              <IconButton onClick={handleDelete}>
+                <DeleteOutlineIcon  style={{color: 'white'}}/>
+              </IconButton>
+            )}
           
             <IconButton onClick={toggleLike}>
               <Badge badgeContent={likes} color='primary' >
@@ -58,11 +63,6 @@ export default function ImageView({item, index, deleteImage, userId}: ImageViewT
               )}
               </Badge>
             </IconButton>
-          {item.owner === userId && (
-            <IconButton onClick={handleDelete}>
-              <DeleteOutlineIcon  style={{color: 'white'}}/>
-            </IconButton>
-          )}
         </Box>
       }
       />
