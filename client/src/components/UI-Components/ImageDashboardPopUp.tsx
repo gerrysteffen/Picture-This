@@ -48,9 +48,9 @@ export default function ImageDashboardPopUp({anchorEl, open, handleClose, openSh
       >
         <label htmlFor="file-input" style={{margin: 0, padding:0}}>
         <MenuItem>
-          <IconButton >
+          <ListItemIcon >
             <AddPhotoAlternateIcon fontSize='small'/>
-          </IconButton>
+          </ListItemIcon>
           Add Photos
         </MenuItem>
         </label>
