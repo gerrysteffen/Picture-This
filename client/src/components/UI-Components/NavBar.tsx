@@ -12,9 +12,10 @@ export default function NavBar(props: any) {
   let navigate = useNavigate();
   const logout = async () => {
     props.setIsAuthenticated(false)
+    // localStorage.removeItem('isAuthenticated');
     await APIs.logout()
   }
-  const goHome = () => navigate('/1');
+  const goHome = () => navigate('/');
 
   return (
     <Box sx={{ flexGrow: 1 }}>

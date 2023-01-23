@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -24,6 +25,7 @@ export default function SignUp(props: any) {
     email: '',
     password: '',
   });
+  const [loading, setLoading] = React.useState(false);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -36,9 +38,17 @@ export default function SignUp(props: any) {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const res = await APIs.register(state);
-    props.authUtils.setCurrentUser(res);
-    props.authUtils.setIsAuthenticated(true);
+    if (res.error) {
+      console.log(res.message)
+      setLoading(false);
+      // TODO what to do if login unsuccessful, maybe message on top of page?
+    } else {
+      props.authUtils.setCurrentUser(res);
+      // localStorage.setItem('isAuthenticated', 'true');
+      props.authUtils.setIsAuthenticated(true);
+    }
   };
 
   return (
@@ -132,7 +142,7 @@ export default function SignUp(props: any) {
                 />
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
               type='button'
               fullWidth
               variant='contained'
@@ -140,7 +150,7 @@ export default function SignUp(props: any) {
               onClick={()=>{handleSubmit()}}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
             <Grid container justifyContent='flex-end'>
               <Grid item>
                 <Link

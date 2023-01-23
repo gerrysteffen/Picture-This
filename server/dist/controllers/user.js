@@ -65,7 +65,7 @@ var UserControllers = {
                     if (!previousUser) return [3 /*break*/, 3];
                     return [2 /*return*/, res
                             .status(409)
-                            .send({ message: 'User already exists', error: 409 })];
+                            .send({ error: '409', message: 'User already exists' })];
                 case 3: return [4 /*yield*/, bcrypt_1.default.hash(req.body.user.password, saltRounds)];
                 case 4:
                     hashedPassword = _a.sent();
@@ -167,7 +167,7 @@ var UserControllers = {
     logout: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             try {
-                res.clearCookie('sid');
+                req.session.uid = '';
                 res.sendStatus(204);
             }
             catch (error) {

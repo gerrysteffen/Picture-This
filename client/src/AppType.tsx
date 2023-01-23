@@ -22,10 +22,18 @@ function AppType() {
   const [isExistingUser, setIsExistingUser] = useState(true)
 
   useEffect(() => {
-    APIs.refreshUser().then( (data) => {
-      const user: UserType = data;
-      setCurrentUser(user);
-    });
+    const initialSetup = async () => {
+      // const bool = Boolean(localStorage.getItem('isAuthenticated'));
+      // setIsAuthenticated(bool)
+      const res = await APIs.refreshUser()
+      if (res.error) {
+        console.log(res.message)
+      } else {
+        setCurrentUser(res);
+        setIsAuthenticated(true)
+      }
+    }
+    initialSetup()
   }, [])
 
   const authUtils: {} = {
@@ -52,7 +60,7 @@ function AppType() {
         <NavBar setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           <Route
-            path="/1"
+            path="/"
             element={
               <AlbumDashboard
                 currentUser={currentUser}
@@ -62,15 +70,11 @@ function AppType() {
             }
           />
           <Route path="/albums/:albumId" element={<ImgaesDashboard />} />
-          <Route
+          {/* <Route
             path="/login"
             element={<Login setCurrentUser={setCurrentUser} />}
-          />
-          <Route
-            path="/"
-            element={<Register setCurrentUser={setCurrentUser} />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/main"
             element={
               <Main
@@ -79,9 +83,9 @@ function AppType() {
                 currentUser={currentUser}
               />
             }
-          />
-          <Route path="/new" element={<NewAlbum />} />
-          <Route
+          /> */}
+          {/* <Route path="/new" element={<NewAlbum />} /> */}
+          {/* <Route
             path="/profile"
             element={
               <Profile
@@ -91,8 +95,8 @@ function AppType() {
                 setCurrentAlbum={setCurrentAlbum}
               />
             }
-          />
-          <Route path="/help" element={<Invites currentUser={currentUser} />} />
+          /> */}
+          {/* <Route path="/help" element={<Invites currentUser={currentUser} />} />
           <Route
             path="/main-share"
             element={
@@ -102,7 +106,7 @@ function AppType() {
                 currentUser={currentUser}
               />
             }
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </div>
