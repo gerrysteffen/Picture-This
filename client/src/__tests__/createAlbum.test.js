@@ -17,3 +17,14 @@ test("displays a default thumbnail", async () => {
   const emptyAlbumImg = await albumDash.findByTestId("thumbnail");
   expect(emptyAlbumImg.src).toContain("Empty-dash.png");
 });
+
+test("can create new albums", async () => {
+  const albumDash = render(
+    <StaticRouter>
+      <AlbumDashboard currentUser={null} />
+    </StaticRouter>
+  );
+
+  const emptyAlbumImg = await albumDash.findByTestId("thumbnail");
+  expect(emptyAlbumImg.src).toContain("Empty-dash.png");
+});
