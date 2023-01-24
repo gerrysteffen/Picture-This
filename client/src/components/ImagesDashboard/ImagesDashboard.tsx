@@ -76,7 +76,7 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
           ? 
           (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />) 
           :
-          (<img src={EmptyAlbumPlaceholder} className='empty-album-image'/>  )
+          (<img src={EmptyAlbumPlaceholder} alt='placeholder' className='empty-album-image'/>  )
         }
         
       </Box>
