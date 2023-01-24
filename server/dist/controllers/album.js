@@ -121,15 +121,17 @@ exports.default = {
                             message: 'No album with this id.',
                         }));
                     }
-                    else if (!album.sharedWith.includes(new mongoose_1.default.Types.ObjectId(req.session.uid))) {
-                        res.status(401).send(JSON.stringify({
-                            error: '401',
-                            message: 'Not authorised for this action.',
-                        }));
-                    }
                     else {
-                        album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; });
-                        res.status(200).send(JSON.stringify(album));
+                        if (!album.sharedWith.includes(new mongoose_1.default.Types.ObjectId(req.session.uid))) {
+                            res.status(401).send(JSON.stringify({
+                                error: '401',
+                                message: 'Not authorised for this action.',
+                            }));
+                        }
+                        else {
+                            album.photos.sort(function (a, b) { return b.liked.length - a.liked.length; });
+                            res.status(200).send(JSON.stringify(album));
+                        }
                     }
                     _a.label = 3;
                 case 3: return [3 /*break*/, 5];
@@ -157,7 +159,7 @@ exports.default = {
                         albumName: req.body.album.albumName,
                         description: req.body.album.description,
                         owner: req.session.uid,
-                        sharedWith: [req.session.uid]
+                        sharedWith: [req.session.uid],
                     })];
                 case 2:
                     newAlbum = _a.sent();
@@ -231,7 +233,7 @@ exports.default = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    _a.trys.push([0, 9, , 10]);
                     if (!(!req.body ||
                         !req.body.album ||
                         !req.body.album._id ||
@@ -240,7 +242,7 @@ exports.default = {
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 6];
+                    return [3 /*break*/, 8];
                 case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.body.album._id })];
                 case 2:
                     album = _a.sent();
@@ -251,21 +253,33 @@ exports.default = {
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
-                    return [3 /*break*/, 6];
-                case 4: return [4 /*yield*/, user_1.default.findOneAndUpdate({ email: req.body.user.email }, {
-                        $push: { pendingInvite: album._id }, // TODO Plural that shit
-                    })];
+                    return [3 /*break*/, 8];
+                case 4:
+                    if (!(album.owner !== new mongoose_1.default.Types.ObjectId(req.session.uid))) return [3 /*break*/, 5];
+                    res.status(401).send(JSON.stringify({
+                        error: '401',
+                        message: 'Not authorised for this action.',
+                    }));
+                    return [3 /*break*/, 8];
                 case 5:
+                    if (!(!user.pendingInvite.includes(new mongoose_1.default.Types.ObjectId(album._id)) &&
+                        !user.sharedAlbums.includes(new mongoose_1.default.Types.ObjectId(album._id)))) return [3 /*break*/, 7];
+                    return [4 /*yield*/, user_1.default.findOneAndUpdate({ email: req.body.user.email }, {
+                            $push: { pendingInvite: album._id }, // TODO Plural that shit
+                        })];
+                case 6:
                     _a.sent();
-                    res.status(201).send(JSON.stringify(user._id));
-                    _a.label = 6;
-                case 6: return [3 /*break*/, 8];
+                    _a.label = 7;
                 case 7:
+                    res.status(201).send(JSON.stringify(user._id));
+                    _a.label = 8;
+                case 8: return [3 /*break*/, 10];
+                case 9:
                     error_4 = _a.sent();
                     console.log(error_4);
                     res.sendStatus(500);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     }); },

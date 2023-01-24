@@ -36,20 +36,24 @@ export default {
               message: 'No album with this id.',
             })
           );
-        } else if (
-          !album.sharedWith.includes(new mongoose.Types.ObjectId(req.session.uid))
-        ) {
-          res.status(401).send(
-            JSON.stringify({
-              error: '401',
-              message: 'Not authorised for this action.',
-            })
-          );
         } else {
-          (album.photos as unknown as ImageType[]).sort(
-            (a, b) => b.liked.length - a.liked.length
-          );
-          res.status(200).send(JSON.stringify(album));
+          if (
+            !album.sharedWith.includes(
+              new mongoose.Types.ObjectId(req.session.uid)
+            )
+          ) {
+            res.status(401).send(
+              JSON.stringify({
+                error: '401',
+                message: 'Not authorised for this action.',
+              })
+            );
+          } else {
+            (album.photos as unknown as ImageType[]).sort(
+              (a, b) => b.liked.length - a.liked.length
+            );
+            res.status(200).send(JSON.stringify(album));
+          }
         }
       }
     } catch (error) {
@@ -68,7 +72,7 @@ export default {
           albumName: req.body.album.albumName,
           description: req.body.album.description,
           owner: req.session.uid,
-          sharedWith: [req.session.uid]
+          sharedWith: [req.session.uid],
         });
         await User.updateOne(
           { _id: req.session.uid },
@@ -152,13 +156,31 @@ export default {
             .status(400)
             .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
         } else {
-          await User.findOneAndUpdate(
-            { email: req.body.user.email },
-            {
-              $push: { pendingInvite: album._id }, // TODO Plural that shit
+          if (album.owner !== new mongoose.Types.ObjectId(req.session.uid)) {
+            res.status(401).send(
+              JSON.stringify({
+                error: '401',
+                message: 'Not authorised for this action.',
+              })
+            );
+          } else {
+            if (
+              !user.pendingInvite.includes(
+                new mongoose.Types.ObjectId(album._id)
+              ) &&
+              !user.sharedAlbums.includes(
+                new mongoose.Types.ObjectId(album._id)
+              )
+            ) {
+              await User.findOneAndUpdate(
+                { email: req.body.user.email },
+                {
+                  $push: { pendingInvite: album._id }, // TODO Plural that shit
+                }
+              );
             }
-          );
-          res.status(201).send(JSON.stringify(user._id));
+            res.status(201).send(JSON.stringify(user._id));
+          }
         }
       }
     } catch (error) {
@@ -209,11 +231,14 @@ export default {
             $pull: { pendingInvite: req.body.album._id }, // TODO Plural that shit
           }
         );
-        const newAlbum = await Album.findOneAndUpdate({
-          _id: req.body.album._id,
-        },{
-          $push: { sharedWith: req.session.uid },
-        }).populate('photos');
+        const newAlbum = await Album.findOneAndUpdate(
+          {
+            _id: req.body.album._id,
+          },
+          {
+            $push: { sharedWith: req.session.uid },
+          }
+        ).populate('photos');
         res.status(201).send(JSON.stringify(newAlbum));
       }
     } catch (error) {
@@ -244,11 +269,14 @@ export default {
                 $pull: { sharedAlbums: req.params.id },
               }
             );
-            await Album.updateOne({
-              _id: req.params.id,
-            },{
-              $pull: { sharedWith: req.session.uid },
-            })
+            await Album.updateOne(
+              {
+                _id: req.params.id,
+              },
+              {
+                $pull: { sharedWith: req.session.uid },
+              }
+            );
             res.sendStatus(204);
           } else {
             (album.photos as unknown as ImageType[]).forEach((photo) => {
