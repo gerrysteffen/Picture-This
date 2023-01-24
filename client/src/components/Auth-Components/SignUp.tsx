@@ -140,7 +140,7 @@ export default function SignUp(props: any) {
               </Grid>
             </Grid>
             <LoadingButton
-              type='button'
+              type='submit'
               fullWidth
               variant='contained'
               loading={loading} 
