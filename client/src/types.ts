@@ -33,3 +33,16 @@ export interface PhotoType {
   owner: string
 }
 
+export interface AlertType {
+  severity: string, 
+  message: string
+}
+
+export interface StateType {
+  user: UserType | null,
+  isLoading: Boolean,
+  isAuthenticated: Boolean,
+  isExistingUser: Boolean,
+  activeAlert: Boolean,
+  alertContent: AlertType
+} 
