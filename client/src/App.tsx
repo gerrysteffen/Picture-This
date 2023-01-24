@@ -9,7 +9,7 @@ import SignUp from "./components/Auth-Components/SignUp";
 import ImgaesDashboard from "./components/ImagesDashboard/ImagesDashboard";
 import NavAlert from "./components/UI-Components/Alert";
 
-function AppType() {
+function App() {
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
   const [currentAlbum, setCurrentAlbum] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -79,4 +79,4 @@ function AppType() {
   );
 }
 
-export default AppType;
+export default App;
