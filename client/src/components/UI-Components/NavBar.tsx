@@ -19,7 +19,6 @@ export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
   let navigate = useNavigate();
   const logout = async () => {
     setIsAuthenticated(false)
-    // localStorage.removeItem('isAuthenticated');
     await APIs.logout();
     navigate('/');
   };

@@ -9,6 +9,7 @@ import cloudinaryV2 from '../cloudinary';
 const ImageControllers = {
   uploadPhoto: async (req: Request, res: Response) => {
     try {
+      // TODO check if user is allowed
       if (
         !req.body ||
         !req.body.album ||
@@ -21,6 +22,7 @@ const ImageControllers = {
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
         const result = await cloudinaryV2.uploader.upload(req.body.image.data);
+        console.log(result)
         const newImage = await Image.create({
           album: req.body.album._id,
           imgAddress: result.secure_url,

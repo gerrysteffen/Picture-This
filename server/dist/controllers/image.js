@@ -63,6 +63,7 @@ var ImageControllers = {
                 case 1: return [4 /*yield*/, cloudinary_1.default.uploader.upload(req.body.image.data)];
                 case 2:
                     result = _a.sent();
+                    console.log(result);
                     return [4 /*yield*/, image_1.default.create({
                             album: req.body.album._id,
                             imgAddress: result.secure_url,
