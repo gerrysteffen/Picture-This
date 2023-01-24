@@ -7,7 +7,7 @@ import { AlbumType } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/system';
 import placeholder from './placeholder.png'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import EjectOutlinedIcon from '@mui/icons-material/EjectOutlined';
 import './AlbumDashboard.css'
 import { Paper } from '@mui/material';
 
@@ -49,11 +49,11 @@ export default function AlbumIcon({index, album, deleteAlbum, userId}: AlbumIcon
           title={album.albumName}
           subtitle={album.description}
           actionIcon={
-            <IconButton onClick={handleDelete} sx={{ color: 'rgba(255, 255, 255, 0.54)' }}>
+            <IconButton onClick={handleDelete} sx={{ mr:0.5, color: 'rgba(255, 255, 255, 0.54)' }}>
               {userId === album.owner._id ? (
                 <DeleteOutlineIcon />
               ):(
-                <ExitToAppIcon />
+                <EjectOutlinedIcon />
               )
             }
             </IconButton>
