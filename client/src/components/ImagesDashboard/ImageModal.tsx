@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from '@mui/material'
 import { PhotoType } from '../../types'
-import './ImageModal.css'
+import './ImageDashboard.css'
 
 type ImageDialogueType = {
   openModal:boolean, 

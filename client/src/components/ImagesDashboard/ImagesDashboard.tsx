@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import ImageDashboardToolMenu from './ImageDashboardToolMenu';
 import APIs from "../../APIServices/index"
 import ImagesViewer from './ImagesViewer';
-import { FormatColorReset } from '@mui/icons-material';
+import EmptyAlbumPlaceholder from './Empty-dash.png'
+import './ImageDashboard.css'
 
 export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
   const [album, setAlbum] = useState<AlbumType | null>()
@@ -71,7 +72,12 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
           onChange={handleFileSelect}
           style={{ display: 'none' }}
         />
-        {album && album.photos.length>0 && userId && (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />)}
+        {album && album.photos.length>0 && userId 
+          ? 
+          (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />) 
+          :
+          (<img src={EmptyAlbumPlaceholder} className='empty-album-image'/>  )
+        }
         
       </Box>
       <ImageDashboardToolMenu albumId={albumId} setSelectedFiles={setSelectedFiles}/>
