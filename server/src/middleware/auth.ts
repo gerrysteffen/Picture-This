@@ -13,10 +13,10 @@ const authMiddleware = async (
       if (user) {
         next();
       } else {
-        res.sendStatus(401);
+        res.status(401).send(JSON.stringify({error:'401', message: 'Not authorised'}));
       }
     } else {
-      res.sendStatus(401);
+      res.status(401).send(JSON.stringify({error:'401', message: 'Not authorised'}));
     }
   } catch (error) {
     console.log(error);

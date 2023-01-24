@@ -54,11 +54,11 @@ var authMiddleware = function (req, res, next) { return __awaiter(void 0, void 0
                     next();
                 }
                 else {
-                    res.sendStatus(401);
+                    res.status(401).send(JSON.stringify({ error: '401', message: 'Not authorised' }));
                 }
                 return [3 /*break*/, 3];
             case 2:
-                res.sendStatus(401);
+                res.status(401).send(JSON.stringify({ error: '401', message: 'Not authorised' }));
                 _a.label = 3;
             case 3: return [3 /*break*/, 5];
             case 4:

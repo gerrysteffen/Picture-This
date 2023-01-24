@@ -26,6 +26,7 @@ function App() {
       const res = await APIs.refreshUser();
       if (res.error) {
         console.log(res.message);
+        setIsLoading(false);
       } else {
         setCurrentUser(res);
         setIsAuthenticated(true);
