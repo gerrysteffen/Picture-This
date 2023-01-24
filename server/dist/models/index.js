@@ -39,7 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 var mongoose_1 = __importDefault(require("mongoose"));
+var mongoURL = process.env.mongoDBAtlas_url;
 var connectDB = function () { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
     return __generator(this, function (_a) {
@@ -47,7 +50,7 @@ var connectDB = function () { return __awaiter(void 0, void 0, void 0, function 
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 mongoose_1.default.set('strictQuery', true);
-                return [4 /*yield*/, mongoose_1.default.connect('mongodb+srv://pictureThis:5fdMU11hEnKXjcH9@cluster0.ylgcry8.mongodb.net/?retryWrites=true&w=majority')];
+                return [4 /*yield*/, mongoose_1.default.connect('mongodb+srv://' + mongoURL)];
             case 1:
                 _a.sent();
                 console.log('Connected successfully to database');

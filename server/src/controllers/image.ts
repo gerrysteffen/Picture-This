@@ -1,15 +1,23 @@
 import Image from '../models/image';
 import Album from '../models/album';
-// import cloudinary from 'cloudinary';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-require('dotenv').config();
-import cloudinaryV2 from '../cloudinary';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import cloudinary from 'cloudinary';
+const cloudinaryV2 = cloudinary.v2;
+cloudinaryV2.config({
+  cloud_name: process.env.cloudinary_cloud_name,
+  api_key: process.env.cloudinary_api_key,
+  api_secret: process.env.cloudinary_api_secret,
+  secure: true,
+});
 
 const ImageControllers = {
   uploadPhoto: async (req: Request, res: Response) => {
     try {
-      // TODO check if user is allowed
       if (
         !req.body ||
         !req.body.album ||
@@ -22,7 +30,6 @@ const ImageControllers = {
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
         const result = await cloudinaryV2.uploader.upload(req.body.image.data);
-        console.log(result)
         const newImage = await Image.create({
           album: req.body.album._id,
           imgAddress: result.secure_url,
@@ -50,7 +57,7 @@ const ImageControllers = {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
-        console.log(req.body.image._id)
+        console.log(req.body.image._id);
         let currentPhoto = await Image.findOne({ _id: req.body.image._id });
         if (!currentPhoto) {
           res.status(400).send(
@@ -60,7 +67,11 @@ const ImageControllers = {
             })
           );
         } else {
-          if (!currentPhoto.liked.includes(new mongoose.Types.ObjectId(req.session.uid))) {
+          if (
+            !currentPhoto.liked.includes(
+              new mongoose.Types.ObjectId(req.session.uid)
+            )
+          ) {
             await Image.findOneAndUpdate(
               { _id: req.body.image._id },
               {
@@ -92,7 +103,8 @@ const ImageControllers = {
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
         const image = await Image.findOneAndDelete({ _id: req.params.id });
-        if (image && image.cloudinaryId) await cloudinaryV2.uploader.destroy(image.cloudinaryId);
+        if (image && image.cloudinaryId)
+          await cloudinaryV2.uploader.destroy(image.cloudinaryId);
         res.sendStatus(204);
       }
     } catch (error) {

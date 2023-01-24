@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,8 +65,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var image_1 = __importDefault(require("../models/image"));
 var album_1 = __importDefault(require("../models/album"));
 var mongoose_1 = __importDefault(require("mongoose"));
-require('dotenv').config();
-var cloudinary_1 = __importDefault(require("../cloudinary"));
+var dotenv = __importStar(require("dotenv"));
+dotenv.config();
+var cloudinary_1 = __importDefault(require("cloudinary"));
+var cloudinaryV2 = cloudinary_1.default.v2;
+cloudinaryV2.config({
+    cloud_name: process.env.cloudinary_cloud_name,
+    api_key: process.env.cloudinary_api_key,
+    api_secret: process.env.cloudinary_api_secret,
+    secure: true,
+});
 var ImageControllers = {
     uploadPhoto: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var result, newImage, error_1;
@@ -60,10 +91,9 @@ var ImageControllers = {
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
                     return [3 /*break*/, 5];
-                case 1: return [4 /*yield*/, cloudinary_1.default.uploader.upload(req.body.image.data)];
+                case 1: return [4 /*yield*/, cloudinaryV2.uploader.upload(req.body.image.data)];
                 case 2:
                     result = _a.sent();
-                    console.log(result);
                     return [4 /*yield*/, image_1.default.create({
                             album: req.body.album._id,
                             imgAddress: result.secure_url,
@@ -153,7 +183,7 @@ var ImageControllers = {
                 case 2:
                     image = _a.sent();
                     if (!(image && image.cloudinaryId)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, cloudinary_1.default.uploader.destroy(image.cloudinaryId)];
+                    return [4 /*yield*/, cloudinaryV2.uploader.destroy(image.cloudinaryId)];
                 case 3:
                     _a.sent();
                     _a.label = 4;

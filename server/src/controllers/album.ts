@@ -1,8 +1,19 @@
 import { Request, Response } from 'express';
-import cloudinaryV2 from '../cloudinary';
 import Album from '../models/album';
 import User from '../models/user';
 import mongoose from 'mongoose';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import cloudinary from 'cloudinary';
+const cloudinaryV2 = cloudinary.v2;
+cloudinaryV2.config({
+  cloud_name: process.env.cloudinary_cloud_name,
+  api_key: process.env.cloudinary_api_key,
+  api_secret: process.env.cloudinary_api_secret,
+  secure: true,
+});
 
 import { ImageType } from '../types/index';
 

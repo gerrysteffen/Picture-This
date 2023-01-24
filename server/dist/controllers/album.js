@@ -10,6 +10,29 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -61,10 +84,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var cloudinary_1 = __importDefault(require("../cloudinary"));
 var album_1 = __importDefault(require("../models/album"));
 var user_1 = __importDefault(require("../models/user"));
 var mongoose_1 = __importDefault(require("mongoose"));
+var dotenv = __importStar(require("dotenv"));
+dotenv.config();
+var cloudinary_1 = __importDefault(require("cloudinary"));
+var cloudinaryV2 = cloudinary_1.default.v2;
+cloudinaryV2.config({
+    cloud_name: process.env.cloudinary_cloud_name,
+    api_key: process.env.cloudinary_api_key,
+    api_secret: process.env.cloudinary_api_secret,
+    secure: true,
+});
 exports.default = {
     getAlbum: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var album, error_1;
@@ -346,7 +378,7 @@ exports.default = {
                     return [3 /*break*/, 8];
                 case 6:
                     album.photos.forEach(function (photo) {
-                        cloudinary_1.default.uploader.destroy(photo.cloudinaryId);
+                        cloudinaryV2.uploader.destroy(photo.cloudinaryId);
                     });
                     return [4 /*yield*/, album_1.default.findOneAndDelete({
                             _id: req.params.id,
