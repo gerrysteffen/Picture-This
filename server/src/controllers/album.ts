@@ -246,13 +246,6 @@ export default {
             await Album.findOneAndDelete({
               _id: req.params.id,
             });
-            await User.updateOne(
-              { _id: req.session.uid },
-              {
-                $pull: { uploadedAlbums: req.params.id },
-              }
-            );
-            
             res.sendStatus(204);
           }
         }

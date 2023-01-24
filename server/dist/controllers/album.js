@@ -314,12 +314,12 @@ exports.default = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 10, , 11]);
+                    _a.trys.push([0, 9, , 10]);
                     if (!(!req.params || !req.params.id)) return [3 /*break*/, 1];
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
-                    return [3 /*break*/, 9];
+                    return [3 /*break*/, 8];
                 case 1: return [4 /*yield*/, album_1.default.findOne({ _id: req.params.id }).populate('photos')];
                 case 2:
                     album = _a.sent();
@@ -327,7 +327,7 @@ exports.default = {
                     res
                         .status(400)
                         .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
-                    return [3 /*break*/, 9];
+                    return [3 /*break*/, 8];
                 case 3:
                     if (!(String(album.owner) !== req.session.uid)) return [3 /*break*/, 6];
                     return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {
@@ -343,7 +343,7 @@ exports.default = {
                 case 5:
                     _a.sent();
                     res.sendStatus(204);
-                    return [3 /*break*/, 9];
+                    return [3 /*break*/, 8];
                 case 6:
                     album.photos.forEach(function (photo) {
                         cloudinary_1.default.uploader.destroy(photo.cloudinaryId);
@@ -353,20 +353,15 @@ exports.default = {
                         })];
                 case 7:
                     _a.sent();
-                    return [4 /*yield*/, user_1.default.updateOne({ _id: req.session.uid }, {
-                            $pull: { uploadedAlbums: req.params.id },
-                        })];
-                case 8:
-                    _a.sent();
                     res.sendStatus(204);
-                    _a.label = 9;
-                case 9: return [3 /*break*/, 11];
-                case 10:
+                    _a.label = 8;
+                case 8: return [3 /*break*/, 10];
+                case 9:
                     error_7 = _a.sent();
                     console.log(error_7);
                     res.sendStatus(500);
-                    return [3 /*break*/, 11];
-                case 11: return [2 /*return*/];
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     }); },
