@@ -14,10 +14,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../UI-Components/Copyright';
 import APIs from '../../APIServices/index';
+import { connect } from 'react-redux';
+import { UserType } from '../../types';
 
 const theme = createTheme();
 
-export default function SignUp(props: any) {
+function SignUp(props: any) {
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',
@@ -41,10 +43,10 @@ export default function SignUp(props: any) {
     const res = await APIs.register(state);
     if (res.error) {
       setLoading(false);
-      props.authUtils.handleAlert('error',res.message)
+      props.setAlert(true, 'error', res.message);
     } else {
-      props.authUtils.setCurrentUser(res);
-      props.authUtils.setIsAuthenticated(true);
+      props.setUser(res);
+      props.setAuth(true);
     }
   };
 
@@ -66,11 +68,7 @@ export default function SignUp(props: any) {
           <Typography component='h1' variant='h5'>
             Sign up
           </Typography>
-          <Box
-            component='form'
-            noValidate
-            sx={{ mt: 3 }}
-          >
+          <Box component='form' noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -143,9 +141,11 @@ export default function SignUp(props: any) {
               type='submit'
               fullWidth
               variant='contained'
-              loading={loading} 
+              loading={loading}
               sx={{ mt: 3, mb: 2 }}
-              onClick={()=>{handleSubmit()}}
+              onClick={() => {
+                handleSubmit();
+              }}
             >
               Sign Up
             </LoadingButton>
@@ -153,7 +153,7 @@ export default function SignUp(props: any) {
               <Grid item>
                 <Link
                   onClick={() => {
-                    props.authUtils.setIsExistingUser(true);
+                    props.setIsExisting(true);
                   }}
                   variant='body2'
                 >
@@ -168,3 +168,23 @@ export default function SignUp(props: any) {
     </ThemeProvider>
   );
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setIsExisting: (toggle: Boolean) =>
+      dispatch({ type: 'SET_EXISTING', payload: toggle }),
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+    setAlert: (active: Boolean, severity: string, message: string) =>
+      dispatch({
+        type: 'SET_ALERT',
+        payload: {
+          active: active,
+          alertContent: { severity: severity, message: message },
+        },
+      }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);

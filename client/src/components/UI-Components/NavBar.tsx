@@ -9,20 +9,19 @@ import { useNavigate } from 'react-router-dom';
 import APIs from '../../APIServices/index'
 import NotificationDropDown from './NotificationDropDown';
 import { UserType } from '../../types';
+import { connect } from 'react-redux';
 
-type NavBarType = {
-  setIsAuthenticated(user: boolean):void, 
-  currentUser: UserType
-}
-
-export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
+function NavBar(props: any) {
   let navigate = useNavigate();
-  const logout = async () => {
-    setIsAuthenticated(false)
-    await APIs.logout();
-    navigate('/');
-  };
+
   const goHome = () => navigate('/');
+  
+  const logout = async () => {
+    props.setAuth(false)
+    props.setUser(null) // TODO Test
+    await APIs.logout();
+    goHome();
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -45,7 +44,7 @@ export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
             <img height="35" src='../picture-this1.png' alt='Logo'/>
           </Box>
 
-          {currentUser && (<NotificationDropDown currentUser={currentUser} />) } 
+          <NotificationDropDown /> 
 
           <IconButton
             onClick={()=>logout()}
@@ -59,3 +58,13 @@ export default function NavBar({setIsAuthenticated, currentUser}: NavBarType) {
     </Box>
   );
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NavBar);

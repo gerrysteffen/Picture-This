@@ -7,100 +7,67 @@ import { StateType, UserType } from './types';
 import SignIn from './components/Auth-Components/SignIn';
 import SignUp from './components/Auth-Components/SignUp';
 import LoadingScreen from './components/UI-Components/LoadingScreen';
-import ImgaesDashboard from './components/ImagesDashboard/ImagesDashboard';
+import ImagesDashboard from './components/ImagesDashboard/ImagesDashboard';
 import AlertMessage from './components/UI-Components/Alert';
 import { connect } from 'react-redux';
 
 function App(props: any) {
-  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isExistingUser, setIsExistingUser] = useState(true);
-  // const [activeAlert, setActiveAlert] = useState(false);
-  // const [alertContent, setAlertContent] = useState({
-  //   severity: 'error',
-  //   message: 'Something went wrong.',
-  // });
-
   useEffect(() => {
-    const initialSetup = async () => {
+    const userLoad = async () => {
       const res = await APIs.refreshUser();
       if (res.error) {
         console.log(res.message);
-        props.loadingOFF(false);
+        props.setAuth(false);
+        props.setReload(false); // TODO only one of the two required?
+        props.setLoading(false);
       } else {
-        setCurrentUser(res);
-        setIsAuthenticated(true);
-        props.loadingOFF(false);
+        props.setUser(res);
+        props.setAuth(true);
+        props.setReload(false);
+        props.setLoading(false);
       }
     };
-    initialSetup();
-  }, []);
+    props.reloadRequired && userLoad();
+  }, [props.reloadRequired]);
 
-  const handleAlert = (severity: string, message: string) => {
-    if (severity === ('error' || 'warning' || 'info' || 'success') && message) {
-      props.submitAlertON(severity, message);
-    } else {
-      props.submitAlertON()
-    }
-    setTimeout(() => {
-      props.submitAlertOFF();
-    }, 5000);
-  };
-
-  const authUtils: {} = {
-    setCurrentUser: setCurrentUser,
-    setIsExistingUser: setIsExistingUser,
-    setIsAuthenticated: setIsAuthenticated,
-    handleAlert: handleAlert,
-  };
+  useEffect(() => {
+    props.activeAlert &&
+      setTimeout(() => {
+        props.setAlert(false, 'error', 'Something went wrong.');
+      }, 5000);
+  }, [props.activeAlert]);
 
   if (props.isLoading) return <LoadingScreen />;
 
-  if (!isAuthenticated && isExistingUser)
+  if (!props.isAuthenticated && props.isExistingUser)
     return (
       <div>
-        {props.activeAlert && (
-          <AlertMessage
-            verticalPosition='10px'
-            data-testid='login'
-            alertContent={props.alertContent}
-          />
-        )}
-        <SignIn authUtils={authUtils} />
+        {props.activeAlert && <AlertMessage />}
+        <SignIn />
       </div>
     );
 
-  if (!isAuthenticated && !isExistingUser)
+  if (!props.isAuthenticated && !props.isExistingUser)
     return (
       <div>
-        {props.activeAlert && (
-          <AlertMessage verticalPosition='10px' alertContent={props.alertContent} />
-        )}
-        <SignUp authUtils={authUtils} />
+        {props.activeAlert && <AlertMessage />}
+        <SignUp />
       </div>
     );
 
   return (
     <div>
-      {props.activeAlert && (
-        <AlertMessage verticalPosition='80px' alertContent={props.alertContent} />
-      )}
+      {props.activeAlert && <AlertMessage />}
       <BrowserRouter>
-        {currentUser && (
-          <NavBar
-            currentUser={currentUser}
-            setIsAuthenticated={setIsAuthenticated}
-          />
-        )}
+        <NavBar />
         <Routes>
           <Route
             path='/'
-            element={<AlbumDashboard currentUser={currentUser} />}
+            element={<AlbumDashboard />}
           />
           <Route
             path='/albums/:albumId'
-            element={<ImgaesDashboard userId={currentUser?._id} />}
+            element={<ImagesDashboard userId={props.user._id} />}
           />
         </Routes>
       </BrowserRouter>
@@ -114,10 +81,24 @@ const mapStateToProps = (state: StateType) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    submitAlertON: (severity: string, message: string) => dispatch({type: 'ALERT_ON', payload: {severity: severity, message: message}}),
-    submitAlertOFF: () => dispatch({type: 'ALERT_ON', payload: null}),
-    loadingOFF: () => dispatch({type: 'LOADING_OFF', payload: null})
-  }
-}
+    setReload: (toggle: Boolean) =>
+      dispatch({ type: 'SET_RELOAD', payload: toggle }),
+    setLoading: (toggle: Boolean) =>
+      dispatch({ type: 'SET_LOADING', payload: toggle }),
+    setAlert: (active: Boolean, severity: string, message: string) =>
+      dispatch({
+        type: 'SET_ALERT',
+        payload: {
+          active: active,
+          alertContent: { severity: severity, message: message },
+        },
+      }),
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+    updateUser: (userAttributes: any) =>
+      dispatch({ type: 'UPDATE_USER', payload: userAttributes }),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

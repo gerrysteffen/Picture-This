@@ -255,7 +255,7 @@ exports.default = {
                         .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
                     return [3 /*break*/, 8];
                 case 4:
-                    if (!(album.owner !== new mongoose_1.default.Types.ObjectId(req.session.uid))) return [3 /*break*/, 5];
+                    if (!(String(album.owner) !== req.session.uid)) return [3 /*break*/, 5];
                     res.status(401).send(JSON.stringify({
                         error: '401',
                         message: 'Not authorised for this action.',

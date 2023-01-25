@@ -2,30 +2,24 @@ import React from 'react'
 import { IconButton, MenuItem } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import { PendingInviteType } from '../../types';
 import APIs from "../../APIServices/index"
+import { connect } from 'react-redux';
 
-type InviteHandlerType = {
-  invite:PendingInviteType, 
-  index:number, 
-  handleClose(event: Event | React.SyntheticEvent):void,
-  deleteInvite(index:number):void,
-}
-
-export default function InviteHandler({invite, index, handleClose, deleteInvite}: InviteHandlerType) {
-  const handleAcceptInvite = () => {
+function InviteHandler(props: any) {
+  const handleAcceptInvite = async () => {
     console.log('Accepting invite');
-    APIs.acceptInvite(invite._id);
-    deleteInvite(index);
+    await APIs.acceptInvite(props.invite._id);
+    props.deleteInvite(props.index);
+    await props.setReload(true)
   }
-  const handleDeclineInvite = () => {
+  const handleDeclineInvite = async () => {
     console.log('Declining invite');
-    APIs.rejectAlbum(invite._id);
-    deleteInvite(index);
+    await APIs.rejectAlbum(props.invite._id);
+    props.deleteInvite(props.index);
   }
   return (
-    <MenuItem onClick={handleClose}>
-      {invite.albumName}
+    <MenuItem onClick={props.handleClose}>
+      {props.invite.albumName}
       <IconButton sx={{ml:2}} onClick={handleAcceptInvite}>
         <CheckIcon />
       </IconButton>
@@ -35,3 +29,12 @@ export default function InviteHandler({invite, index, handleClose, deleteInvite}
     </MenuItem>
   )
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setReload: (toggle: Boolean) =>
+      dispatch({ type: 'SET_RELOAD', payload: toggle }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(InviteHandler);

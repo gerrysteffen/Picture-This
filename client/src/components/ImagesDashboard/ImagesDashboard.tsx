@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AlbumType, PhotoType } from '../../types';
+import { AlbumType, PhotoType, StateType, UserType } from '../../types';
 import Box from '@mui/material/Box';
 import ImageDashboardToolMenu from './ImageDashboardToolMenu';
-import APIs from "../../APIServices/index"
+import APIs from '../../APIServices/index';
 import ImagesViewer from './ImagesViewer';
-import EmptyAlbumPlaceholder from './Empty-dash.png'
-import './ImageDashboard.css'
+import EmptyAlbumPlaceholder from './Empty-dash.png';
+import './ImageDashboard.css';
+import { connect } from 'react-redux';
 
-export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
-  const [album, setAlbum] = useState<AlbumType | null>()
-  const [uploadFiles, setUploadFiles] = useState(false)
+function ImagesDashboard(props: any) {
+  const [album, setAlbum] = useState<AlbumType | null>();
+  const [uploadFiles, setUploadFiles] = useState(false);
   const { albumId } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
 
   function handleFileSelect(event: any) {
     setSelectedFiles(event.target.files);
-    setUploadFiles(true)
+    setUploadFiles(true);
   }
 
   //Change in selected file upload new photos
@@ -56,7 +57,7 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
         let newAlbum = { ...album };
         newAlbum.photos.push(...sanitisedPhotos);
         setAlbum(newAlbum);
-        setUploadFiles(false)
+        setUploadFiles(false);
       };
       uploadPhotos();
     }
@@ -72,15 +73,48 @@ export default function ImgaesDashboard({userId}:{userId:string | undefined}) {
           onChange={handleFileSelect}
           style={{ display: 'none' }}
         />
-        {album && album.photos.length>0 && userId 
-          ? 
-          (<ImagesViewer setAlbum={setAlbum} album={album} userId={userId} />) 
-          :
-          (<img src={EmptyAlbumPlaceholder} alt='placeholder' className='empty-album-image'/>  )
-        }
-        
+        {album && album.photos.length > 0 && props.user._id ? (
+          <ImagesViewer setAlbum={setAlbum} album={album} userId={props.user._id} />
+        ) : (
+          <img
+            src={EmptyAlbumPlaceholder}
+            alt='placeholder'
+            className='empty-album-image'
+          />
+        )}
       </Box>
-      <ImageDashboardToolMenu albumId={albumId} setSelectedFiles={setSelectedFiles}/>
+      <ImageDashboardToolMenu
+        albumId={albumId}
+        setSelectedFiles={setSelectedFiles}
+      />
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state: StateType) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setReload: (toggle: Boolean) =>
+      dispatch({ type: 'SET_RELOAD', payload: toggle }),
+    setLoading: (toggle: Boolean) =>
+      dispatch({ type: 'SET_LOADING', payload: toggle }),
+    setAlert: (active: Boolean, severity: string, message: string) =>
+      dispatch({
+        type: 'SET_ALERT',
+        payload: {
+          active: active,
+          alertContent: { severity: severity, message: message },
+        },
+      }),
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+    updateUser: (userAttributes: any) =>
+      dispatch({ type: 'UPDATE_USER', payload: userAttributes }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImagesDashboard);

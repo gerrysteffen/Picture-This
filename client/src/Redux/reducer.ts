@@ -2,6 +2,7 @@ import { StateType } from '../types';
 
 const initialState: StateType = {
   user: null,
+  reloadRequired: true,
   isLoading: true,
   isAuthenticated: false,
   isExistingUser: true,
@@ -17,17 +18,20 @@ const reducer = (
   action: { type: string; payload: any }
 ) => {
   switch (action.type) {
-    case 'LOGIN':
+    case 'SET_AUTH':
       return {
         ...state,
-        isAuthenticated: true,
-        user: action.payload,
+        isAuthenticated: action.payload,
       };
-    case 'LOGOUT':
+    case 'SET_EXISTING':
       return {
         ...state,
-        isAuthenticated: false,
-        user: null,
+        isExistingUser: action.payload,
+      };
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.payload,
       };
     case 'UPDATE_USER':
       return {
@@ -37,33 +41,25 @@ const reducer = (
           ...action.payload,
         },
       };
-    case 'ALERT_ON':
+    case 'SET_ALERT':
       return {
         ...state,
-        activeAlert: true,
-        alertContent: {
-          ...state.alertContent,
-          ...action.payload
-        }
+        activeAlert: action.payload.active,
+        alertContent: action.payload.alertContent
       };
-    case 'ALERT_OFF':
+    case 'SET_LOADING':
       return {
         ...state,
-        activeAlert: false,
-        alertContent: {
-          severity: 'error',
-          message: 'Something went wrong.',
-        }
+        isLoading: action.payload,
       };
-    case 'LOADING_OFF':
+    case 'SET_RELOAD':
       return {
         ...state,
-        isLoading: false,
+        reloadRequired: action.payload,
       };
-
     default:
       return state;
   }
 };
 
-export default reducer
+export default reducer;

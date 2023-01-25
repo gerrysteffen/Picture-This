@@ -40,6 +40,7 @@ export interface AlertType {
 
 export interface StateType {
   user: UserType | null,
+  reloadRequired: Boolean,
   isLoading: Boolean,
   isAuthenticated: Boolean,
   isExistingUser: Boolean,

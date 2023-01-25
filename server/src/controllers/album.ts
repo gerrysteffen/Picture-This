@@ -156,7 +156,7 @@ export default {
             .status(400)
             .send(JSON.stringify({ error: '400', message: 'Wrong Data.' }));
         } else {
-          if (album.owner !== new mongoose.Types.ObjectId(req.session.uid)) {
+          if (String(album.owner) !== req.session.uid) {
             res.status(401).send(
               JSON.stringify({
                 error: '401',

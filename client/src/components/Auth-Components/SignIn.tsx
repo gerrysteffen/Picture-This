@@ -14,15 +14,17 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../UI-Components/Copyright';
 import APIs from '../../APIServices/index';
+import { connect } from 'react-redux';
+import { UserType } from '../../types';
 
 const theme = createTheme();
 
-export default function SignIn(props: any) {
+function SignIn(props: any) {
   const [state, setState] = React.useState({
     email: '',
     password: '',
   });
-  const [loading, setLoading] = React.useState(false);
+  const [loadingButton, setLoadingButton] = React.useState(false);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -35,14 +37,14 @@ export default function SignIn(props: any) {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
+    setLoadingButton(true);
     const res = await APIs.login(state);
     if (res.error) {
-      setLoading(false);
-      props.authUtils.handleAlert('error',res.message)
+      setLoadingButton(false);
+      props.setAlert(true, 'error', res.message);
     } else {
-      props.authUtils.setCurrentUser(res);
-      props.authUtils.setIsAuthenticated(true);
+      props.setUser(res);
+      props.setAuth(true);
     }
   };
 
@@ -102,7 +104,7 @@ export default function SignIn(props: any) {
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
-              loading={loading} 
+              loading={loadingButton}
               onClick={() => {
                 handleSubmit();
               }}
@@ -111,14 +113,19 @@ export default function SignIn(props: any) {
             </LoadingButton>
             <Grid container>
               <Grid item xs>
-                <Link onClick={()=>{alert('too bad')}} variant='body2'>
+                <Link
+                  onClick={() => {
+                    alert('too bad');
+                  }}
+                  variant='body2'
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link
                   onClick={() => {
-                    props.authUtils.setIsExistingUser(false);
+                    props.setIsExisting(false);
                   }}
                   variant='body2'
                 >
@@ -133,3 +140,23 @@ export default function SignIn(props: any) {
     </ThemeProvider>
   );
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setIsExisting: (toggle: Boolean) =>
+      dispatch({ type: 'SET_EXISTING', payload: toggle }),
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+    setAlert: (active: Boolean, severity: string, message: string) =>
+      dispatch({
+        type: 'SET_ALERT',
+        payload: {
+          active: active,
+          alertContent: { severity: severity, message: message },
+        },
+      }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);

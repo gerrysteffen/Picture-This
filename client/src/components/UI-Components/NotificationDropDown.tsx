@@ -7,13 +7,17 @@ import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
 import { Badge, IconButton } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { PendingInviteType, UserType } from '../../types';
+import { PendingInviteType, UserType, StateType } from '../../types';
 import InviteHandler from './InviteHandler';
+import { connect } from 'react-redux';
 
-export default function NotificationDropDown( {currentUser}:{currentUser: UserType} ) {
+function NotificationDropDown( props: any ) {
   const [open, setOpen] = React.useState(false);
-  const [pendingInvites, setPendingInvites] = React.useState<PendingInviteType[] | undefined>(currentUser.pendingInvite);
+  const [pendingInvites, setPendingInvites] = React.useState<PendingInviteType[] | undefined>(props.user.pendingInvite);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
+
+  console.log(pendingInvites)
+  console.log(props.user)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -45,20 +49,17 @@ export default function NotificationDropDown( {currentUser}:{currentUser: UserTy
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
-
     prevOpen.current = open;
   }, [open]);
-
 
   const deleteInvite = (index:number) => {
     console.log('deleting: ', index);
     if (pendingInvites) {
-      const newPendingInvites = [...pendingInvites];
+      const newPendingInvites = [...pendingInvites];//TODO test doing reload
       newPendingInvites.splice(index,1)
       setPendingInvites(newPendingInvites);
     }
   }
-
 
   return (
     <Stack direction="row" spacing={2}>
@@ -115,3 +116,31 @@ export default function NotificationDropDown( {currentUser}:{currentUser: UserTy
     </Stack>
   );
 }
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setReload: (toggle: Boolean) => dispatch({ type: 'SET_RELOAD', payload: toggle }),
+    setLoading: (toggle: Boolean) => dispatch({ type: 'SET_LOADING', payload: toggle }),
+    setAlert: (active: Boolean, severity: string, message: string) =>
+      dispatch({
+        type: 'ALERT_ON',
+        payload: {
+          active: active,
+          alertContent: { severity: severity, message: message },
+        },
+      }),
+    setAuth: (toggle: Boolean) =>
+      dispatch({ type: 'SET_AUTH', payload: toggle }),
+    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
+    updateUser: (userAttributes: any) =>
+      dispatch({ type: 'UPDATE_USER', payload: userAttributes }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationDropDown);
