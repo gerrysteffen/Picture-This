@@ -1,9 +1,9 @@
 import User from '../models/user';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import { UserType } from '../types/index';
 const saltRounds = 15;
 
-import { AlbumType } from '../types/index';
 
 const UserControllers = {
   registerUser: async (req: Request, res: Response) => {
@@ -48,7 +48,7 @@ const UserControllers = {
 
   getUser: async (req: Request, res: Response) => {
     try {
-      const user = await User.findOne({ _id: req.session.uid })
+      const user = (await User.findOne({ _id: req.session.uid })
         .select('-password')
         .populate([
           {
@@ -69,20 +69,30 @@ const UserControllers = {
             path: 'pendingInvite',
             populate: { path: 'owner', model: 'user' },
           },
-        ]);
-      user.uploadedAlbums = user.uploadedAlbums.map(
-        (album) =>
-          (album.photos = album.photos.sort(
-            (a, b) => b.liked.length - a.liked.length
-          ))
-      );
-      user.sharedAlbums = user.sharedAlbums.map(
-        (album) =>
-          (album.photos = album.photos.sort(
-            (a, b) => b.liked.length - a.liked.length
-          ))
-      );
-      res.status(200).send(JSON.stringify(user));
+        ])) as UserType;
+      if (user) {
+        user.uploadedAlbums = user.uploadedAlbums.map((album) => {
+          return {
+            ...album,
+            photos: album.photos.sort(
+              (a, b) => b.liked.length - a.liked.length
+            ),
+          };
+        });
+        user.sharedAlbums = user.sharedAlbums.map((album) => {
+          return {
+            ...album,
+            photos: album.photos.sort(
+              (a, b) => b.liked.length - a.liked.length
+            ),
+          };
+        });
+        res.status(200).send(JSON.stringify(user));
+      } else {
+        res
+          .status(400)
+          .send(JSON.stringify({ error: '404', message: 'No user found.' }));
+      }
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
@@ -101,7 +111,7 @@ const UserControllers = {
           .status(400)
           .send(JSON.stringify({ error: '400', message: 'Missing Data.' }));
       } else {
-        const user = await User.findOne({
+        const user = (await User.findOne({
           email: req.body.user.email,
         }).populate([
           {
@@ -116,7 +126,7 @@ const UserControllers = {
             path: 'pendingInvite',
             populate: { path: 'owner' },
           },
-        ]);
+        ])) as UserType;
         if (!user) {
           res
             .status(401)
@@ -129,18 +139,22 @@ const UserControllers = {
           if (valid) {
             req.session.uid = String(user._id);
             user.password = 'N/A';
-            user.uploadedAlbums = user.uploadedAlbums.map(
-              (album) =>
-                (album.photos = album.photos.sort(
+            user.uploadedAlbums = user.uploadedAlbums.map((album) => {
+              return {
+                ...album,
+                photos: album.photos.sort(
                   (a, b) => b.liked.length - a.liked.length
-                ))
-            );
-            user.sharedAlbums = user.sharedAlbums.map(
-              (album) =>
-                (album.photos = album.photos.sort(
+                ),
+              };
+            });
+            user.sharedAlbums = user.sharedAlbums.map((album) => {
+              return {
+                ...album,
+                photos: album.photos.sort(
                   (a, b) => b.liked.length - a.liked.length
-                ))
-            );
+                ),
+              };
+            });
             res.status(200).send(JSON.stringify(user));
           } else {
             res.status(401).send({
@@ -157,13 +171,14 @@ const UserControllers = {
   },
 
   logout: async (req: Request, res: Response) => {
-    try {
-      req.session.uid = '';
-      res.sendStatus(204);
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
+    req.session.destroy((error) => {
+      if (error) {
+        res.status(500).send(error + 'Could not log out please try again');
+      } else {
+        res.clearCookie('qid');
+        res.status(200).send({ message: 'Logout succesful' });
+      }
+    });
   },
 };
 

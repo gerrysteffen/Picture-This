@@ -1,26 +1,29 @@
+import { ObjectId } from "mongoose";
+
 // Augment express-session with a custom SessionData object
 declare module "express-session" {
   interface SessionData {
     uid?: string,
-    // user?: UserType,
   }
 }
 
 export interface UserType {
+  _id: ObjectId,
   email: string,
   password: string,
   firstName: string,
   lastName: string,
-  sharedAlbums: [string],
-  pendingInvite: [string],
-  uploadedAlbums: [string],
+  sharedAlbums: AlbumType[],
+  pendingInvite: AlbumType[],
+  uploadedAlbums: AlbumType[],
 }
 
 export interface AlbumType {
   albumName: string,
   description: string,
-  photos: [string],
-  owner: string,
+  photos: ImageType[],
+  owner: ObjectId,
+  sharedWith: ObjectId[],
 }
 
 export interface ImageType {
@@ -28,7 +31,6 @@ export interface ImageType {
   cloudinaryId: string,
   date: string,
   imgAddress: string,
-  uploader: string,
-  // likes: number,
-  liked: [string],
+  uploader: ObjectId,
+  liked: UserType[],
 }

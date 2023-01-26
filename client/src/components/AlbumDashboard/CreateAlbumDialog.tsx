@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -30,7 +30,6 @@ export default function CreateAlbumDialog({
   };
 
   const createAlbum = async () => {
-    console.log('new album: ' + albumName + ', ' + albumDescription);
     const newAlbum = await APIs.createAlbum(albumName, albumDescription);
     closeCreateAlbumDialogue();
     navigate(`/albums/${newAlbum._id}`);

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,19 +14,21 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../UI-Components/Copyright';
 import APIs from '../../APIServices/index';
-import { connect } from 'react-redux';
-import { UserType } from '../../types';
+import { useDispatch } from 'react-redux';
+import { setAlert, setAuth, setUser, setIsExisting } from '../../Redux/actions';
 
 const theme = createTheme();
 
-function SignUp(props: any) {
-  const [state, setState] = React.useState({
+export default function SignUp() {
+  const [state, setState] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   });
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -37,16 +39,16 @@ function SignUp(props: any) {
       [name]: value,
     }));
   };
-
+  
   const handleSubmit = async () => {
     setLoading(true);
     const res = await APIs.register(state);
     if (res.error) {
       setLoading(false);
-      props.setAlert(true, 'error', res.message);
+      dispatch(setAlert(true, 'error', res.message));
     } else {
-      props.setUser(res);
-      props.setAuth(true);
+      dispatch(setUser(res));
+      dispatch(setAuth(true));
     }
   };
 
@@ -153,7 +155,7 @@ function SignUp(props: any) {
               <Grid item>
                 <Link
                   onClick={() => {
-                    props.setIsExisting(true);
+                    dispatch(setIsExisting(true));
                   }}
                   variant='body2'
                 >
@@ -169,22 +171,3 @@ function SignUp(props: any) {
   );
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setIsExisting: (toggle: Boolean) =>
-      dispatch({ type: 'SET_EXISTING', payload: toggle }),
-    setAuth: (toggle: Boolean) =>
-      dispatch({ type: 'SET_AUTH', payload: toggle }),
-    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
-    setAlert: (active: Boolean, severity: string, message: string) =>
-      dispatch({
-        type: 'SET_ALERT',
-        payload: {
-          active: active,
-          alertContent: { severity: severity, message: message },
-        },
-      }),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(SignUp);

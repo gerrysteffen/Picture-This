@@ -16,7 +16,7 @@ import { updateUser } from '../../Redux/actions';
 export default function NotificationDropDown() {
   const [open, setOpen] = useState(false);
   const pendingInvites = useSelector(
-    (state: StateType) => (state.user) ? state.user.pendingInvite : []
+    (state: StateType) => state.user!.pendingInvite
   );
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -57,7 +57,7 @@ export default function NotificationDropDown() {
   const deleteInvite = (index: number) => {
     console.log('deleting: ', index);
     if (pendingInvites) {
-      const newPendingInvites = [...pendingInvites]; //TODO test doing reload
+      const newPendingInvites = [...pendingInvites];
       newPendingInvites.splice(index, 1);
       dispatch(updateUser({ pendingInvite: newPendingInvites }));
     }

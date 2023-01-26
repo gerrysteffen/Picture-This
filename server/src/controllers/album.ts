@@ -15,7 +15,7 @@ cloudinaryV2.config({
   secure: true,
 });
 
-import { ImageType } from '../types/index';
+import { AlbumType, ImageType } from '../types/index';
 
 export default {
   getAlbum: async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ export default {
         const album = await Album.findOne({ _id: req.params.id }).populate({
           path: 'photos',
           model: 'image',
-        });
+        }) as AlbumType;
         if (!album) {
           res.status(400).send(
             JSON.stringify({
@@ -49,7 +49,7 @@ export default {
               })
             );
           } else {
-            (album.photos as unknown as ImageType[]).sort(
+            album.photos.sort(
               (a, b) => b.liked.length - a.liked.length
             );
             res.status(200).send(JSON.stringify(album));

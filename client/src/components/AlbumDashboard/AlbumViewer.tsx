@@ -13,7 +13,6 @@ type AlbumViewerType = {
 
 export default function AlbumViewer({albums, setAlbums, userId}: AlbumViewerType) {
   const deleteAlbum = (index:number, id:string) => {
-    console.log('deleting album: ', id);
     const newAlbums = [...albums];
     newAlbums.splice(index,1)
     setAlbums(newAlbums);

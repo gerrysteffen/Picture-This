@@ -3,17 +3,18 @@ import { IconButton, MenuItem } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import APIs from "../../APIServices/index"
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setReload } from '../../Redux/actions';
 
-function InviteHandler(props: any) {
+export default function InviteHandler(props: any) {
+  const dispatch = useDispatch()
+
   const handleAcceptInvite = async () => {
-    console.log('Accepting invite');
     await APIs.acceptInvite(props.invite._id);
     props.deleteInvite(props.index);
-    await props.setReload(true)
+    dispatch(setReload(true))
   }
   const handleDeclineInvite = async () => {
-    console.log('Declining invite');
     await APIs.rejectAlbum(props.invite._id);
     props.deleteInvite(props.index);
   }
@@ -29,12 +30,3 @@ function InviteHandler(props: any) {
     </MenuItem>
   )
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setReload: (toggle: Boolean) =>
-      dispatch({ type: 'SET_RELOAD', payload: toggle }),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(InviteHandler);

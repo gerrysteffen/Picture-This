@@ -23,9 +23,15 @@ export const setAuth = (toggle: Boolean) => ({
   type: 'SET_AUTH',
   payload: toggle,
 });
-export const setUser = (user: UserType | null) =>
-  ({ type: 'SET_USER', payload: user });
+export const setUser = (user: UserType | null) => ({
+  type: 'SET_USER',
+  payload: user,
+});
 export const updateUser = (userAttributes: any) => ({
   type: 'UPDATE_USER',
   payload: userAttributes,
+});
+export const setIsExisting = (toggle: Boolean) => ({
+  type: 'SET_EXISTING',
+  payload: toggle,
 });
