@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var auth_1 = __importDefault(require("./middleware/auth"));
-var image_1 = __importDefault(require("./controllers/image"));
-var user_1 = __importDefault(require("./controllers/user"));
-var album_1 = __importDefault(require("./controllers/album"));
-var router = express_1.default.Router();
+const express_1 = __importDefault(require("express"));
+const auth_1 = __importDefault(require("./middleware/auth"));
+const image_1 = __importDefault(require("./controllers/image"));
+const user_1 = __importDefault(require("./controllers/user"));
+const album_1 = __importDefault(require("./controllers/album"));
+const router = express_1.default.Router();
 //Image routes
 router.post("/image", auth_1.default, image_1.default.uploadPhoto);
 router.delete("/image/:id", auth_1.default, image_1.default.deletePhoto);
