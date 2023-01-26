@@ -56,7 +56,7 @@ export default function ImagesDashboard() {
   useEffect(() => {
     if (albumId) {
       APIs.getAlbum(albumId).then((newAlbum: AlbumType) => {
-        if (newAlbum && newAlbum.photos.length !== album.photos.length) {
+        if (album && newAlbum && newAlbum.photos.length !== album.photos.length) {
           setAlbum(album);
         }
       });
