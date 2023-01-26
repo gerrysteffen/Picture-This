@@ -1,63 +1,73 @@
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import NavBar from './components/UI-Components/NavBar';
 import AlbumDashboard from './components/AlbumDashboard/AlbumDashboard';
 import APIs from './APIServices/index';
-import { StateType, UserType } from './types';
+import { StateType } from './types';
 import SignIn from './components/Auth-Components/SignIn';
 import SignUp from './components/Auth-Components/SignUp';
 import LoadingScreen from './components/UI-Components/LoadingScreen';
 import ImagesDashboard from './components/ImagesDashboard/ImagesDashboard';
 import AlertMessage from './components/UI-Components/Alert';
-import { connect } from 'react-redux';
+import { setAlert, setAuth, setLoading, setReload, setUser } from './Redux/actions';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-function App(props: any) {
+export default function App() {
+  const reloadRequired = useSelector((state: StateType) =>state.reloadRequired)
+  const isLoading = useSelector((state: StateType) =>state.isLoading)
+  const isAuthenticated = useSelector((state: StateType) =>state.isAuthenticated)
+  const isExistingUser = useSelector((state: StateType) =>state.isExistingUser)
+  const activeAlert = useSelector((state: StateType) =>state.activeAlert)
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
     const userLoad = async () => {
       const res = await APIs.refreshUser();
       if (res.error) {
         console.log(res.message);
-        props.setAuth(false);
-        props.setReload(false); // TODO only one of the two required?
-        props.setLoading(false);
+        dispatch(setAuth(false));
+        dispatch(setReload(false));
+        dispatch(setLoading(false));
       } else {
-        props.setUser(res);
-        props.setAuth(true);
-        props.setReload(false);
-        props.setLoading(false);
+        dispatch(setUser(res));
+        dispatch(setAuth(true));
+        dispatch(setReload(false));
+        dispatch(setLoading(false));
       }
     };
-    props.reloadRequired && userLoad();
-  }, [props.reloadRequired]);
+    reloadRequired && userLoad();
+  }, [reloadRequired]);
 
   useEffect(() => {
-    props.activeAlert &&
+    activeAlert &&
       setTimeout(() => {
-        props.setAlert(false, 'error', 'Something went wrong.');
+        dispatch(setAlert(false, 'error', 'Something went wrong.'));
       }, 5000);
-  }, [props.activeAlert]);
+  }, [activeAlert]);
 
-  if (props.isLoading) return <LoadingScreen />;
+  if (isLoading) return <LoadingScreen />;
 
-  if (!props.isAuthenticated && props.isExistingUser)
+  if (!isAuthenticated && isExistingUser)
     return (
       <div>
-        {props.activeAlert && <AlertMessage />}
+        {activeAlert && <AlertMessage />}
         <SignIn />
       </div>
     );
 
-  if (!props.isAuthenticated && !props.isExistingUser)
+  if (!isAuthenticated && !isExistingUser)
     return (
       <div>
-        {props.activeAlert && <AlertMessage />}
+        {activeAlert && <AlertMessage />}
         <SignUp />
       </div>
     );
 
   return (
     <div>
-      {props.activeAlert && <AlertMessage />}
+      {activeAlert && <AlertMessage />}
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -67,38 +77,10 @@ function App(props: any) {
           />
           <Route
             path='/albums/:albumId'
-            element={<ImagesDashboard userId={props.user._id} />}
+            element={<ImagesDashboard />}
           />
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-
-const mapStateToProps = (state: StateType) => {
-  return state;
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setReload: (toggle: Boolean) =>
-      dispatch({ type: 'SET_RELOAD', payload: toggle }),
-    setLoading: (toggle: Boolean) =>
-      dispatch({ type: 'SET_LOADING', payload: toggle }),
-    setAlert: (active: Boolean, severity: string, message: string) =>
-      dispatch({
-        type: 'SET_ALERT',
-        payload: {
-          active: active,
-          alertContent: { severity: severity, message: message },
-        },
-      }),
-    setAuth: (toggle: Boolean) =>
-      dispatch({ type: 'SET_AUTH', payload: toggle }),
-    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
-    updateUser: (userAttributes: any) =>
-      dispatch({ type: 'UPDATE_USER', payload: userAttributes }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
