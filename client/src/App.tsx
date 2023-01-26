@@ -49,17 +49,19 @@ export default function App() {
   }, [activeAlert]);
 
   setInterval(async ()=>{
-    const res = await APIs.refreshUser();
-      if (res.error) {
-        console.log(res.message);
-        dispatch(setAuth(false));
-        dispatch(setReload(false));
-        dispatch(setLoading(false));
-      } else {
-        if (res.pendingInvite.length !== user!.pendingInvite.length) {
-          dispatch(setUser(res));
+    if (user) {
+      const res = await APIs.refreshUser();
+        if (res.error) {
+          console.log(res.message);
+          dispatch(setAuth(false));
+          dispatch(setReload(false));
+          dispatch(setLoading(false));
+        } else {
+          if (res.pendingInvite.length !== user.pendingInvite.length) {
+            dispatch(setUser(res));
+          }
         }
-      }
+    }
   },2000) // TODO this doesnt work properly
 
   if (isLoading) return <LoadingScreen />;
