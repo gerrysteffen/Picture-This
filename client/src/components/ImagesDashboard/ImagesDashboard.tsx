@@ -7,17 +7,56 @@ import APIs from '../../APIServices/index';
 import ImagesViewer from './ImagesViewer';
 import EmptyAlbumPlaceholder from './Empty-dash.png';
 import './ImageDashboard.css';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../Redux/actions';
 
-function ImagesDashboard(props: any) {
-  const [album, setAlbum] = useState<AlbumType | null>();
+export default function ImagesDashboard() {
   const [uploadFiles, setUploadFiles] = useState(false);
-  const { albumId } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const { albumId } = useParams();
+  const user = useSelector((state: StateType) => state.user);
+  const album = useSelector((state: StateType) => {
+    const currentAlbum: AlbumType[] = [];
+    const isUploadedAlbum = state.user!.uploadedAlbums!.find(
+      (album) => album._id === albumId
+    ) as AlbumType;
+    isUploadedAlbum && currentAlbum.push(isUploadedAlbum);
+    const isSharedAlbum = state.user!.sharedAlbums!.find(
+      (album) => album._id === albumId
+    ) as AlbumType;
+    isSharedAlbum && currentAlbum.push(isSharedAlbum);
+    return currentAlbum[0];
+  });
+
+  const dispatch = useDispatch();
+
+  const setAlbum = (album) => {
+    if (user) {
+      const isUploadedAlbum = user.uploadedAlbums.find(
+        (album) => album._id === albumId
+      );
+      const isSharedAlbum = user.sharedAlbums.find(
+        (album) => album._id === albumId
+      );
+      if (isUploadedAlbum) {
+        const previousAlbums = user.uploadedAlbums.filter(
+          (album) => album._id !== albumId
+        );
+        dispatch(updateUser({ uploadedAlbums: [album, ...previousAlbums] }));
+      }
+      if (isSharedAlbum) {
+        const previousAlbums = user.sharedAlbums.filter(
+          (album) => album._id !== albumId
+        );
+        dispatch(updateUser({ sharedAlbums: [album, ...previousAlbums] }));
+      }
+    }
+  };
+
   useEffect(() => {
     if (albumId) {
-      APIs.getAlbum(albumId).then((album: AlbumType) => {
-        if (album) {
+      APIs.getAlbum(albumId).then((newAlbum: AlbumType) => {
+        if (newAlbum && newAlbum.photos.length !== album.photos.length) {
           setAlbum(album);
         }
       });
@@ -73,8 +112,8 @@ function ImagesDashboard(props: any) {
           onChange={handleFileSelect}
           style={{ display: 'none' }}
         />
-        {album && album.photos.length > 0 && props.user._id ? (
-          <ImagesViewer setAlbum={setAlbum} album={album} userId={props.user._id} />
+        {album && album.photos.length > 0 && user && user!._id ? (
+          <ImagesViewer setAlbum={setAlbum} album={album} userId={user._id} />
         ) : (
           <img
             src={EmptyAlbumPlaceholder}
@@ -117,4 +156,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImagesDashboard);
+connect(mapStateToProps, mapDispatchToProps)(ImagesDashboard);

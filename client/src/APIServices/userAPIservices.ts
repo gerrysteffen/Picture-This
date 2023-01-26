@@ -3,7 +3,7 @@ import { UserType } from "../types";
 const root = 'http://localhost:4000';
 
 export default {
-  register: async (user: UserType) => {
+  register: async (user: {firstName: string, lastName:string, email: string, password:string}) => {
     try {
       const response = await fetch(root + '/user/register', {
         method: 'POST',

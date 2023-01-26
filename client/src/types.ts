@@ -1,12 +1,12 @@
 export interface UserType {
-  _id?: string,
-  email?: string,
+  _id: string,
+  email: string,
   password?: string,
-  firstName?: string,
-  lastName?: string,
-  sharedAlbums?: AlbumType[],
-  pendingInvite?: PendingInviteType[],
-  uploadedAlbums?: AlbumType[],
+  firstName: string,
+  lastName: string,
+  sharedAlbums: AlbumType[],
+  pendingInvite: PendingInviteType[],
+  uploadedAlbums: AlbumType[],
 }
 
 export interface PendingInviteType {

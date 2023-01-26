@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import APIs from '../../APIServices/index';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setReload } from '../../Redux/actions';
 
 type CreateAlbumDialogType = {
   createAlbumOpen: boolean;
@@ -20,7 +22,8 @@ export default function CreateAlbumDialog({
 }: CreateAlbumDialogType) {
   const [albumName, setAlbumName] = useState('');
   const [albumDescription, setAlbumDescription] = useState('');
-
+  
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   const closeCreateAlbumDialogue = () => {
@@ -33,6 +36,7 @@ export default function CreateAlbumDialog({
     const newAlbum = await APIs.createAlbum(albumName, albumDescription);
     closeCreateAlbumDialogue();
     navigate(`/albums/${newAlbum._id}`);
+    dispatch(setReload(true))
   };
 
   return (

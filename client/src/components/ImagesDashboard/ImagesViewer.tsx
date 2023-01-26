@@ -1,9 +1,7 @@
 import React from 'react'
-import { Box, ImageList } from '@mui/material'
+import { Box } from '@mui/material'
 import { AlbumType } from '../../types'
 import ImageView from './ImageView';
-import { ThemeProvider } from '@emotion/react';
-import { createTheme } from '@mui/system';
 import { Masonry } from '@mui/lab';
 
 
@@ -15,7 +13,6 @@ type ImagesViewerType = {
 
 export default function ImagesViewer({album, setAlbum, userId}:ImagesViewerType) {
   const deleteImage = (index:number) => {
-    console.log('deleting: ', index);
     const newAlbum = {...album};
     newAlbum.photos.splice(index,1)
     setAlbum(newAlbum);

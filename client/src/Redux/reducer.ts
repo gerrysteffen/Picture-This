@@ -1,7 +1,15 @@
 import { StateType } from '../types';
 
 const initialState: StateType = {
-  user: null,
+  user: {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    pendingInvite: [],
+    sharedAlbums: [],
+    uploadedAlbums: [],
+  },
   reloadRequired: true,
   isLoading: true,
   isAuthenticated: false,
@@ -45,7 +53,7 @@ const reducer = (
       return {
         ...state,
         activeAlert: action.payload.active,
-        alertContent: action.payload.alertContent
+        alertContent: action.payload.alertContent,
       };
     case 'SET_LOADING':
       return {

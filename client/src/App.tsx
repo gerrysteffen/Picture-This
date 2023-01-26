@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 export default function App() {
+  const user = useSelector((state: StateType) =>state.user)
   const reloadRequired = useSelector((state: StateType) =>state.reloadRequired)
   const isLoading = useSelector((state: StateType) =>state.isLoading)
   const isAuthenticated = useSelector((state: StateType) =>state.isAuthenticated)
@@ -46,6 +47,20 @@ export default function App() {
         dispatch(setAlert(false, 'error', 'Something went wrong.'));
       }, 5000);
   }, [activeAlert]);
+
+  setInterval(async ()=>{
+    const res = await APIs.refreshUser();
+      if (res.error) {
+        console.log(res.message);
+        dispatch(setAuth(false));
+        dispatch(setReload(false));
+        dispatch(setLoading(false));
+      } else {
+        if (res.pendingInvite.length !== user!.pendingInvite.length) {
+          dispatch(setUser(res));
+        }
+      }
+  },2000) // TODO this doesnt work properly
 
   if (isLoading) return <LoadingScreen />;
 
