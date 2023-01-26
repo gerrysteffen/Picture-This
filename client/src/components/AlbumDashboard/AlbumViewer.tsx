@@ -4,6 +4,8 @@ import { Box } from '@mui/system';
 import { AlbumType } from '../../types';
 import AlbumIcon from './AlbumIcon';
 import APIs from "../../APIServices/index"
+import { useDispatch } from 'react-redux';
+import { setReload } from '../../Redux/actions';
 
 type AlbumViewerType = {
   albums: AlbumType[],
@@ -12,11 +14,14 @@ type AlbumViewerType = {
 }
 
 export default function AlbumViewer({albums, setAlbums, userId}: AlbumViewerType) {
-  const deleteAlbum = (index:number, id:string) => {
+  const dispatch = useDispatch()
+
+  const deleteAlbum = async (index:number, id:string) => {
     const newAlbums = [...albums];
     newAlbums.splice(index,1)
     setAlbums(newAlbums);
-    APIs.deleteAlbum(id);
+    await APIs.deleteAlbum(id);
+    dispatch(setReload(true))
   }
   return (
     <ImageList sx={{ display: 'flex'}}>

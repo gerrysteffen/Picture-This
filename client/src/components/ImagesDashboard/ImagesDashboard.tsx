@@ -30,7 +30,7 @@ export default function ImagesDashboard() {
 
   const dispatch = useDispatch();
 
-  const setAlbum = (album) => {
+  const setAlbum = (album: AlbumType) => {
     if (user) {
       const isUploadedAlbum = user.uploadedAlbums.find(
         (album) => album._id === albumId
