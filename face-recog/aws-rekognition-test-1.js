@@ -4,7 +4,6 @@
 
 const AWS = require('aws-sdk')
 const fs = require('fs')
-// const bucket        = 'face-comparision' // the bucketname without s3://
 const photo_source  = './pete.jpg'
 const photo_target  = './yes-pete.jpeg'
 const dotenv = require('dotenv');
@@ -14,37 +13,49 @@ function imgToBase64 (path) {
   const file = fs.openSync(path, 'r');
   const read = fs.readFileSync(path);
   const base64Img = new Buffer.from(read).toString('base64');
-  fs.unlinkSync(path, err => console.log(err));
+  fs.closeSync(file);
+
 
   return base64Img;
 };
 
-const srcBytes =  imgToBase64(photo_source);
-const targetBytes =  imgToBase64(photo_target);
-
-const config = new AWS.Config({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION
-})
-const client = new AWS.Rekognition();
-const params = {
-  SourceImage: {
-    Bytes: srcBytes
-  },
-  TargetImage: {
-    Bytes: targetBytes
-  },
-  SimilarityThreshold: 70
+async function processImg (path) {
+  const data = fs.readFileSync(path);
+  const blob = new Blob([data], { type: 'image/jpeg' });
+  return blob
 }
-client.compareFaces(params, function(err, response) {
-  if (err) {
-    console.log(err, err.stack); // an error occurred
-  } else {
-    response.FaceMatches.forEach(data => {
-      let position   = data.Face.BoundingBox
-      let similarity = data.Similarity
-      console.log(`The face at: ${position.Left}, ${position.Top} matches with ${similarity} % confidence`)
-    }) // for response.faceDetails
-  } // if
-});
+
+async function sendPhotos () {
+  const srcBytes =  await processImg(photo_source);
+  const targetBytes =  await processImg(photo_target);
+  
+  const config = new AWS.Config({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+  })
+  
+  const client = new AWS.Rekognition();
+  const params = {
+    SourceImage: {
+      Bytes: srcBytes
+    },
+    TargetImage: {
+      Bytes: targetBytes
+    },
+    SimilarityThreshold: 70
+  }
+  client.compareFaces(params, function(err, response) {
+    if (err) {
+      console.log(err, err.stack); // an error occurred
+    } else {
+      response.FaceMatches.forEach(data => {
+        let position   = data.Face.BoundingBox
+        let similarity = data.Similarity
+        console.log(`The face at: ${position.Left}, ${position.Top} matches with ${similarity} % confidence`)
+      }) // for response.faceDetails
+    } // if
+  });
+};
+
+sendPhotos()
