@@ -6,9 +6,21 @@ const AWS = require('aws-sdk')
 const fs = require('fs')
 // const bucket        = 'face-comparision' // the bucketname without s3://
 const photo_source  = './pete.jpg'
-const photo_target  = './yes-pete.jpg'
+const photo_target  = './yes-pete.jpeg'
 const dotenv = require('dotenv');
 dotenv.config();
+
+function imgToBase64 (path) {
+  const file = fs.openSync(path, 'r');
+  const read = fs.readFileSync(path);
+  const base64Img = new Buffer.from(read).toString('base64');
+  fs.unlinkSync(path, err => console.log(err));
+
+  return base64Img;
+};
+
+const srcBytes =  imgToBase64(photo_source);
+const targetBytes =  imgToBase64(photo_target);
 
 const config = new AWS.Config({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -18,10 +30,10 @@ const config = new AWS.Config({
 const client = new AWS.Rekognition();
 const params = {
   SourceImage: {
-    Bytes: 
+    Bytes: srcBytes
   },
   TargetImage: {
-
+    Bytes: targetBytes
   },
   SimilarityThreshold: 70
 }
