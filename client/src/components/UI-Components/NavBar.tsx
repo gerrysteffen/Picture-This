@@ -8,17 +8,18 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import APIs from '../../APIServices/index'
 import NotificationDropDown from './NotificationDropDown';
-import { UserType } from '../../types';
-import { connect } from 'react-redux';
+import { setAuth, setUser } from '../../Redux/actions';
+import { useDispatch } from 'react-redux';
 
-function NavBar(props: any) {
+export default function NavBar() {
+  const dispatch = useDispatch()
   let navigate = useNavigate();
 
   const goHome = () => navigate('/');
   
   const logout = async () => {
-    props.setAuth(false)
-    props.setUser(null) // TODO Test
+    dispatch(setAuth(false))
+    dispatch(setUser(null))
     await APIs.logout();
     goHome();
   };
@@ -36,8 +37,10 @@ function NavBar(props: any) {
             edge='start'
             color='inherit'
             sx={{ mr: 2 }}
-          >
-            <HomeIcon />
+            >
+            <HomeIcon 
+            data-testid='home-icon'
+            />
           </IconButton>
 
           <Box sx={{ flexGrow: 1 , p:1.5}}>
@@ -50,7 +53,9 @@ function NavBar(props: any) {
             onClick={()=>logout()}
             size="large"
             color="inherit">
-            <LogoutIcon />
+            <LogoutIcon 
+              data-testid='logout-icon'
+            />
           </IconButton>
 
         </Toolbar>
@@ -58,13 +63,3 @@ function NavBar(props: any) {
     </Box>
   );
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setAuth: (toggle: Boolean) =>
-      dispatch({ type: 'SET_AUTH', payload: toggle }),
-    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(NavBar);

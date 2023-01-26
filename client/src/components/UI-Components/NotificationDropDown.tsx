@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import Paper from '@mui/material/Paper';
@@ -7,17 +7,20 @@ import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
 import { Badge, IconButton } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { PendingInviteType, UserType, StateType } from '../../types';
+import { StateType } from '../../types';
 import InviteHandler from './InviteHandler';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../Redux/actions';
 
-function NotificationDropDown( props: any ) {
-  const [open, setOpen] = React.useState(false);
-  const [pendingInvites, setPendingInvites] = React.useState<PendingInviteType[] | undefined>(props.user.pendingInvite);
+export default function NotificationDropDown() {
+  const [open, setOpen] = useState(false);
+  const pendingInvites = useSelector(
+    (state: StateType) => (state.user) ? state.user.pendingInvite : []
+  );
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  console.log(pendingInvites)
-  console.log(props.user)
+  const dispatch = useDispatch();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -30,7 +33,6 @@ function NotificationDropDown( props: any ) {
     ) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -52,26 +54,26 @@ function NotificationDropDown( props: any ) {
     prevOpen.current = open;
   }, [open]);
 
-  const deleteInvite = (index:number) => {
+  const deleteInvite = (index: number) => {
     console.log('deleting: ', index);
     if (pendingInvites) {
-      const newPendingInvites = [...pendingInvites];//TODO test doing reload
-      newPendingInvites.splice(index,1)
-      setPendingInvites(newPendingInvites);
+      const newPendingInvites = [...pendingInvites]; //TODO test doing reload
+      newPendingInvites.splice(index, 1);
+      dispatch(updateUser({ pendingInvite: newPendingInvites }));
     }
-  }
+  };
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction='row' spacing={2}>
       <div>
         <IconButton
           ref={anchorRef}
-          size="large"
-          color="inherit"
-          sx={{mr:2}}
+          size='large'
+          color='inherit'
+          sx={{ mr: 2 }}
           onClick={handleToggle}
         >
-          <Badge badgeContent={pendingInvites?.length} color="error">
+          <Badge badgeContent={pendingInvites?.length} color='error'>
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -79,7 +81,7 @@ function NotificationDropDown( props: any ) {
           open={open}
           anchorEl={anchorRef.current}
           role={undefined}
-          placement="bottom-start"
+          placement='bottom-start'
           transition
           disablePortal
         >
@@ -93,19 +95,24 @@ function NotificationDropDown( props: any ) {
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList
+                  <MenuList
                     autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
+                    id='composition-menu'
+                    aria-labelledby='composition-button'
                     onKeyDown={handleListKeyDown}
                   >
-                    {pendingInvites && (
+                    {pendingInvites &&
                       pendingInvites.map((invite, index) => (
-                        <InviteHandler deleteInvite={deleteInvite} key={index} handleClose={handleClose} invite={invite} index={index} />
-                      )) 
-                    )} 
+                        <InviteHandler
+                          deleteInvite={deleteInvite}
+                          key={index}
+                          handleClose={handleClose}
+                          invite={invite}
+                          index={index}
+                        />
+                      ))}
                   </MenuList>
-                  
+
                   {/* )} */}
                 </ClickAwayListener>
               </Paper>
@@ -116,31 +123,3 @@ function NotificationDropDown( props: any ) {
     </Stack>
   );
 }
-
-const mapStateToProps = (state: StateType) => {
-  return {
-    user: state.user
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setReload: (toggle: Boolean) => dispatch({ type: 'SET_RELOAD', payload: toggle }),
-    setLoading: (toggle: Boolean) => dispatch({ type: 'SET_LOADING', payload: toggle }),
-    setAlert: (active: Boolean, severity: string, message: string) =>
-      dispatch({
-        type: 'ALERT_ON',
-        payload: {
-          active: active,
-          alertContent: { severity: severity, message: message },
-        },
-      }),
-    setAuth: (toggle: Boolean) =>
-      dispatch({ type: 'SET_AUTH', payload: toggle }),
-    setUser: (user: UserType) => dispatch({ type: 'SET_USER', payload: user }),
-    updateUser: (userAttributes: any) =>
-      dispatch({ type: 'UPDATE_USER', payload: userAttributes }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationDropDown);

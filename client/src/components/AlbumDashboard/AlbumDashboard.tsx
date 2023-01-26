@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Divider, Typography } from '@mui/material';
-import { AlbumType, UserType, StateType } from '../../types';
+import { AlbumType, StateType } from '../../types';
 import AlbumViewer from './AlbumViewer';
 import AddAlbumButton from './AddAlbumButton';
 import { connect } from 'react-redux';
