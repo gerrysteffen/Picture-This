@@ -49,7 +49,7 @@ export default function App() {
   }, [activeAlert]);
 
   setInterval(async ()=>{
-    if (user) {
+    if (isAuthenticated && user) {
       const res = await APIs.refreshUser();
         if (res.error) {
           console.log(res.message);
